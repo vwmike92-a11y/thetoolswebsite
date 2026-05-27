@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meet the Crew — The Tools</title>
+  <meta name="description" content="Meet all the characters from The Tools — Hector, Paz, Roxie, Wayne, Diesel and the whole crew from Twin Falls."/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky: #C9E8F5; --sky-dark: #A8D8EE; --purple: #5B21B6; --purple-dark: #3D1A6E;
+      --purple-light: #7C3AED; --yellow: #FFD600; --yellow-dark: #F5C400;
+      --white: #FFFFFF; --off-white: #F0F8FF; --text: #1E1E2E; --text-light: #4A4A6A;
+      --card-shadow: 0 6px 24px rgba(91,33,182,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+    /* BTN */
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+
+    /* HERO */
+    .hero{
+      padding-top:68px;
+      background:linear-gradient(180deg,#A8D8EE 0%,#C9E8F5 60%,#DDEEF8 100%);
+      text-align:center;padding-bottom:0;overflow:hidden;position:relative;
+    }
+    .hero-inner{padding:3.5rem 2rem 0;max-width:1000px;margin:0 auto;}
+    .hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,3.8rem);color:var(--purple-dark);margin-bottom:0.6rem;}
+    .hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:var(--text-light);max-width:560px;margin:0 auto 2rem;line-height:1.7;}
+    .hero-cast-strip{
+      width:min(860px,96vw);
+      border-radius:24px 24px 0 0;
+      box-shadow:0 -8px 40px rgba(61,26,110,0.15);
+      display:block;margin:0 auto;
+    }
+
+    /* SECTION SHARED */
+    section{position:relative;z-index:2;padding:4.5rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.6rem);text-align:center;margin-bottom:0.4rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+    .section-btn-wrap{text-align:center;margin-top:2rem;}
+    .group-label{
+      font-family:'Fredoka One',cursive;font-size:1.1rem;
+      color:var(--purple);text-align:center;letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:1.5rem;margin-top:0.5rem;
+      display:flex;align-items:center;gap:1rem;
+    }
+    .group-label::before,.group-label::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,rgba(91,33,182,0.25),transparent);}
+
+    /* CORE FIVE — special treatment */
+    .core-five{background:var(--purple-dark);}
+    .core-five .section-title{color:var(--yellow);}
+    .core-five .section-sub{color:rgba(255,255,255,0.65);}
+    .core-five .group-label{color:var(--yellow);}
+    .core-five .group-label::before,.core-five .group-label::after{background:linear-gradient(90deg,transparent,rgba(255,214,0,0.3),transparent);}
+    .core-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+      gap:1.4rem;max-width:1000px;margin:0 auto;
+    }
+    .core-card{
+      background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+      border-radius:20px;overflow:hidden;text-decoration:none;color:#fff;
+      display:flex;flex-direction:column;align-items:center;
+      transition:transform 0.2s,background 0.2s,box-shadow 0.2s;
+      position:relative;
+    }
+    .core-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.13);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+    .core-card-img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;padding:10px;mix-blend-mode:multiply;}
+    .core-card-name{font-family:'Fredoka One',cursive;font-size:1rem;padding:0.6rem 0.5rem 0.2rem;text-align:center;color:var(--yellow);}
+    .core-card-role{font-size:0.75rem;color:rgba(255,255,255,0.55);padding:0 0.5rem 0.4rem;text-align:center;}
+    .core-card-phrase{font-size:0.72rem;color:rgba(255,255,255,0.4);padding:0 0.5rem 0.8rem;text-align:center;font-style:italic;}
+
+    /* SUPPORTING + BUCKETS */
+    .supporting{background:var(--off-white);}
+    .supporting .section-title{color:var(--purple-dark);}
+    .buckets{background:var(--sky);}
+    .buckets .section-title{color:var(--purple-dark);}
+    .char-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:1.25rem;max-width:1100px;margin:0 auto;
+    }
+    .char-card{
+      background:var(--white);border-radius:18px;overflow:hidden;
+      box-shadow:var(--card-shadow);text-decoration:none;color:var(--text);
+      display:flex;flex-direction:column;align-items:center;
+      transition:transform 0.2s,box-shadow 0.2s;border-top:4px solid var(--purple);
+    }
+    .char-card:hover{transform:translateY(-7px);box-shadow:0 14px 36px rgba(91,33,182,0.18);}
+    .char-card img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;padding:8px;mix-blend-mode:multiply;}
+    .char-card-name{font-family:'Fredoka One',cursive;font-size:0.92rem;padding:0.6rem 0.4rem 0.2rem;text-align:center;color:var(--purple-dark);}
+    .char-card-role{font-size:0.74rem;color:#888;padding:0 0.4rem 0.3rem;text-align:center;}
+    .char-card-phrase{font-size:0.72rem;color:#aaa;padding:0 0.4rem 0.75rem;text-align:center;font-style:italic;}
+
+    /* UNICORN TEASER */
+    .unicorn-teaser{background:linear-gradient(135deg,#1a0a3d 0%,#3d1a6e 100%);text-align:center;padding:3.5rem 2rem;}
+    .unicorn-teaser h2{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--yellow);margin-bottom:0.6rem;}
+    .unicorn-teaser p{color:rgba(255,255,255,0.65);max-width:520px;margin:0 auto 1.75rem;line-height:1.7;}
+    .unicorn-emoji{font-size:3.5rem;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(255,214,0,0.4));}
+
+    /* PUBLISHER */
+    .publisher-strip{background:var(--off-white);text-align:center;padding:3rem 2rem;}
+    .publisher-strip img{height:80px;mix-blend-mode:multiply;margin-bottom:0.75rem;}
+    .publisher-strip h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--purple-dark);margin-bottom:0.3rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.9rem;max-width:480px;margin:0 auto;}
+
+    /* FOOTER */
+    footer{position:relative;z-index:2;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+      .char-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+      .core-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html" class="active">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Meet the Crew 🔨</h1>
+    <p>Twin Falls is full of characters. Some are helpful. Some are chaotic. One is currently being chased by a moose. Meet them all.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;">
+      <a href="shop.html" class="btn btn-yellow">🛒 Get the Book</a>
+      <a href="colouring.html" class="btn btn-purple">Free Colouring Pages 🎨</a>
+    </div>
+    <img class="hero-cast-strip" src="img/cast_scene.png" alt="The Tools crew"/>
+  </div>
+</section>
+
+<!-- THE CORE FIVE -->
+<section class="core-five">
+  <h2 class="section-title">The Core Five</h2>
+  <p class="section-sub">Hector's main crew — the ones at the centre of every adventure, every building job, and every incident.</p>
+
+  <div class="core-grid" style="max-width:1000px;margin:0 auto;">
+
+    <a href="characters/hector.html" class="core-card">
+      <img class="core-card-img" src="img/hector.png" alt="Hector Hammer"/>
+      <span class="core-card-name">Hector Hammer</span>
+      <span class="core-card-role">The Boss</span>
+      <span class="core-card-phrase">"Right crew, let's get to work"</span>
+    </a>
+
+    <a href="characters/paz.html" class="core-card">
+      <img class="core-card-img" src="img/paz.png" alt="Paz the Paintbrush"/>
+      <span class="core-card-name">Paz the Paintbrush</span>
+      <span class="core-card-role">The Chaos Magnet</span>
+      <span class="core-card-phrase">"Wasn't me"</span>
+    </a>
+
+    <a href="characters/roxie.html" class="core-card">
+      <img class="core-card-img" src="img/roxie.png" alt="Roxie the Paintbrush"/>
+      <span class="core-card-name">Roxie the Paintbrush</span>
+      <span class="core-card-role">The Pro</span>
+      <span class="core-card-phrase">"Leave it with me"</span>
+    </a>
+
+    <a href="characters/wayne.html" class="core-card">
+      <img class="core-card-img" src="img/wayne.png" alt="Wayne Wrench"/>
+      <span class="core-card-name">Wayne Wrench</span>
+      <span class="core-card-role">The Muscle</span>
+      <span class="core-card-phrase">"Paz! Get back here!"</span>
+    </a>
+
+    <a href="characters/diesel.html" class="core-card">
+      <img class="core-card-img" src="img/diesel.png" alt="Diesel Drill"/>
+      <span class="core-card-name">Diesel Drill</span>
+      <span class="core-card-role">The Mess</span>
+      <span class="core-card-phrase">"She'll be right"</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- SUPPORTING CAST -->
+<section class="supporting">
+  <h2 class="section-title">Supporting Cast</h2>
+  <p class="section-sub">Twin Falls is a big place. These are the characters who make it run — or spectacularly fail to.</p>
+
+  <div class="char-grid">
+
+    <a href="characters/charlie.html" class="char-card">
+      <img src="img/charlie.png" alt="Charlie Chainsaw"/>
+      <span class="char-card-name">Charlie Chainsaw</span>
+      <span class="char-card-role">The Timber Yard 🇦🇺</span>
+      <span class="char-card-phrase">Big trucks, no fuss</span>
+    </a>
+
+    <a href="characters/shamus.html" class="char-card">
+      <img src="img/shamus.png" alt="Shamus the Shovel"/>
+      <span class="char-card-name">Shamus the Shovel</span>
+      <span class="char-card-role">The Deliveryman ☕</span>
+      <span class="char-card-phrase">Won't dig. Uses excavator.</span>
+    </a>
+
+    <a href="characters/sheldon.html" class="char-card">
+      <img src="img/sheldon.png" alt="Sheldon the Sledgehammer"/>
+      <span class="char-card-name">Sheldon</span>
+      <span class="char-card-role">The Stoneyard 💪</span>
+      <span class="char-card-phrase">Strongest in Twin Falls (debated)</span>
+    </a>
+
+    <a href="characters/jj.html" class="char-card">
+      <img src="img/jj.png" alt="JJ the Jackhammer"/>
+      <span class="char-card-name">JJ the Jackhammer</span>
+      <span class="char-card-role">The Quarry ⚡</span>
+      <span class="char-card-phrase">Strongest in Twin Falls (also debated)</span>
+    </a>
+
+    <a href="characters/lorenzo.html" class="char-card">
+      <img src="img/lorenzo.png" alt="Lorenzo the Watering Can"/>
+      <span class="char-card-name">Lorenzo</span>
+      <span class="char-card-role">The Bistro 🌸</span>
+      <span class="char-card-phrase">Do NOT touch the flowers</span>
+    </a>
+
+    <a href="characters/floyd.html" class="char-card">
+      <img src="img/floyd.png" alt="Floyd the Firehose"/>
+      <span class="char-card-name">Floyd the Firehose</span>
+      <span class="char-card-role">Fire Chief 🚒</span>
+      <span class="char-card-phrase">Has never been busier</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- THE BUCKETS -->
+<section class="buckets">
+  <h2 class="section-title">The Buckets</h2>
+  <p class="section-sub">Three buckets. Three very different personalities. One of them is always frozen.</p>
+
+  <div class="char-grid" style="max-width:600px;margin:0 auto;">
+
+    <a href="characters/billy.html" class="char-card" style="border-top-color:#0369A1;">
+      <img src="img/billy.png" alt="Billy Bucket"/>
+      <span class="char-card-name">Billy Bucket</span>
+      <span class="char-card-role">The Cheerful One 💙</span>
+      <span class="char-card-phrase">Carries anything, always smiling</span>
+    </a>
+
+    <a href="characters/bobby.html" class="char-card" style="border-top-color:#15803D;">
+      <img src="img/bobby.png" alt="Bobby Bucket"/>
+      <span class="char-card-name">Bobby Bucket</span>
+      <span class="char-card-role">The Mischievous One 💚</span>
+      <span class="char-card-phrase">Lazy · often frozen in winter</span>
+    </a>
+
+    <a href="characters/bettie.html" class="char-card" style="border-top-color:#9D174D;">
+      <img src="img/bettie.png" alt="Bettie Bucket"/>
+      <span class="char-card-name">Bettie Bucket</span>
+      <span class="char-card-role">The Organised One 💗</span>
+      <span class="char-card-phrase">Hates mud. Hates tar. Hates chaos.</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- UNICORN TEASER -->
+<section class="unicorn-teaser">
+  <span class="unicorn-emoji">🦄</span>
+  <h2>There's one more character...</h2>
+  <p>Something has been lurking in the background of every book. Nobody has mentioned it. Nobody has acknowledged it. Children across Twin Falls keep finding it. Floyd has filed multiple safety reports about it. They have not been read.</p>
+  <a href="books.html" class="btn btn-yellow">Coming in a future book 👀</a>
+</section>
+
+<!-- PUBLISHER -->
+<section class="publisher-strip">
+  <img src="img/triceratops_logo.png" alt="Triceratops Publishing"/>
+  <h3>Triceratops Publishing</h3>
+  <p>Children's books with a kind heart ✝️ — an independent imprint with Christian roots, crafted with laughter and genuine kindness.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-95j84zm.html" target="_blank">Paperback — Lulu</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — Lulu</a>
+      <a href="shop.html">Paz Plush Toy</a>
+      <a href="shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+// SNOWFALL
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function makeFlake(){ return { x:Math.random()*W, y:Math.random()*H-H, r:Math.random()*3+1.5, speed:Math.random()*1.2+0.4, drift:Math.random()*0.6-0.3, opacity:Math.random()*0.4+0.2 }; }
+for(let i=0;i<100;i++) flakes.push(makeFlake());
+function snow(){ ctx.clearRect(0,0,W,H); flakes.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${f.opacity})`; ctx.fill(); f.y+=f.speed; f.x+=f.drift; if(f.y>H+10) Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3}); }); requestAnimationFrame(snow); }
+snow();
+// NAV
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+</script>
+</body>
+</html>
