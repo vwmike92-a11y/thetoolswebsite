@@ -196,7 +196,22 @@
     .step h3{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.1rem;margin-bottom:0.4rem;}
     .step p{font-size:0.9rem;color:var(--text-light);line-height:1.55;}
     .title-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.25rem;}
-    .title-card{text-align:center;}
+    .title-card{background:none;border:none;padding:0;cursor:pointer;font:inherit;color:inherit;text-align:center;border-radius:14px;transition:transform 0.15s;}
+    .title-card:hover,.title-card:focus-visible{transform:translateY(-4px);outline:none;}
+    .title-card:focus-visible img{box-shadow:0 0 0 4px var(--yellow);}
+    .title-card .look{display:block;margin-top:0.45rem;font-size:0.78rem;font-weight:800;color:var(--purple);}
+    .book-modal{position:fixed;inset:0;background:rgba(30,20,60,0.65);display:none;align-items:center;justify-content:center;z-index:3000;padding:1rem;}
+    .book-modal.open{display:flex;}
+    .book-modal-box{background:#fff;border-radius:22px;max-width:760px;width:100%;max-height:92vh;overflow-y:auto;padding:1.75rem;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.35);}
+    .book-modal-close{position:absolute;top:0.7rem;right:0.9rem;background:var(--off-white);border:none;width:40px;height:40px;border-radius:50%;font-size:1.4rem;cursor:pointer;color:var(--purple-dark);}
+    .book-modal h2{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.6rem;margin:0 2.5rem 0.25rem 0;}
+    .book-modal .isbn{font-size:0.8rem;color:var(--text-light);margin-bottom:1rem;}
+    .modal-shots{display:flex;gap:0.6rem;overflow-x:auto;padding-bottom:0.4rem;margin-bottom:1.1rem;}
+    .modal-shots img{height:170px;border-radius:12px;flex:0 0 auto;object-fit:cover;box-shadow:0 4px 14px rgba(61,26,110,0.18);background:var(--off-white);}
+    .modal-block{margin-bottom:1rem;}
+    .modal-block h4{font-family:'Fredoka One',cursive;color:var(--purple);font-size:1.05rem;margin-bottom:0.3rem;}
+    .modal-block p{color:var(--text);line-height:1.65;font-size:0.95rem;}
+    .modal-actions{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;}
     .title-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;box-shadow:0 4px 14px rgba(61,26,110,0.18);}
     .title-card h3{font-size:0.92rem;font-weight:800;color:var(--purple-dark);margin:0.6rem 0 0.2rem;line-height:1.3;}
     .title-card .isbn{font-size:0.75rem;color:var(--text-light);}
@@ -217,6 +232,7 @@
     .contact-box h2{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1.8rem;margin-bottom:0.6rem;}
     .contact-box p{color:rgba(255,255,255,0.85);max-width:600px;margin:0 auto 1.25rem;line-height:1.7;}
     @media(max-width:768px),(max-height:500px) and (orientation:landscape){
+      .book-modal-box{padding:1.25rem;} .modal-shots img{height:130px;} .book-modal h2{font-size:1.3rem;}
       .trade-section{padding:1.4rem;} .trade-section h2{font-size:1.4rem;}
       .price-table{font-size:0.85rem;} .price-table th,.price-table td{padding:0.55rem;}
     }
@@ -267,38 +283,44 @@
   <!-- TITLES -->
   <section class="trade-section">
     <h2>Our titles</h2>
-    <p class="lead">Large 11&nbsp;×&nbsp;8.5&Prime; landscape picture books, full-colour artwork on every page, printed on heavy 80lb stock. Ages 2–12. Every book unlocks free colouring and activity pages with a secret word inside.</p>
+    <p class="lead">Large 11&nbsp;×&nbsp;8.5&Prime; landscape picture books, full-colour artwork on every page, printed on heavy 80lb stock. Ages 2–12. Every book unlocks free colouring and activity pages with a secret word inside. <strong>Click any cover to look inside.</strong></p>
     <div class="title-grid">
-      <div class="title-card">
+      <button class="title-card" type="button" data-book="christmas" aria-label="Look inside The Tools Light Up Christmas">
         <img src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/>
         <h3>The Tools Light Up Christmas</h3>
         <div class="isbn">ISBN 978-1-9192077-3-5</div><span class="tag">New — out 9 Oct</span>
-      </div>
-      <div class="title-card">
+        <span class="look">👀 Look inside</span>
+      </button>
+      <button class="title-card" type="button" data-book="winter-rescue" aria-label="Look inside The Tools Winter Rescue">
         <img src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/>
         <h3>The Tools Winter Rescue</h3>
         <div class="isbn">ISBN 978-1-9192077-8-0</div>
-      </div>
-      <div class="title-card">
+        <span class="look">👀 Look inside</span>
+      </button>
+      <button class="title-card" type="button" data-book="monster-truck" aria-label="Look inside The Tools and the Monster Truck">
         <img src="img/book_thumbs/monster_truck.png" alt="The Tools and the Monster Truck"/>
         <h3>The Tools and the Monster Truck</h3>
         <div class="isbn">ISBN 978-1-9192077-2-8</div>
-      </div>
-      <div class="title-card">
+        <span class="look">👀 Look inside</span>
+      </button>
+      <button class="title-card" type="button" data-book="railway" aria-label="Look inside The Tools and the Railway Bridge">
         <img src="img/book_thumbs/railway.png" alt="The Tools and the Railway Bridge"/>
         <h3>The Tools and the Railway Bridge</h3>
         <div class="isbn">ISBN 978-1-9192077-4-2</div>
-      </div>
-      <div class="title-card">
+        <span class="look">👀 Look inside</span>
+      </button>
+      <button class="title-card" type="button" data-book="farm" aria-label="Look inside The Tools and the Farm">
         <img src="img/book_thumbs/farm.png" alt="The Tools and the Farm"/>
         <h3>The Tools and the Farm</h3>
         <div class="isbn">ISBN 978-1-9192077-7-3</div>
-      </div>
-      <div class="title-card">
+        <span class="look">👀 Look inside</span>
+      </button>
+      <button class="title-card" type="button" data-book="character-book" aria-label="Look inside The Tools Character Book — Volume One">
         <img src="img/book_thumbs/character_book.png" alt="The Tools Character Book — Volume One"/>
         <h3>The Tools Character Book — Volume One</h3>
         <div class="isbn">ISBN 978-1-9192077-9-7</div>
-      </div>
+        <span class="look">👀 Look inside</span>
+      </button>
     </div>
     <p class="price-note" style="margin-top:1.25rem;">🦖 <strong>Coming soon:</strong> The Tools and the Dinosaurs, and our solar system adventure — both mid-October.</p>
   </section>
@@ -313,11 +335,12 @@
       <tr><td>10 – 24</td><td><strong>$10.00</strong> each</td><td><strong>$8.00</strong> each</td></tr>
       <tr><td>25 – 49</td><td><strong>$9.50</strong> each</td><td><strong>$7.60</strong> each</td></tr>
       <tr><td>50 – 99</td><td><strong>$9.00</strong> each</td><td><strong>$7.20</strong> each</td></tr>
-      <tr><td>100+</td><td><strong>$8.50</strong> each</td><td><strong>$6.80</strong> each</td></tr>
+      <tr><td>100 – 249</td><td><strong>$8.50</strong> each + <strong>free shipping</strong></td><td><strong>$6.80</strong> each</td></tr>
+      <tr><td>250+</td><td><strong>$8.00</strong> each + <strong>free shipping</strong></td><td><strong>$6.40</strong> each</td></tr>
     </table>
     </div>
     <p class="price-note"><strong>Suggested retail price:</strong> story books $19.99 · Character Book $15.99.<br/>
-    <strong>Shipping:</strong> charged at cost. US orders are printed and shipped within the United States.<br/>
+    <strong>Shipping:</strong> charged at cost on orders under 100 books, and <strong>free on orders of 100 books or more</strong>. US orders are printed and shipped within the United States.<br/>
     <strong>UK, Europe &amp; elsewhere:</strong> please get in touch for trade pricing in your currency.</p>
   </section>
 
@@ -340,6 +363,46 @@
   </section>
 
 </div>
+
+
+<!-- LOOK INSIDE MODAL -->
+<div class="book-modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bmTitle">
+  <div class="book-modal-box">
+    <button class="book-modal-close" type="button" aria-label="Close" onclick="closeBook()">×</button>
+    <h2 id="bmTitle"></h2>
+    <div class="isbn" id="bmIsbn"></div>
+    <div class="modal-shots" id="bmShots"></div>
+    <div class="modal-block"><h4>The story</h4><p id="bmStory"></p></div>
+    <div class="modal-block"><h4>Why it sells</h4><p id="bmWhy"></p></div>
+    <div class="modal-block"><h4>Best for</h4><p id="bmBest"></p></div>
+    <div class="modal-actions">
+      <a class="btn btn-yellow" id="bmPdf" href="#">📄 Request a PDF</a>
+      <a class="btn btn-purple" id="bmOrder" href="#">📧 Order this title</a>
+    </div>
+  </div>
+</div>
+<script>
+const BOOKS = [{"id": "christmas", "title": "The Tools Light Up Christmas", "isbn": "978-1-9192077-3-5", "shots": ["img/big_moments/xmas_sledging.png", "img/big_moments/xmas_train.png", "img/big_moments/xmas_sleigh.png"], "story": "The crew are building the town's nativity for Christmas Eve — but Diesel forgot to fix the lights. A runaway donkey, a very tangled Paz and a power cut later, the whole crew pulls together to light up Christmas just in time.", "why": "Timed for the whole Christmas shopping season. The crew are hammers, wrenches and drills, so it sits naturally among your gifts — and it's a warm, genuine Christmas story, with Santa making an appearance too.", "best": "Ages 2–12 · Christmas displays · by the till · stocking-filler gift"}, {"id": "winter-rescue", "title": "The Tools Winter Rescue", "isbn": "978-1-9192077-8-0", "shots": ["img/big_moments/wr_ski_race.png", "img/big_moments/wr_roadside_rescue.png"], "story": "Diesel has fitted the wrong tyres and forgotten the antifreeze, so trucks are breaking down all over snowy Twin Falls. Hector's crew set out on a roadside rescue — with Paz and a rather large moose causing chaos at every turn.", "why": "The characters are the tools on your shelves — hammers, wrenches and drills come to life — which makes it an easy add-on for parents and grandparents shopping with little ones. A strong winter and Christmas seller.", "best": "Ages 2–12 · gift section · by the till · winter displays"}, {"id": "monster-truck", "title": "The Tools and the Monster Truck", "isbn": "978-1-9192077-2-8", "shots": ["img/big_moments/mt_lorenzo_tomatoes.png", "img/big_moments/mt_paz_seaweed.png"], "story": "The crew find a rusty old truck in the desert and set out to turn it into a monster truck for the 4th of July parade. Diesel is in charge of the engine… what could possibly go wrong?", "why": "Trucks, engines and a big build — exactly what kids love when they come into a hardware store with Mom, Dad or Grandpa. A natural fit beside toy trucks, and a great summer and 4th of July title.", "best": "Ages 2–12 · gift section · near toy trucks · summer & 4th of July"}, {"id": "railway", "title": "The Tools and the Railway Bridge", "isbn": "978-1-9192077-4-2", "shots": ["img/big_moments/railway_feed_beavers.png", "img/big_moments/railway_paint_train.png"], "story": "Patrick's train is loaded and ready to go — but a family of beavers has taken a liking to the wooden railway bridge. Can the crew rebuild it before disaster strikes?", "why": "A building-and-fixing story: the crew repair a bridge with real tools and teamwork. Loved by train-mad kids and a great match for lumber and building-supply customers.", "best": "Ages 2–12 · gift section · by the till · sells year-round"}, {"id": "farm", "title": "The Tools and the Farm", "isbn": "978-1-9192077-7-3", "shots": ["img/big_moments/farm_paz_ram.png", "img/big_moments/farm_tractor.png"], "story": "Pete the Pitchfork needs a hand at Twin Falls Farm. Between a runaway ram, a very muddy mishap and a tractor that needs fixing, it's a busy day down on the farm.", "why": "Farm tools come to life — pitchforks, rakes and shovels. Perfect for stores with farm and rural customers, and sits well beside garden, feed and outdoor ranges.", "best": "Ages 2–12 · garden & farm section · by the till · spring & harvest"}, {"id": "character-book", "title": "The Tools Character Book — Volume One", "isbn": "978-1-9192077-9-7", "shots": ["img/profiles/hector.png", "img/profiles/paz.png", "img/profiles/roxie.png"], "story": "Meet the whole crew: all 21 Twin Falls characters in one collectible book — every tool, what they do, fun facts and a message about kindness for each one.", "why": "The perfect companion to the story books and an easy extra sale — kids who love one book want to know every character. Square, coil-bound format at a lower price point.", "best": "Ages 2–12 · next to the story books · add-on at the till"}];
+const bm = document.getElementById('bookModal');
+function openBook(id){
+  const b = BOOKS.find(x=>x.id===id); if(!b) return;
+  document.getElementById('bmTitle').textContent=b.title;
+  document.getElementById('bmIsbn').textContent='ISBN '+b.isbn;
+  document.getElementById('bmStory').textContent=b.story;
+  document.getElementById('bmWhy').textContent=b.why;
+  document.getElementById('bmBest').textContent=b.best;
+  document.getElementById('bmShots').innerHTML=b.shots.map(s=>'<img src="'+s+'" alt="Inside '+b.title.replace(/"/g,'')+'" loading="lazy"/>').join('');
+  const subj=encodeURIComponent(b.title);
+  document.getElementById('bmPdf').href='mailto:mike@thetools.online?subject='+encodeURIComponent('PDF request — ')+subj;
+  document.getElementById('bmOrder').href='mailto:mike@thetools.online?subject='+encodeURIComponent('Trade order — ')+subj;
+  bm.classList.add('open'); document.body.style.overflow='hidden';
+  bm.querySelector('.book-modal-close').focus();
+}
+function closeBook(){ bm.classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.title-card').forEach(c=>c.addEventListener('click',()=>openBook(c.dataset.book)));
+bm.addEventListener('click',e=>{ if(e.target===bm) closeBook(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeBook(); });
+</script>
 
 <!-- PUBLISHER -->
 <section class="publisher-strip">
