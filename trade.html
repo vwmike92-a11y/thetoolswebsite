@@ -208,6 +208,10 @@
     .book-modal .isbn{font-size:0.8rem;color:var(--text-light);margin-bottom:1rem;}
     .mail-help{margin-top:1rem;padding:0.9rem 1rem;border-radius:12px;background:var(--off-white,#f6f2fb);font-size:0.95rem;line-height:1.5;}
     .mail-help p{margin:0 0 0.6rem;}
+    .mail-help-centre{max-width:560px;margin:1rem auto 0;text-align:center;}
+    .mail-help-centre p,.mail-help-centre strong,.mail-help-centre em{color:#3d1a6e !important;}
+    .mail-help-centre .mail-help-btns{justify-content:center;}
+    button.btn{border:none;cursor:pointer;font:inherit;}
     .mail-help-btns{display:flex;flex-wrap:wrap;gap:0.5rem;}
     .mh-btn{display:inline-block;padding:0.45rem 0.9rem;border-radius:999px;border:2px solid #5b2a9e;background:#fff;color:#3d1a6e;font:inherit;font-size:0.9rem;font-weight:600;text-decoration:none;cursor:pointer;}
     .mh-btn:hover{background:#5b2a9e;color:#fff;}
@@ -268,7 +272,8 @@
 <section class="books-hero">
   <h1>🤝 Trade &amp; Wholesale</h1>
   <p>Everything your store needs to stock The Tools — titles, pricing and how to order, all in one place.</p>
-  <a href="mailto:mike@thetools.online?subject=Trade%20order%20%E2%80%94%20The%20Tools" class="btn btn-yellow">📧 Place an Order</a>
+  <button type="button" class="btn btn-yellow mail-trigger" data-slot="heroHelp" data-lead="To order, email us" data-subject="Trade order — The Tools">📧 Place an Order</button>
+  <div class="mail-help mail-help-centre" id="heroHelp" hidden></div>
 </section>
 
 <div class="trade-wrap">
@@ -363,7 +368,8 @@
   <section class="contact-box">
     <h2>Questions or special requests?</h2>
     <p>Every store is different, and I'm always happy to talk things through — whether that's a smaller first order, a mixed selection for a particular season, bulk pricing for larger orders, or anything else you'd like to discuss.</p>
-    <a href="mailto:mike@thetools.online?subject=Trade%20order%20%E2%80%94%20The%20Tools" class="btn btn-yellow">📧 mike@thetools.online</a>
+    <button type="button" class="btn btn-yellow mail-trigger" data-slot="contactHelp" data-lead="Email us" data-subject="Trade enquiry — The Tools">📧 mike@thetools.online</button>
+    <div class="mail-help mail-help-centre" id="contactHelp" hidden></div>
     <p style="margin-top:1.25rem;margin-bottom:0;font-size:0.9rem;">Mike Bannerman · Triceratops Publishing Ltd</p>
   </section>
 
@@ -381,16 +387,10 @@
     <div class="modal-block"><h4>Why it sells</h4><p id="bmWhy"></p></div>
     <div class="modal-block"><h4>Best for</h4><p id="bmBest"></p></div>
     <div class="modal-actions">
-      <a class="btn btn-yellow" id="bmPdf" href="#">📄 Request a PDF</a>
-      <a class="btn btn-purple" id="bmOrder" href="#">📧 Order this title</a>
+      <button type="button" class="btn btn-yellow mail-trigger" id="bmPdf" data-slot="bmHelp" data-lead="To request a PDF, email us">📄 Request a PDF</button>
+      <button type="button" class="btn btn-purple mail-trigger" id="bmOrder" data-slot="bmHelp" data-lead="To order, email us">📧 Order this title</button>
     </div>
-    <div class="mail-help" id="bmHelp" hidden>
-      <p><strong id="bmHelpWhat">Email us</strong> at <strong>mike@thetools.online</strong> with the subject <em id="bmHelpSubj"></em></p>
-      <div class="mail-help-btns">
-        <button type="button" class="mh-btn" id="bmCopy">📋 Copy email address</button>
-        <a class="mh-btn" id="bmGmail" target="_blank" rel="noopener">Open in Gmail</a>
-        <a class="mh-btn" id="bmOutlook" target="_blank" rel="noopener">Open in Outlook</a>
-      </div>
+    <div class="mail-help" id="bmHelp" hidden></div>
     </div>
   </div>
 </div>
@@ -405,32 +405,31 @@ function openBook(id){
   document.getElementById('bmWhy').textContent=b.why;
   document.getElementById('bmBest').textContent=b.best;
   document.getElementById('bmShots').innerHTML=b.shots.map(s=>'<img src="'+s+'" alt="Inside '+b.title.replace(/"/g,'')+'" loading="lazy"/>').join('');
-  const subj=encodeURIComponent(b.title);
-  document.getElementById('bmPdf').href='mailto:mike@thetools.online?subject='+encodeURIComponent('PDF request — ')+subj;
-  document.getElementById('bmOrder').href='mailto:mike@thetools.online?subject='+encodeURIComponent('Trade order — ')+subj;
+  document.getElementById('bmPdf').dataset.subject='PDF request — '+b.title;
+  document.getElementById('bmOrder').dataset.subject='Trade order — '+b.title;
   document.getElementById('bmHelp').hidden=true;
-  currentTitle=b.title;
   bm.classList.add('open'); document.body.style.overflow='hidden';
   bm.querySelector('.book-modal-close').focus();
 }
-let currentTitle='';
-function showMailHelp(kind){
-  const subject=kind+' — '+currentTitle;
-  const help=document.getElementById('bmHelp');
-  document.getElementById('bmHelpWhat').textContent=kind==='PDF request'?'To request a PDF, email us':'To order, email us';
-  document.getElementById('bmHelpSubj').textContent='“'+subject+'”';
-  const to='mike@thetools.online', su=encodeURIComponent(subject);
-  document.getElementById('bmGmail').href='https://mail.google.com/mail/?view=cm&fs=1&to='+to+'&su='+su;
-  document.getElementById('bmOutlook').href='https://outlook.live.com/mail/0/deeplink/compose?to='+to+'&subject='+su;
-  help.hidden=false;
+const MAIL_TO='mike@thetools.online';
+function esc(t){return t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function showMail(btn){
+  const slot=document.getElementById(btn.dataset.slot), subject=btn.dataset.subject||'Trade enquiry — The Tools', su=encodeURIComponent(subject);
+  slot.innerHTML='<p><strong>'+esc(btn.dataset.lead||'Email us')+'</strong> at <strong>'+MAIL_TO+'</strong> with the subject <em>“'+esc(subject)+'”</em></p>'+
+    '<div class="mail-help-btns">'+
+    '<button type="button" class="mh-btn mh-copy">📋 Copy email address</button>'+
+    '<a class="mh-btn" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to='+MAIL_TO+'&su='+su+'">Open in Gmail</a>'+
+    '<a class="mh-btn" target="_blank" rel="noopener" href="https://outlook.live.com/mail/0/deeplink/compose?to='+MAIL_TO+'&subject='+su+'">Open in Outlook</a>'+
+    '<a class="mh-btn" href="mailto:'+MAIL_TO+'?subject='+su+'">Use my email app</a>'+
+    '</div>';
+  slot.hidden=false;
+  slot.querySelector('.mh-copy').addEventListener('click',function(){
+    const b=this, done=()=>{b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy email address',2000);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(MAIL_TO).then(done,()=>prompt('Copy this email address:',MAIL_TO));}
+    else{prompt('Copy this email address:',MAIL_TO);}
+  });
 }
-document.getElementById('bmPdf').addEventListener('click',()=>showMailHelp('PDF request'));
-document.getElementById('bmOrder').addEventListener('click',()=>showMailHelp('Trade order'));
-document.getElementById('bmCopy').addEventListener('click',function(){
-  const btn=this, done=()=>{btn.textContent='✅ Copied';setTimeout(()=>btn.textContent='📋 Copy email address',2000);};
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText('mike@thetools.online').then(done,()=>prompt('Copy this email address:','mike@thetools.online'));}
-  else{prompt('Copy this email address:','mike@thetools.online');}
-});
+document.querySelectorAll('.mail-trigger').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();showMail(b);}));
 function closeBook(){ bm.classList.remove('open'); document.body.style.overflow=''; }
 document.querySelectorAll('.title-card').forEach(c=>c.addEventListener('click',()=>openBook(c.dataset.book)));
 bm.addEventListener('click',e=>{ if(e.target===bm) closeBook(); });
