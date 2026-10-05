@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>4th July — Free Colouring Pages — The Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --sky: #C9E8F5;
+      --purple: #5B21B6;
+      --purple-dark: #3D1A6E;
+      --purple-light: #7C3AED;
+      --yellow: #FFD600;
+      --yellow-dark: #F5C400;
+      --white: #FFFFFF;
+      --off-white: #F0F8FF;
+      --text: #1E1E2E;
+      --text-light: #4A4A6A;
+      --card-shadow: 0 6px 24px rgba(91,33,182,0.12);
+      --red: #B22234;
+      --navy: #3C3B6E;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+
+    /* ── STARS CANVAS ── */
+    #starsCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      background:var(--navy);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 1.5rem;height:68px;
+      box-shadow:0 3px 20px rgba(0,0,0,0.35);
+    }
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{
+      color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;
+      padding:0.4rem 0.65rem;border-radius:20px;
+      transition:background 0.2s,color 0.2s;white-space:nowrap;
+    }
+    .nav-links a:hover{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--red)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+    /* ── HERO ── */
+    .hero{
+      position:relative;z-index:2;
+      min-height:60vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:100px 2rem 4rem;
+      background:linear-gradient(180deg,var(--navy) 0%,var(--red) 100%);
+      overflow:hidden;
+    }
+    .hero-logo{width:min(360px,75vw);margin-bottom:1.5rem;}
+    .hero h1{
+      font-family:'Fredoka One',cursive;
+      font-size:clamp(2rem,5vw,3.5rem);
+      color:var(--yellow);
+      margin-bottom:0.75rem;
+      text-shadow:0 3px 12px rgba(0,0,0,0.4);
+    }
+    .hero p{
+      color:rgba(255,255,255,0.9);
+      font-size:clamp(1rem,2.5vw,1.25rem);
+      max-width:560px;
+      margin-bottom:2rem;
+      line-height:1.6;
+    }
+    .hero-flags{font-size:2.5rem;margin-bottom:1rem;letter-spacing:0.5rem;}
+
+    /* ── BUTTONS ── */
+    .btn{
+      display:inline-block;font-family:'Fredoka One',cursive;
+      font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;
+      text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;
+    }
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-red{background:var(--red);color:#fff;}
+    .btn-navy{background:var(--navy);color:#fff;}
+    .btn-white{background:#fff;color:var(--navy);}
+
+    /* ── SECTION TITLES ── */
+    .section-title{
+      font-family:'Fredoka One',cursive;
+      font-size:clamp(1.8rem,4vw,2.8rem);
+      text-align:center;margin-bottom:0.5rem;
+    }
+    .section-sub{
+      text-align:center;font-size:1rem;color:var(--text-light);
+      margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;
+    }
+
+    .hero-crew{
+      display:flex;
+      gap:0.75rem;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin:1.5rem 0;
+      max-width:860px;
+    }
+    .hero-crew img{
+      width:clamp(80px,15vw,140px);
+      border-radius:16px;
+      background:rgba(255,255,255,0.1);
+      padding:8px;
+      transition:transform 0.2s;
+    }
+    .hero-crew img:hover{transform:translateY(-6px) scale(1.05);}
+
+    /* ── ARTWORK SECTION ── */
+    .artwork{
+      position:relative;z-index:2;
+      background:var(--navy);
+      padding:4rem 2rem;
+      text-align:center;
+    }
+    .artwork .section-title{color:var(--yellow);}
+    .artwork .section-sub{color:rgba(255,255,255,0.7);}
+    .artwork-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:1.5rem;
+      max-width:1100px;
+      margin:0 auto 2rem;
+    }
+    .artwork-card{
+      background:rgba(255,255,255,0.06);
+      border:2px solid rgba(255,255,255,0.12);
+      border-radius:20px;
+      overflow:hidden;
+      transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .artwork-card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(0,0,0,0.3);}
+    .artwork-card img{
+      width:100%;
+      aspect-ratio:1;
+      object-fit:contain;
+      background:rgba(255,255,255,0.05);
+      padding:12px;
+    }
+    .artwork-card-info{padding:1rem 1.25rem 1.25rem;}
+    .artwork-card-name{
+      font-family:'Fredoka One',cursive;
+      font-size:1.1rem;
+      color:var(--yellow);
+      margin-bottom:0.3rem;
+    }
+    .artwork-card-desc{
+      font-size:0.82rem;
+      color:rgba(255,255,255,0.6);
+      margin-bottom:0;
+      line-height:1.5;
+    }
+
+    /* ── COLOURING SECTION ── */
+    .colouring{
+      position:relative;z-index:2;
+      background:var(--off-white);
+      padding:4rem 2rem;
+      text-align:center;
+    }
+    .colouring .section-title{color:var(--navy);}
+    .colouring-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:1.5rem;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .colour-card{
+      background:var(--white);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:var(--card-shadow);
+      border-top:4px solid var(--red);
+      transition:transform 0.2s,box-shadow 0.2s;
+      display:flex;
+      flex-direction:column;
+    }
+    .colour-card:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(178,34,52,0.2);}
+    .colour-card img{
+      width:100%;
+      aspect-ratio:1;
+      object-fit:contain;
+      background:#fff;
+      padding:16px;
+    }
+    .colour-card-info{
+      padding:1rem 1.25rem 1.25rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+      flex:1;
+    }
+    .colour-card-name{
+      font-family:'Fredoka One',cursive;
+      font-size:1.1rem;
+      color:var(--navy);
+    }
+    .colour-card .btn{
+      width:100%;
+      text-align:center;
+      font-size:0.9rem;
+      padding:0.65rem 1rem;
+    }
+
+    /* ── BOOK PROMO ── */
+    .book-promo{
+      position:relative;z-index:2;
+      background:var(--red);
+      padding:4rem 2rem;
+      text-align:center;
+    }
+    .book-promo .section-title{color:var(--yellow);}
+    .book-promo .section-sub{color:rgba(255,255,255,0.8);}
+    .book-promo-inner{
+      display:flex;
+      align-items:center;
+      gap:3rem;
+      max-width:860px;
+      margin:0 auto;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .book-promo img{
+      width:220px;
+      border-radius:14px;
+      box-shadow:12px 12px 40px rgba(0,0,0,0.4);
+    }
+    .book-promo-text{text-align:left;max-width:480px;}
+    .book-promo-text h3{
+      font-family:'Fredoka One',cursive;
+      font-size:clamp(1.4rem,3vw,2rem);
+      color:#fff;
+      margin-bottom:0.75rem;
+      line-height:1.2;
+    }
+    .book-promo-text p{
+      color:rgba(255,255,255,0.8);
+      margin-bottom:1.5rem;
+      line-height:1.7;
+      font-size:0.95rem;
+    }
+    .book-promo-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:2;background:var(--navy);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{
+      max-width:1100px;margin:0 auto;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:2rem;margin-bottom:2rem;
+    }
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-bottom{
+      text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);
+      font-size:0.8rem;color:rgba(255,255,255,0.3);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{
+        display:flex;flex-direction:column;
+        position:fixed;top:68px;left:0;right:0;
+        background:var(--navy);padding:1rem 1.5rem 2rem;gap:0.4rem;
+        box-shadow:0 8px 24px rgba(0,0,0,0.3);
+      }
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+      .book-promo-text{text-align:center;}
+      .book-promo-btns{justify-content:center;}
+    }
+    @media(max-width:480px){
+      .colouring-grid{grid-template-columns:repeat(2,1fr);}
+      .artwork-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- STARS CANVAS -->
+<canvas id="starsCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-logo" src="img/logo_thetools_new.png" alt="The Tools"/>
+  <div class="hero-flags">🇺🇸 🎨 🔨</div>
+  <h1>Happy 4th of July!</h1>
+  <p>Twin Falls is ready for the celebrations. Download your FREE 4th July colouring pages and colour the whole crew!</p>
+  <div class="hero-crew">
+    <img src="img/july4th/hector_color.png" alt="Hector 4th July"/>
+    <img src="img/july4th/paz_color.png" alt="Paz 4th July"/>
+    <img src="img/july4th/roxie_color.png" alt="Roxie 4th July"/>
+    <img src="img/july4th/wayne_color.png" alt="Wayne 4th July"/>
+    <img src="img/july4th/floyd_color.png" alt="Floyd 4th July"/>
+  </div>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+    <a href="#colouring" class="btn btn-yellow">🎨 Free Colouring Pages</a>
+    <a href="shop.html" class="btn btn-white">🛒 Get the Book</a>
+  </div>
+</section>
+
+<!-- 4TH JULY ARTWORK -->
+<section class="artwork">
+  <h2 class="section-title">Twin Falls Goes American 🇺🇸</h2>
+  <p class="section-sub">The crew are dressed up and ready for the 4th</p>
+  <div class="artwork-grid">
+
+    <div class="artwork-card">
+      <img src="img/july4th/paz_roxie_excavator.png" alt="Paz and Roxie with 4th July Excavator"/>
+      <div class="artwork-card-info">
+        <div class="artwork-card-name">Paz &amp; Roxie 🎨</div>
+        <div class="artwork-card-desc">Roxie had a vision for that excavator. Nobody questioned it.</div>
+      </div>
+    </div>
+
+    <div class="artwork-card">
+      <img src="img/july4th/loader_4th.png" alt="4th July Loader"/>
+      <div class="artwork-card-info">
+        <div class="artwork-card-name">The Loader 🚜</div>
+        <div class="artwork-card-desc">Twin Falls' most patriotic piece of machinery.</div>
+      </div>
+    </div>
+
+    <div class="artwork-card">
+      <img src="img/july4th/excavator_4th.png" alt="4th July Excavator"/>
+      <div class="artwork-card-info">
+        <div class="artwork-card-name">The Excavator 🚧</div>
+        <div class="artwork-card-desc">Ready for the parade. Nobody told Shamus he was in charge of it.</div>
+      </div>
+    </div>
+
+    <div class="artwork-card">
+      <img src="img/july4th/monster_truck_garage.png" alt="Monster Truck in Garage"/>
+      <div class="artwork-card-info">
+        <div class="artwork-card-name">The Monster Truck 🚛</div>
+        <div class="artwork-card-desc">Out now — The Tools and the Monster Truck. Perfect 4th July reading.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FREE COLOURING PAGES -->
+<section class="colouring" id="colouring">
+  <h2 class="section-title">Free 4th July Colouring Pages 🎨</h2>
+  <p class="section-sub">Download and print — completely free. Five characters ready to colour!</p>
+  <div class="colouring-grid">
+
+    <div class="colour-card">
+      <img src="img/july4th/hector_colouring.png" alt="Hector 4th July Colouring Page"/>
+      <div class="colour-card-info">
+        <div class="colour-card-name">Hector Hammer 🔨</div>
+        <a href="img/july4th/hector_colouring.pdf" download="Hector_4thJuly_Colouring.pdf" class="btn btn-yellow">⬇️ Download PDF</a>
+        <a href="img/july4th/hector_colouring.png" download="Hector_4thJuly_Colouring.png" class="btn btn-navy">⬇️ Download PNG</a>
+      </div>
+    </div>
+
+    <div class="colour-card">
+      <img src="img/july4th/paz_colouring.png" alt="Paz 4th July Colouring Page"/>
+      <div class="colour-card-info">
+        <div class="colour-card-name">Paz the Paintbrush 🎨</div>
+        <a href="img/july4th/paz_colouring.pdf" download="Paz_4thJuly_Colouring.pdf" class="btn btn-yellow">⬇️ Download PDF</a>
+        <a href="img/july4th/paz_colouring.png" download="Paz_4thJuly_Colouring.png" class="btn btn-navy">⬇️ Download PNG</a>
+      </div>
+    </div>
+
+    <div class="colour-card">
+      <img src="img/july4th/roxie_colouring.png" alt="Roxie 4th July Colouring Page"/>
+      <div class="colour-card-info">
+        <div class="colour-card-name">Roxie the Paintbrush 🎀</div>
+        <a href="img/july4th/roxie_colouring.pdf" download="Roxie_4thJuly_Colouring.pdf" class="btn btn-yellow">⬇️ Download PDF</a>
+        <a href="img/july4th/roxie_colouring.png" download="Roxie_4thJuly_Colouring.png" class="btn btn-navy">⬇️ Download PNG</a>
+      </div>
+    </div>
+
+    <div class="colour-card">
+      <img src="img/july4th/wayne_colouring.png" alt="Wayne 4th July Colouring Page"/>
+      <div class="colour-card-info">
+        <div class="colour-card-name">Wayne Wrench 🔧</div>
+        <a href="img/july4th/wayne_colouring.pdf" download="Wayne_4thJuly_Colouring.pdf" class="btn btn-yellow">⬇️ Download PDF</a>
+        <a href="img/july4th/wayne_colouring.png" download="Wayne_4thJuly_Colouring.png" class="btn btn-navy">⬇️ Download PNG</a>
+      </div>
+    </div>
+
+    <div class="colour-card">
+      <img src="img/july4th/floyd_colouring.png" alt="Floyd 4th July Colouring Page"/>
+      <div class="colour-card-info">
+        <div class="colour-card-name">Floyd the Firehose 🚒</div>
+        <a href="img/july4th/floyd_colouring.pdf" download="Floyd_4thJuly_Colouring.pdf" class="btn btn-yellow">⬇️ Download PDF</a>
+        <a href="img/july4th/floyd_colouring.png" download="Floyd_4thJuly_Colouring.png" class="btn btn-navy">⬇️ Download PNG</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOK PROMO -->
+<section class="book-promo">
+  <h2 class="section-title">The Monster Truck is here! 🚛🇺🇸</h2>
+  <p class="section-sub">The perfect 4th July read for little ones</p>
+  <div class="book-promo-inner">
+    <img src="img/monster_truck_cover.png" alt="The Tools and the Monster Truck"/>
+    <div class="book-promo-text">
+      <h3>The Tools found a monster truck in the desert.<br/>What could possibly go wrong?</h3>
+      <p>Diesel is the main mechanic. Paz is on the loose. And Twin Falls has never seen anything quite like this. A perfect 4th July adventure — chaos, mischief and monster trucks for the whole family.</p>
+      <div class="book-promo-btns">
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow">📖 Get the Book</a>
+        <a href="shop.html" class="btn btn-white">🛒 Shop</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div style="display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — Lulu</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — Lulu</a>
+      <a href="shop.html#paz-plush">Paz Plush Toy</a>
+      <a href="shop.html#bundle">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank">Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+// ── STARS ──
+const canvas = document.getElementById('starsCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for(let i=0;i<150;i++){
+  stars.push({
+    x:Math.random()*window.innerWidth,
+    y:Math.random()*window.innerHeight,
+    r:Math.random()*1.5+0.5,
+    opacity:Math.random()*0.5+0.1,
+    twinkle:Math.random()*0.02+0.005
+  });
+}
+
+function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{
+    s.opacity += s.twinkle;
+    if(s.opacity>0.7||s.opacity<0.1) s.twinkle=-s.twinkle;
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${s.opacity})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// ── NAV ──
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open');
+});
+</script>
+</body>
+</html>

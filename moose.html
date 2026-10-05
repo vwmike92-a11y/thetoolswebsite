@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moose Secret Word — The Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--purple-dark:#3D1A6E;--purple-light:#7C3AED;--yellow:#FFD600;--sky:#cdeef5;--text-dark:#1a1a2e;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Fredoka',sans-serif;background:var(--sky);color:var(--text-dark);}
+  #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;}
+  header{background:var(--purple-dark);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:200;}
+  .logo{color:var(--yellow);font-weight:700;font-size:1.4rem;text-decoration:none;white-space:nowrap;}
+  .logo span{color:#fff;}
+  nav{display:flex;align-items:center;gap:0.2rem;}
+  nav a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+  nav a:hover{background:var(--yellow);color:var(--text-dark);}
+  nav a.shop{background:var(--purple-light);padding:0.5rem 1.1rem;}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+  .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+  @media(max-width:800px){
+    nav{display:none;}
+    nav.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);align-items:stretch;}
+    nav.open a{padding:0.6rem 0.75rem;border-radius:8px;}
+    .hamburger{display:flex;}
+  }
+  main{max-width:700px;margin:0 auto;padding:3rem 1.5rem 2rem;text-align:center;position:relative;z-index:20;}
+  .emoji{font-size:3.5rem;}
+  h1{color:var(--purple-dark);font-size:2.6rem;font-weight:700;margin:0.8rem 0 1.2rem;}
+  .intro{font-size:1.15rem;color:var(--text-dark);max-width:560px;margin:0 auto 1.8rem;}
+  .clue{background:var(--yellow);color:var(--text-dark);border-radius:30px;padding:1rem 1.6rem;font-weight:600;display:inline-block;margin-bottom:2.5rem;}
+  .card{background:#fff;border-radius:20px;padding:2rem 1.8rem;box-shadow:0 10px 30px rgba(61,26,110,0.15);text-align:left;max-width:700px;margin:0 auto;}
+  .card h2{color:var(--purple-dark);font-size:1.4rem;margin-bottom:0.9rem;}
+  .card p{color:#555;margin-bottom:1.2rem;}
+  .card input{width:100%;padding:1rem;border:2px solid var(--purple-light);border-radius:12px;font-family:'Fredoka',sans-serif;font-size:1rem;text-align:center;text-transform:uppercase;margin-bottom:1rem;}
+  .card input::placeholder{color:#a89fcf;font-weight:600;letter-spacing:1px;}
+  .card button{width:100%;background:var(--yellow);border:none;padding:1rem;border-radius:12px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.1rem;cursor:pointer;}
+  .unlocked{display:none;max-width:1000px;margin:2.5rem auto 3rem;padding:0 1.5rem;position:relative;z-index:20;}
+  .unlocked.show{display:block;}
+  .unlocked-title{color:var(--purple-dark);font-size:2rem;font-weight:700;text-align:center;margin-bottom:0.6rem;}
+  .unlocked-sub{text-align:center;color:#555;margin-bottom:2rem;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+  @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr);}}
+  .pcard{background:#fff;border-radius:16px;box-shadow:0 4px 14px rgba(61,26,110,0.1);text-align:center;padding:1.6rem 1.2rem;}
+  .pcard .pimg{width:100%;height:110px;object-fit:contain;margin-bottom:0.7rem;background:#f7f4ff;border-radius:10px;}
+  .pcard h3{color:var(--purple-dark);font-size:1.15rem;margin-bottom:0.5rem;}
+  .pcard p{color:#666;font-size:0.9rem;margin-bottom:1rem;min-height:2.4em;}
+  .pcard a{display:inline-block;background:var(--purple-light);color:#fff;text-decoration:none;padding:0.6rem 1.2rem;border-radius:20px;font-weight:700;font-size:0.9rem;}
+  .back-link{display:block;text-align:center;margin:2rem 0 3rem;color:#fff;font-weight:600;text-decoration:none;background:var(--purple-dark);padding:0.8rem 1.6rem;border-radius:24px;max-width:260px;margin-left:auto;margin-right:auto;}
+</style>
+</head>
+<body>
+<canvas id="snowCanvas"></canvas>
+<header>
+  <a class="logo" href="index.html">THE <span>TOOLS</span></a>
+  <nav id="siteNav">
+    <a href="characters.html">Characters</a>
+    <a href="books.html">Books</a>
+    <a href="trucks.html">Trucks &amp; Diggers</a>
+    <a href="world.html">Twin Falls World</a>
+    <a href="colouring.html">Colouring Pages</a>
+    <a href="games.html">Games</a>
+    <a class="shop" href="shop.html">Shop</a>
+  </nav>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+<main>
+  <div class="emoji">🫎</div>
+  <h1>Unlock Your FREE Monty Pack!</h1>
+  <p class="intro">Find the secret word hidden in The Tools Winter Rescue and type it below to unlock your FREE Monty the Moose colouring pack!</p>
+  <div class="clue">🫎 Clue: It's a big animal that chases Paz through Twin Falls!</div>
+  <div class="card">
+    <h2>🔒 Enter the Secret Word</h2>
+    <p>Find the secret word hidden somewhere in The Tools Winter Rescue... only those who have read the book will know it!</p>
+    <input type="text" id="wordInput" placeholder="TYPE HERE...">
+    <button onclick="checkWord()">Unlock! 🔓</button>
+  </div>
+</main>
+<div class="unlocked" id="packContent">
+  <div class="unlocked-title">You found it! Well done! 🎉</div>
+  <p class="unlocked-sub">Here is your FREE Monty the Moose colouring pack — four pages just for you! Print them out and get colouring! 🎨</p>
+  <div class="grid">
+    <div class="pcard">
+      <img class="pimg" src="img/monty/monty_alone.png" alt="Monty the Moose">
+      <h3>Monty the Moose</h3>
+      <p>Colour in Twin Falls' friendliest moose!</p>
+      <a href="pdfs/secret/monty_alone.pdf" download>🖨 Download</a>
+    </div>
+    <div class="pcard">
+      <img class="pimg" src="img/monty/monty_chase.png" alt="Monty Chasing Paz">
+      <h3>Monty Chasing Paz</h3>
+      <p>The famous chase scene — colour it in!</p>
+      <a href="pdfs/secret/monty_chasing_paz.pdf" download>🖨 Download</a>
+    </div>
+    <div class="pcard">
+      <img class="pimg" src="img/monty/monty_wanted.png" alt="Monty's Wanted Poster">
+      <h3>Monty's Wanted Poster</h3>
+      <p>Last seen at Lorenzo's Bistro. Colour in the most wanted moose in Twin Falls!</p>
+      <a href="pdfs/secret/monty_wanted.pdf" download>🖨 Download</a>
+    </div>
+    <div class="pcard">
+      <img class="pimg" src="img/monty/monty_story.png" alt="Monty's Side of the Story">
+      <h3>Monty's Side of the Story</h3>
+      <p>What was Monty ACTUALLY thinking? Find out here!</p>
+      <a href="pdfs/secret/monty_side_of_story.pdf" download>🖨 Download</a>
+    </div>
+  </div>
+  <a class="back-link" href="index.html">🔨 Back to Twin Falls</a>
+</div>
+<script>
+function checkWord(){
+  const val = document.getElementById('wordInput').value.trim().toLowerCase();
+  if(val === 'moose'){
+    document.getElementById('packContent').classList.add('show');
+    document.getElementById('packContent').scrollIntoView({behavior:'smooth'});
+  } else {
+    alert("That's not quite right — have another look in The Tools Winter Rescue!");
+  }
+}
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();
+window.addEventListener('resize',resize);
+for(let i=0;i<80;i++){flakes.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*3+1,s:Math.random()*0.5+0.3,o:Math.random()*0.5+0.2});}
+function snow(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,0.8)';
+  flakes.forEach(f=>{
+    ctx.globalAlpha=f.o;
+    ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();
+    f.y+=f.s;f.x+=Math.sin(f.y/30)*0.3;
+    if(f.y>H){f.y=0;f.x=Math.random()*W;}
+  });
+  ctx.globalAlpha=1;
+  requestAnimationFrame(snow);
+}
+snow();
+</script>
+<script>
+function toggleNav(){ document.getElementById('siteNav').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('header')) document.getElementById('siteNav').classList.remove('open'); });
+</script>
+</body>
+</html>

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="google-site-verification" content="7oXdzQUhOM30gH2JZ8XnBgqnrU5_2kydVOBApvmr3fM" />
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Tools — Children's Book Series</title>
+  <meta name="description" content="The Tools — a colourful, mischief-filled picture book series (ages 2-12) about a crew of tool characters who cause chaos and always fix what they've broken, with kindness. 6 books, including our new Christmas book."/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
     :root {
       --sky: #C9E8F5;
@@ -27,7 +31,7 @@
     .char-card,.truck-card,.world-card,.shop-card,.pillar-card,.book-cover-wrap,.book-info,.hero-cast,.hero-logo-new,.hero-buttons,.hero-tagline,.section-title,.section-sub,.books-layout,.colouring-chips,.publisher img,.footer-inner{position:relative;z-index:20;}
 
     /* ── SNOWFALL CANVAS ── */
-    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
 
     /* ── NAV ── */
     nav{
@@ -54,27 +58,67 @@
     /* ── HERO ── */
     .hero{
       position:relative;z-index:2;
-      min-height:100vh;
-      display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-      text-align:center;padding:88px 2rem 4rem;
-      background:linear-gradient(180deg,#A8D8EE 0%,#C9E8F5 60%,#DDEEF8 100%);
       overflow:hidden;
+      padding-top:68px;
     }
+    .hero-main{
+      display:block;
+      padding:68px 0 0;
+      position:relative;
+    }
+    .hero-banner{
+      width:100%;
+      height:min(60vh,510px);
+      object-fit:cover;
+      object-position:center 72%;
+      display:block;
+    }
+    .hero-overlay{
+      position:absolute;
+      top:68px;left:0;right:0;
+      display:flex;align-items:flex-start;justify-content:center;
+      padding:0;
+      z-index:15;
+      overflow:visible;
+    }
+    .hero-logo-block{text-align:center;margin-top:-45px;}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
     .hero-logo-new{
-      width:min(420px,82vw);
-      margin-bottom:1.25rem;margin-top:1rem;
+      width:min(320px,58vw);
+      display:block;
+      margin:0 auto;
+      filter:drop-shadow(0 4px 16px rgba(0,0,0,0.35));
     }
-    .hero-cast{
-      width:min(800px,94vw);border-radius:24px;
-      box-shadow:0 12px 48px rgba(61,26,110,0.2);
-      margin-bottom:1.5rem;
-    }
+    .hero-side-block{position:absolute;top:4.5rem;right:1.5rem;display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;z-index:15;}
     .hero-tagline{
       font-family:'Fredoka One',cursive;
-      font-size:clamp(1.1rem,3vw,1.5rem);
-      color:var(--purple-dark);margin-bottom:2rem;
+      font-size:clamp(0.65rem,1.5vw,0.75rem);
+      color:var(--purple-dark);margin:0;
+      background:rgba(255,255,255,0.9);
+      border-radius:8px;
+      padding:0.3rem 0.6rem;
+      max-width:170px;
+      text-align:right;
+      line-height:1.3;
     }
-    .hero-buttons{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;}
+    .hero-buttons{display:flex;flex-direction:column;gap:0.6rem;align-items:flex-end;}
+    .hero-buttons .btn{font-size:0.85rem;padding:0.6rem 1.1rem;white-space:nowrap;}
+    .hero-books-strip{
+      background:var(--purple-dark);
+      padding:1.5rem 1rem;
+    }
+    .hero-books-inner{
+      max-width:900px;margin:0 auto;
+      display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+    }
+    .hero-book-thumb{
+      display:block;width:min(150px,22vw);
+      border-radius:12px;overflow:hidden;
+      box-shadow:0 6px 20px rgba(0,0,0,0.3);
+      transition:transform 0.2s;
+    }
+    .hero-book-thumb:hover{transform:translateY(-4px);}
+    .hero-book-thumb img{width:100%;display:block;}
     .btn{
       display:inline-block;font-family:'Fredoka One',cursive;
       font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;
@@ -262,7 +306,7 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media(max-width:768px){
+    @media(max-width:768px),(max-height:500px) and (orientation:landscape){
       .nav-links{display:none;}
       .nav-links.open{
         display:flex;flex-direction:column;
@@ -272,10 +316,46 @@
       }
       .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
       .hamburger{display:flex;}
-      .char-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+      .char-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
       .book-cover-wrap img{width:190px;}
+      .books-layout{flex-direction:column;align-items:center;gap:2rem;}
+      .book-info{text-align:center;}
+      .book-buttons{justify-content:center;}
+      .pillars-grid{grid-template-columns:repeat(2,1fr);}
+      .hero{padding:0;}
+      .hero-banner{height:auto;}
+      .hero-overlay{position:static;background:var(--purple-dark);display:flex;flex-direction:column;align-items:center;padding:1rem 1rem 0;}
+      .hero-logo-new{width:min(110px,28vw);}
+      .hero-logo-block{margin-top:0;}
+      .hero-side-block{position:static;background:var(--purple-dark);padding:0 1rem 1.25rem;align-items:center;width:100%;}
+      .hero-tagline{background:none;color:#fff;max-width:90%;margin:0.5rem auto 0.5rem;text-align:center;font-size:0.85rem;padding:0;}
+      .hero-buttons{flex-direction:row;align-items:center;justify-content:center;width:100%;}
+      .hero-buttons .btn{font-size:0.75rem;padding:0.45rem 0.85rem;}
+      .hero-book-thumb{width:min(120px,26vw);}
+      .book-cover-wrap img{width:min(180px,70vw);}
+    }
+    @media(max-width:480px){
+      .char-grid{grid-template-columns:repeat(2,1fr);}
+      .pillars-grid{grid-template-columns:1fr;}
+      .trucks-grid{grid-template-columns:repeat(2,1fr);}
+      .world-grid{grid-template-columns:repeat(2,1fr);}
+      section{padding:3rem 1rem;}
+      .section-title{font-size:clamp(1.4rem,6vw,2rem);}
+      .btn{font-size:0.92rem;padding:0.7rem 1.3rem;}
+      .footer-inner{grid-template-columns:1fr;}
+      .footer-col{text-align:center;}
+      .footer-socials{justify-content:center;}
     }
   </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
 </head>
 <body>
 
@@ -291,6 +371,7 @@
     <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
     <li><a href="world.html">Twin Falls World</a></li>
     <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
     <li><a href="shop.html" class="nav-shop">Shop</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleNav()">
@@ -299,13 +380,30 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <img class="hero-logo-new" src="img/logo_thetools_new.png" alt="The Tools"/>
-  <img class="hero-cast" src="img/cast_scene.png" alt="The Tools crew in the snow"/>
-  <p class="hero-tagline">Chaos, mischief &amp; a whole lot of heart ❄️🔨</p>
-  <div class="hero-buttons">
-    <a href="shop.html" class="btn btn-yellow">🛒 Get the Book</a>
-    <a href="characters.html" class="btn btn-purple">Meet the Crew</a>
+<section class="hero hero-main">
+  <img class="hero-banner" src="img/hero_main.png" alt="The Tools crew, out in Twin Falls"/>
+  <div class="hero-overlay">
+    <div class="hero-logo-block">
+      <h1 class="sr-only">The Tools — Children's Picture Book Series by Triceratops Publishing</h1>
+      <img class="hero-logo-new" src="img/logo_thetools_new.png" alt="The Tools"/>
+    </div>
+  </div>
+  <div class="hero-side-block">
+    <p class="hero-tagline">Chaos, mischief and kindness — six books and counting!</p>
+    <div class="hero-buttons">
+      <a href="books.html" class="btn btn-yellow">📚 See All Books</a>
+      <a href="shop.html" class="btn btn-purple">🛒 Get the Book</a>
+    </div>
+  </div>
+</section>
+
+<section class="hero-books-strip">
+  <div class="hero-books-inner">
+    <a href="books.html#winter-rescue" class="hero-book-thumb"><img src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/></a>
+    <a href="books.html#monster-truck" class="hero-book-thumb"><img src="img/book_thumbs/monster_truck.png" alt="The Tools and the Monster Truck"/></a>
+    <a href="books.html#railway" class="hero-book-thumb"><img src="img/book_thumbs/railway.png" alt="The Tools and the Railway"/></a>
+    <a href="books.html#farm" class="hero-book-thumb"><img src="img/book_thumbs/farm.png" alt="The Tools and the Farm"/></a>
+    <a href="books.html#christmas" class="hero-book-thumb"><img src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/></a>
   </div>
 </section>
 
@@ -452,7 +550,7 @@
     </a>
 
     <a href="trucks/tanker.html" class="truck-card">
-      <img src="img/tanker.png" alt="Purple Tanker"/>
+      <img src="img/tanker_night.png" alt="The Purple Truck"/>
       <div class="truck-card-name">The Purple Truck</div>
       <div class="truck-card-desc">Big, purple, and impossible to miss on the Twin Falls highway</div>
     </a>
@@ -535,7 +633,7 @@
   <p class="section-sub">Book 1 — Available now in paperback and hardback</p>
   <div class="books-layout">
     <div class="book-cover-wrap">
-      <img src="img/winter_rescue_scene.png" alt="The Tools Winter Rescue"/>
+      <img src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/>
       <span class="book-badge">Out Now!</span>
     </div>
     <div class="book-info">
@@ -543,9 +641,11 @@
       <p>Everything, obviously. Twin Falls is in chaos. Monty the Moose is on the loose. Lorenzo's flowers are in danger. And Roxie is absolutely horrified. But somehow, together, the crew always sorts it out.</p>
       <div class="book-verse">✝️ Every book ends with an inspirational Bible verse about loving one another</div>
       <div class="book-buttons">
-        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-95j84zm.html" target="_blank" class="btn btn-yellow">📖 Paperback</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow">📖 Paperback</a>
         <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank" class="btn btn-purple">📚 Hardback</a>
       </div>
+      <p style="margin-top:1.25rem;font-family:'Fredoka One',cursive;font-size:0.95rem;color:#fff;">📚 Loved Book 1? There are six books and counting!</p>
+      <a href="books.html" class="btn btn-yellow" style="margin-top:0.6rem;">See the Whole Collection →</a>
     </div>
   </div>
 </section>
@@ -560,7 +660,7 @@
       <span class="shop-emoji">📖</span>
       <h3>Paperback</h3>
       <p>The Tools Winter Rescue — paperback edition. Perfect for little hands and bedtime stories.</p>
-      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-95j84zm.html" target="_blank" class="btn btn-yellow">Buy Paperback</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow">Buy Paperback</a>
     </div>
 
     <div class="shop-card">
@@ -601,7 +701,7 @@
     <span class="chip">Monster Truck</span>
     <span class="chip">Wayne + Copper Pipes</span>
   </div>
-  <a href="colouring.html" class="btn btn-yellow">Download Free Pages 🖍️</a>
+  <a href="colouring.html" class="btn btn-yellow">Get Free Pages 🖍️</a>
 </section>
 
 <!-- PUBLISHER -->
@@ -618,9 +718,10 @@
       <h4>The Tools</h4>
       <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
       <div class="footer-socials">
-        <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok</a>
-        <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram</a>
-        <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
       </div>
     </div>
     <div class="footer-col">
@@ -633,17 +734,17 @@
     </div>
     <div class="footer-col">
       <h4>Buy the Book</h4>
-      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-95j84zm.html" target="_blank">Paperback — Lulu</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — Lulu</a>
       <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — Lulu</a>
       <a href="shop.html#paz-plush">Paz Plush Toy</a>
       <a href="shop.html#bundle">Book &amp; Toy Bundle</a>
     </div>
     <div class="footer-col">
       <h4>Follow the Crew</h4>
-      <a href="https://linktr.ee/thetools1997" target="_blank">All links — Linktree</a>
-      <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok @thetools1997</a>
-      <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram @thetools1997</a>
-      <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
     </div>
   </div>
   <div class="footer-bottom">

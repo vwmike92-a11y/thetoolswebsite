@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /moose.html
+Sitemap: https://www.thetools.online/sitemap.xml

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Books — The Tools</title>
+  <meta name="description" content="The Tools children's book series by Triceratops Publishing — 6 books: Winter Rescue, Monster Truck, The Railway, The Farm, the Character Book and our new Christmas book, The Tools Light Up Christmas (out 9 October)."/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --sky:#C9E8F5;--sky-dark:#A8D8EE;--purple:#5B21B6;--purple-dark:#3D1A6E;
+      --purple-light:#7C3AED;--yellow:#FFD600;--yellow-dark:#F5C400;
+      --white:#FFFFFF;--off-white:#F0F8FF;--text:#1E1E2E;--text-light:#4A4A6A;
+      --card-shadow:0 6px 24px rgba(91,33,182,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+    /* BUTTONS */
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+    .btn-white{background:#fff;color:var(--purple-dark);}
+
+    /* SECTIONS */
+    section{position:relative;z-index:20;padding:4.5rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);text-align:center;margin-bottom:0.5rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+
+    /* HERO */
+    .books-hero{
+      padding-top:68px;
+      background:linear-gradient(180deg,#2A1050 0%,#3D1A6E 100%);
+      text-align:center;padding-bottom:4rem;
+      position:relative;z-index:20;
+    }
+    .books-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,4rem);color:var(--yellow);padding-top:3rem;margin-bottom:0.6rem;}
+    .books-hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,0.7);max-width:540px;margin:0 auto 2rem;line-height:1.7;}
+
+    /* BOOK 1 — MAIN */
+    .book-main{background:var(--purple-dark);scroll-margin-top:85px;}
+    .book-main-inner{
+      max-width:980px;margin:0 auto;
+      display:flex;align-items:center;gap:4rem;
+      flex-wrap:wrap;justify-content:center;
+    }
+    .book-cover-wrap{position:relative;flex-shrink:0;}
+    .book-cover-wrap img{
+      width:min(280px,72vw);
+      border-radius:16px;
+      box-shadow:16px 16px 48px rgba(0,0,0,0.55);
+      display:block;
+    }
+    .book-badge{
+      position:absolute;top:-12px;right:-12px;
+      background:var(--yellow);color:var(--text);
+      font-family:'Fredoka One',cursive;font-size:0.85rem;
+      padding:0.4rem 0.9rem;border-radius:20px;
+      transform:rotate(8deg);box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    .book-info{max-width:460px;}
+    .book-number{font-size:0.78rem;text-transform:uppercase;letter-spacing:2px;color:var(--yellow);font-weight:800;margin-bottom:0.5rem;}
+    .book-info h2{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#fff;margin-bottom:1rem;line-height:1.2;}
+    .book-info p{color:rgba(255,255,255,0.75);line-height:1.8;margin-bottom:1rem;font-size:0.95rem;}
+    .book-verse{
+      background:rgba(255,255,255,0.08);
+      border-left:4px solid var(--yellow);
+      border-radius:0 12px 12px 0;
+      padding:1rem 1.25rem;
+      color:rgba(255,255,255,0.8);
+      font-style:italic;
+      margin-bottom:1.75rem;
+      font-size:0.9rem;
+      line-height:1.6;
+    }
+    .book-prices{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center;}
+    .price-tag{
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:12px;padding:0.5rem 1rem;
+      text-align:center;
+    }
+    .price-tag .price-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.55);display:block;margin-bottom:0.2rem;}
+    .price-tag .price-amount{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--yellow);}
+    .book-buttons{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .big-moments{padding:2rem 1.5rem 2.5rem;text-align:center;}
+    .big-moments h3{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--purple-dark);margin-bottom:1.25rem;}
+    .big-moments-grid{display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto;}
+    .big-moment-item{width:220px;}
+    .big-moment-item img{width:100%;height:150px;object-fit:cover;border-radius:14px;box-shadow:0 6px 20px rgba(61,26,110,0.15);}
+    .big-moment-item p{font-size:0.85rem;color:var(--text-light);margin-top:0.6rem;line-height:1.4;}
+
+    /* WHAT'S INSIDE */
+    .whats-inside{background:var(--off-white);}
+    .whats-inside .section-title{color:var(--purple-dark);}
+    .inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:900px;margin:0 auto;}
+    .inside-card{background:#fff;border-radius:18px;padding:1.75rem 1.25rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid var(--purple);}
+    .inside-emoji{font-size:2.2rem;display:block;margin-bottom:0.75rem;}
+    .inside-card h3{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--purple-dark);margin-bottom:0.4rem;}
+    .inside-card p{font-size:0.88rem;color:var(--text-light);line-height:1.6;}
+
+    /* COMING SOON */
+    .coming-soon{background:var(--sky);text-align:center;}
+    .coming-soon .section-title{color:var(--purple-dark);}
+    .coming-soon .section-sub{margin-bottom:2rem;}
+    .coming-silhouettes{margin:3rem auto 2rem;max-width:600px;}
+    .coming-silhouette-intro{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--purple-dark);margin-bottom:1.5rem;}
+    .silhouette-row{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;}
+    .reveal-card{background:var(--purple-dark);border-radius:18px;padding:1.5rem 1.5rem 1.25rem;width:200px;box-shadow:0 8px 24px rgba(61,26,110,0.25);cursor:pointer;transition:transform 0.2s;}
+    .reveal-card:hover{transform:translateY(-4px);}
+    .reveal-img-stack{position:relative;width:100%;height:170px;margin-bottom:1rem;}
+    .reveal-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;transition:opacity 0.6s ease;}
+    .reveal-silhouette{opacity:1;}
+    .reveal-actual{opacity:0;}
+    .reveal-card.revealed .reveal-silhouette{opacity:0;}
+    .reveal-card.revealed .reveal-actual{opacity:1;}
+    .reveal-card span{color:#fff;font-size:0.8rem;font-weight:700;display:block;line-height:1.4;}
+    .reveal-tap{color:var(--yellow) !important;font-size:0.75rem !important;margin-bottom:0.4rem;}
+    .coming-books{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto 2.5rem;}
+    .coming-book-card{
+      background:#fff;border-radius:18px;padding:2rem 1.5rem;
+      box-shadow:var(--card-shadow);width:220px;text-align:center;
+      border-top:4px solid var(--purple-light);
+      position:relative;
+    }
+    .coming-badge{
+      position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+      background:var(--purple-light);color:#fff;
+      font-family:'Fredoka One',cursive;font-size:0.75rem;
+      padding:0.25rem 0.85rem;border-radius:20px;white-space:nowrap;
+    }
+    .coming-emoji{font-size:2.5rem;display:block;margin-bottom:1rem;}
+    .coming-book-card h3{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--purple-dark);margin-bottom:0.5rem;line-height:1.3;}
+    .coming-book-card p{font-size:0.82rem;color:var(--text-light);line-height:1.55;}
+
+    /* PUBLISHER */
+    .publisher-strip{background:var(--off-white);text-align:center;padding:3rem 2rem;position:relative;z-index:20;}
+    .publisher-strip img{height:80px;mix-blend-mode:multiply;margin-bottom:0.75rem;}
+    .publisher-strip h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--purple-dark);margin-bottom:0.3rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.9rem;max-width:480px;margin:0 auto;}
+
+    /* FOOTER */
+    footer{position:relative;z-index:20;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+      .book-main-inner{flex-direction:column;align-items:center;gap:2rem;}
+      .book-cover-wrap img{width:min(220px,70vw);}
+      .book-info{text-align:center;}
+      .book-prices{justify-content:center;}
+      .book-buttons{justify-content:center;flex-direction:column;align-items:stretch;}
+    }
+    @media(max-width:480px){
+      section{padding:2.5rem 1rem;}
+      .section-title{font-size:clamp(1.4rem,6vw,2rem);}
+    }
+  </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html" class="active">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="books-hero">
+  <h1>📚 The Books</h1>
+  <p>Every story starts with chaos, ends with kindness, and always has a Bible verse worth remembering.</p>
+  <a href="shop.html" class="btn btn-yellow">🛒 Shop Now</a>
+</section>
+
+<!-- BOOK 1 -->
+<section class="book-main" id="winter-rescue">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/>
+      <span class="book-badge">Out Now!</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number">Book 1</p>
+      <h2>The Tools Winter Rescue</h2>
+      <p>Join Hector Hammer and his friends this winter as they search for trucks in need of roadside rescue so that the town can get their building supplies. There is always work to do for the Tools — but not without fun, laughter and complete chaos!</p>
+      <p>Diesel Drill has put the wrong tyres on one truck and forgotten the antifreeze in another. Vehicles are breaking down all over Twin Falls and Hector's crew needs to rescue them — fast. Meanwhile Paz the Paintbrush is causing chaos at every turn and attracts the attention of a rather large moose — what could possibly go wrong?</p>
+      <p>Just another day in Twin Falls.</p>
+      <div class="book-verse">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-prices">
+        <div class="price-tag">
+          <span class="price-label">Paperback</span>
+          <span class="price-amount">£10.99</span>
+        </div>
+        <div class="price-tag">
+          <span class="price-label">Hardback</span>
+          <span class="price-amount">£16.99</span>
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow">📖 Buy Paperback</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank" class="btn btn-white">📚 Buy Hardback</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="big-moments">
+  <h3>Big Moments from Winter Rescue 🎿</h3>
+  <div class="big-moments-grid">
+    <div class="big-moment-item">
+      <img src="img/big_moments/wr_ski_race.png" alt="Paz, Roxie and Hector ski and snowboard racing"/>
+      <p>Paz, Roxie and Hector — ski and snowboard racing through the mountains</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/wr_roadside_rescue.png" alt="Charlie's logging truck coming to the rescue"/>
+      <p>Roadside rescue — Charlie's logging truck comes to the rescue</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="whats-inside">
+  <h2 class="section-title">What's inside every book</h2>
+  <p class="section-sub">Three things guaranteed in every Tools adventure</p>
+  <div class="inside-grid">
+    <div class="inside-card">
+      <span class="inside-emoji">😂</span>
+      <h3>Laugh out loud chaos</h3>
+      <p>Mischief that's funny, never mean — the kind of story kids want read again before the last page is turned</p>
+    </div>
+    <div class="inside-card">
+      <span class="inside-emoji">🤝</span>
+      <h3>We sorted it together</h3>
+      <p>Every adventure ends with the crew fixing what they broke — teamwork, kindness, and a satisfying resolution</p>
+    </div>
+    <div class="inside-card">
+      <span class="inside-emoji">✝️</span>
+      <h3>A Bible verse to remember</h3>
+      <p>Every book closes with an inspirational verse about loving one another — the perfect note to end a bedtime story on</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK 2 -->
+<section class="book-main" id="monster-truck" style="background:var(--off-white);">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/monster_truck.png" alt="The Tools and the Monster Truck"/>
+      <span class="book-badge">Out Now!</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number" style="color:var(--purple);">Book 2</p>
+      <h2 style="color:var(--purple-dark);">The Tools and the Monster Truck</h2>
+      <p style="color:var(--text);">The Tools have found a rusty old truck abandoned in the desert. They have a plan — turn it into a monster truck for the 4th July Parade! There's just one problem. Diesel Drill is the main mechanic. And wherever Diesel goes, chaos is never far behind.</p>
+      <p style="color:var(--text);">With Paz the Paintbrush also on the loose and the whole crew doing their very best, what could possibly go wrong?</p>
+      <div class="book-verse" style="color:var(--text);">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-prices">
+        <div class="price-tag" style="background:var(--purple-dark);border-color:var(--purple);">
+          <span class="price-label" style="color:rgba(255,255,255,0.7);">Paperback</span>
+          <span class="price-amount" style="color:var(--yellow);">£10.99</span>
+        </div>
+        <div class="price-tag" style="background:var(--purple-dark);border-color:var(--purple);">
+          <span class="price-label" style="color:rgba(255,255,255,0.7);">eBook</span>
+          <span class="price-amount" style="color:var(--yellow);">£4.99</span>
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-monster-truck/paperback/product-je29447.html" target="_blank" class="btn btn-yellow">📖 Buy Paperback</a>
+        <a href="https://payhip.com/b/tpxZH" target="_blank" class="btn btn-purple">📱 Buy eBook</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="big-moments">
+  <h3>Big Moments from The Monster Truck 🎨</h3>
+  <div class="big-moments-grid">
+    <div class="big-moment-item">
+      <img src="img/big_moments/mt_paz_seaweed.png" alt="Paz with seaweed and jellyfish in his hair"/>
+      <p>Paz went for a swim — and came back with a jellyfish and a headful of seaweed</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/mt_lorenzo_tomatoes.png" alt="Lorenzo covered in tomatoes"/>
+      <p>Lorenzo's tomato crates didn't survive the parade preparations</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK 3 — RAILWAY -->
+<section class="book-main" id="railway">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/railway.png" alt="The Tools and the Railway"/>
+      <span class="book-badge">Out Now!</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number">Book 3</p>
+      <h2>The Tools and the Railway</h2>
+      <p>Patrick the Pickaxe is loading up his train at the quarry — right on time, for once. But when a family of beavers takes a liking to the wooden railway bridge, Twin Falls has a real problem on its hands.</p>
+      <p>Roxie snowboards down the mountain to help, Diesel's wagons go rolling off without their brakes, and Wayne ends up covered head to toe in paint. Somehow, the whole crew pulls together to fix the bridge — and Patrick's famous lateness turns out to be exactly what saves the day.</p>
+      <div class="book-verse">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-prices">
+        <div class="price-tag">
+          <span class="price-label">Paperback</span>
+          <span class="price-amount">£10.99</span>
+        </div>
+        <div class="price-tag">
+          <span class="price-label">Hardback</span>
+          <span class="price-amount">£16.99</span>
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="shop.html" class="btn btn-yellow">📖 Buy Paperback</a>
+        <a href="shop.html" class="btn btn-white">📚 Buy Hardback</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="big-moments">
+  <h3>Big Moments from The Railway 🦫</h3>
+  <div class="big-moments-grid">
+    <div class="big-moment-item">
+      <img src="img/big_moments/railway_feed_beavers.png" alt="Paz about to feed the beavers"/>
+      <p>Paz, about to feed the beavers. What could possibly go wrong?</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/railway_paint_train.png" alt="The paint-splattered train"/>
+      <p>The train, freshly repainted — with a little help from an accident or two</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK 4 — FARM -->
+<section class="book-main" id="farm" style="background:var(--off-white);">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/farm.png" alt="The Tools and the Farm"/>
+      <span class="book-badge" style="background:#4C8C4A;">Out Now! 🌾</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number" style="color:var(--purple);">Book 4</p>
+      <h2 style="color:var(--purple-dark);">The Tools and the Farm</h2>
+      <p style="color:var(--text);">Pete the Pitchfork could use a hand out at Twin Falls Farm — and the crew are only too happy to help. Ricky's not exactly the hardest worker, Harold's happy to carry anyone anywhere, and Diesel is somehow already covered in mud.</p>
+      <p style="color:var(--text);">Between a runaway Ram, a very muddy mishap, and a tractor that needs fixing, it's a busy day down on the farm. But as always, the crew pulls together — with plenty of chaos along the way.</p>
+      <div class="book-verse" style="color:var(--text);">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-prices">
+        <div class="price-tag" style="background:var(--purple-dark);border-color:var(--purple);">
+          <span class="price-label" style="color:rgba(255,255,255,0.7);">Paperback</span>
+          <span class="price-amount" style="color:var(--yellow);">£10.99</span>
+        </div>
+        <div class="price-tag" style="background:var(--purple-dark);border-color:var(--purple);">
+          <span class="price-label" style="color:rgba(255,255,255,0.7);">Hardback</span>
+          <span class="price-amount" style="color:var(--yellow);">£16.99</span>
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="shop.html" class="btn btn-yellow">📖 Buy Paperback</a>
+        <a href="shop.html" class="btn btn-purple">📚 Buy Hardback</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="big-moments">
+  <h3>Big Moments from The Farm 🐏</h3>
+  <div class="big-moments-grid">
+    <div class="big-moment-item">
+      <img src="img/big_moments/farm_paz_ram.png" alt="Paz rides the Ram"/>
+      <p>Paz, hitching a ride he probably shouldn't have</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/farm_tractor.png" alt="Fixing the tractor"/>
+      <p>Fixing the tractor — a whole crew job, as usual</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK 5 — CHRISTMAS -->
+<section class="book-main" id="christmas">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/>
+      <span class="book-badge" style="background:#B22234;">🎄 Out 9 October!</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number">Book 5</p>
+      <h2>The Tools Light Up Christmas</h2>
+      <p>Christmas is coming to Twin Falls! The crew are decorating the whole town and building a beautiful nativity scene for Christmas Eve — but Diesel was supposed to fix the Christmas lights, and he's completely forgotten.</p>
+      <p>Add a runaway donkey, a very tangled Paz, a snowball fight that gets out of hand and a camel nobody can quite explain, and Christmas is heading for disaster. When the lights go out and Santa's sleigh comes down in the dark, it's up to the whole crew to put things right — just in time to see a bright star shining over Twin Falls.</p>
+      <p>A Christ-centred Christmas story, full of laughter, kindness and the true meaning of Christmas.</p>
+      <div class="book-verse">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-prices">
+        <div class="price-tag">
+          <span class="price-label">Paperback</span>
+          <span class="price-amount">£10.99</span>
+        </div>
+      </div>
+      <div class="book-buttons">
+        <a href="mailto:hello@thetools.online?subject=Christmas%20Book%20-%20Notify%20Me" class="btn btn-yellow">📧 Notify Me on Release Day</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="big-moments">
+  <h3>Big Moments from Light Up Christmas 🎄</h3>
+  <div class="big-moments-grid">
+    <div class="big-moment-item">
+      <img src="img/big_moments/xmas_sledging.png" alt="Paz, Wayne and Roxie sledging down the mountain"/>
+      <p>Paz, Wayne and Roxie racing down the slopes on their sledges</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/xmas_train.png" alt="Patrick's Christmas train bringing the animals"/>
+      <p>Patrick's Christmas train, bringing the animals for the nativity</p>
+    </div>
+    <div class="big-moment-item">
+      <img src="img/big_moments/xmas_sleigh.png" alt="Santa's sleigh has crashed in the dark"/>
+      <p>Uh oh — Santa's sleigh has come down in the dark!</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHARACTER BOOK -->
+<section class="book-main" id="character-book" style="background:var(--sky);">
+  <div class="book-main-inner">
+    <div class="book-cover-wrap">
+      <img src="img/book_thumbs/character_book.png" alt="The Tools Character Book Volume One"/>
+      <span class="book-badge" style="background:#5B21B6;">✨ New!</span>
+    </div>
+    <div class="book-info">
+      <p class="book-number" style="color:var(--purple);">Volume One</p>
+      <h2 style="color:var(--purple-dark);">The Tools Character Book</h2>
+      <p style="color:var(--text);">Meet the whole crew! All 21 Twin Falls characters in one collectible book — Hector, Paz, Roxie, Wayne, Diesel and every friend in between, each with their own fun facts and a message about kindness.</p>
+      <p style="color:var(--text);">A brilliant companion to the story books, and the perfect way for young readers to get to know everyone who calls Twin Falls home.</p>
+      <div class="book-verse" style="color:var(--text);">
+        ✝️ Every book ends with an inspirational Bible verse about loving one another and being good to people.
+      </div>
+      <div class="book-buttons">
+        <a href="mailto:hello@thetools.online?subject=Character%20Book%20-%20Notify%20Me" class="btn btn-purple">📧 Notify Me When Available</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section class="coming-soon">
+  <h2 class="section-title">More adventures coming</h2>
+  <p class="section-sub">The crew of Twin Falls isn't done yet — not by a long way</p>
+  <div class="coming-books">
+    <div class="coming-book-card">
+      <span class="coming-badge">Coming Soon</span>
+      <span class="coming-emoji">🚁🔥</span>
+      <h3>The Tools and the Fire Helicopter</h3>
+      <p>A fire too far away for Floyd's truck to reach. A decommissioned Chinook. And two brand new faces joining the crew — can you guess who's coming to Twin Falls?</p>
+    </div>
+    <div class="coming-book-card">
+      <span class="coming-badge">Coming Soon</span>
+      <span class="coming-emoji">🦖</span>
+      <h3>The Tools and the Dinosaurs</h3>
+      <p>The crew dig up fossils at Redstone Quarry — and build a museum to keep them safe. Fun dinosaur fact pages included!</p>
+    </div>
+  </div>
+  <div class="coming-silhouettes">
+    <p class="coming-silhouette-intro">Two new friends are on their way to Twin Falls 👀 Tap to peek!</p>
+    <div class="silhouette-row">
+      <div class="reveal-card" onclick="this.classList.toggle('revealed')">
+        <div class="reveal-img-stack">
+          <img class="reveal-img reveal-silhouette" src="img/reveals/dakota_silhouette.png" alt="Mystery character 1">
+          <img class="reveal-img reveal-actual" src="img/reveals/dakota_revealed.png" alt="Mystery character revealed">
+        </div>
+        <span class="reveal-tap">👆 Tap to reveal!</span>
+        <span>Find out more when The Tools and the Fire Helicopter arrives!</span>
+      </div>
+      <div class="reveal-card" onclick="this.classList.toggle('revealed')">
+        <div class="reveal-img-stack">
+          <img class="reveal-img reveal-silhouette" src="img/reveals/bob_silhouette.png" alt="Mystery character 2">
+          <img class="reveal-img reveal-actual" src="img/reveals/bob_revealed.png" alt="Mystery character revealed">
+        </div>
+        <span class="reveal-tap">👆 Tap to reveal!</span>
+        <span>Find out more when The Tools and the Fire Helicopter arrives!</span>
+      </div>
+    </div>
+  </div>
+  <a href="characters.html" class="btn btn-purple">Meet the crew 🔨</a>
+</section>
+
+<!-- PUBLISHER -->
+<section class="publisher-strip">
+  <img src="img/triceratops_logo.png" alt="Triceratops Publishing"/>
+  <h3>Triceratops Publishing</h3>
+  <p>Children's books with a kind heart ✝️ — an independent imprint with Christian roots, crafted with laughter, creativity and genuine kindness.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — £10.99</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — £16.99</a>
+      <a href="shop.html">Paz Plush Toy</a>
+      <a href="shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function makeFlake(){ return { x:Math.random()*W, y:Math.random()*H-H, r:Math.random()*3+1.5, speed:Math.random()*1.2+0.4, drift:Math.random()*0.6-0.3, opacity:Math.random()*0.4+0.2 }; }
+for(let i=0;i<100;i++) flakes.push(makeFlake());
+function snow(){ ctx.clearRect(0,0,W,H); flakes.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${f.opacity})`; ctx.fill(); f.y+=f.speed; f.x+=f.drift; if(f.y>H+10) Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3}); }); requestAnimationFrame(snow); }
+snow();
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+</script>
+</body>
+</html>

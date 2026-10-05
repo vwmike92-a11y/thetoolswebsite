@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shamus the Shovel — The Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root { --hero-bg:#F5ECD7; --hero-text:#78350F; --hero-accent:#78350F; }
+    :root {
+      --sky:#C9E8F5;--sky-dark:#A8D8EE;--purple:#5B21B6;--purple-dark:#3D1A6E;
+      --purple-light:#7C3AED;--yellow:#FFD600;--yellow-dark:#F5C400;
+      --white:#FFFFFF;--off-white:#F0F8FF;--text:#1E1E2E;--text-light:#4A4A6A;
+      --card-shadow:0 6px 24px rgba(91,33,182,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+    section{position:relative;z-index:20;padding:4rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.6rem);text-align:center;margin-bottom:0.5rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+    .section-btn-wrap{text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+    /* hero */
+    .char-hero{padding-top:68px;min-height:460px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .char-hero-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;align-items:center;gap:1.5rem 3.5rem;padding:3rem 2rem;position:relative;z-index:2;width:100%;}
+    .char-img-wrap{grid-column:1;grid-row:1/3;display:flex;align-items:center;justify-content:center;background:#fff;border:4px solid var(--hero-accent,var(--purple));border-radius:24px;box-shadow:0 12px 40px rgba(61,26,110,0.16);padding:1.5rem;}
+    .char-img-wrap img{width:min(520px,48vw);height:auto;max-height:620px;object-fit:contain;mix-blend-mode:multiply;display:block;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.18));}
+    .char-card{grid-column:2;grid-row:1/3;background:#fff;border-radius:24px;padding:1.8rem 1.8rem 1.5rem;box-shadow:0 12px 40px rgba(61,26,110,0.16);border:3px solid var(--hero-accent,var(--purple));}
+    .char-logo{max-width:220px;width:80%;mix-blend-mode:multiply;display:block;margin-bottom:0.5rem;}
+    .role-badge{display:inline-block;border:2px solid var(--hero-accent,#333);border-radius:30px;padding:0.3rem 1rem;font-weight:700;font-size:0.8rem;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--hero-accent,#333);}
+    .char-card h1{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:0.5rem;line-height:1.1;color:var(--hero-text,#333);}
+    .char-catchphrase{font-size:1.05rem;font-style:italic;margin-bottom:1.25rem;line-height:1.5;color:var(--hero-text,#333);opacity:0.8;}
+    .traits-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.25rem;}
+    .trait-chip{background:var(--hero-accent,#333);color:#fff;border-radius:30px;padding:0.3rem 0.85rem;font-weight:700;font-size:0.78rem;}
+    .card-facts{border-top:2px dashed rgba(61,26,110,0.15);padding-top:1.1rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.65rem;}
+    .card-fact-row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:0.9rem;}
+    .card-fact-row .fk{color:var(--text-light);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;font-size:0.72rem;}
+    .card-fact-row .fv{font-family:'Fredoka One',cursive;color:var(--purple-dark);text-align:right;font-size:0.92rem;}
+    .char-hero-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+
+    /* bio */
+    .char-bio{background:var(--off-white);}
+    .char-bio-inner{max-width:760px;margin:0 auto;}
+    .char-bio p{font-size:1.15rem;line-height:2;color:var(--text);margin-bottom:1.25rem;}
+    /* facts */
+    .char-facts{background:var(--white);}
+    .char-facts .section-title,.char-trucks .section-title{color:var(--purple-dark);}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.1rem;max-width:860px;margin:0 auto;}
+    .fact-card{background:var(--off-white);border-radius:16px;padding:1.4rem 1.1rem;text-align:center;border-top:4px solid var(--hero-accent,var(--purple));}
+    .fact-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:0.4rem;font-weight:800;}
+    .fact-value{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--purple-dark);line-height:1.3;}
+    /* moments */
+    .char-moments{background:var(--purple-dark);}
+    .char-moments .section-title{color:var(--yellow);}
+    .moments-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:0.85rem;}
+    .moment-item{background:rgba(255,255,255,0.07);border-left:4px solid var(--yellow);border-radius:0 12px 12px 0;padding:1.1rem 1.4rem;color:rgba(255,255,255,0.88);font-size:1.05rem;line-height:1.75;}
+    /* gallery */
+    .char-gallery{background:var(--sky);}
+    .char-gallery .section-title{color:var(--purple-dark);}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto;}
+    .gallery-item{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--card-shadow);transition:transform 0.2s;}
+    .gallery-item:hover{transform:translateY(-5px);}
+    .gallery-item img.sprite{width:100%;height:220px;object-fit:contain;background:#fff;padding:10px;mix-blend-mode:multiply;}
+    .gallery-item img.scene{width:100%;height:220px;object-fit:cover;}
+    .gallery-caption{font-size:0.88rem;color:var(--text-light);padding:0.75rem 1rem 1rem;text-align:center;line-height:1.5;}
+    /* meet the rest / driver */
+    .char-meet,.char-driver{background:var(--off-white);}
+    .char-meet .section-title,.char-driver .section-title{color:var(--purple-dark);}
+    .mini-char-grid{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto 2.5rem;}
+    .mini-char-card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--card-shadow);text-decoration:none;color:var(--text);display:flex;flex-direction:column;align-items:center;width:140px;transition:transform 0.2s,box-shadow 0.2s;border-top:4px solid var(--purple);}
+    .mini-char-card:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(91,33,182,0.2);}
+    .mini-char-card img{width:100%;height:100px;object-fit:contain;background:#fff;padding:6px;mix-blend-mode:multiply;}
+    .mini-char-card span{font-family:'Fredoka One',cursive;font-size:0.8rem;padding:0.5rem 0.3rem 0.6rem;text-align:center;color:var(--purple-dark);line-height:1.3;}
+    /* breadcrumb */
+    .breadcrumb{background:var(--purple-dark);padding:1rem 2rem;padding-top:calc(68px + 0.75rem);position:relative;z-index:20;}
+    .breadcrumb a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;font-weight:700;}
+    .breadcrumb a:hover{color:var(--yellow);}
+    .breadcrumb span{color:rgba(255,255,255,0.3);margin:0 0.5rem;font-size:0.85rem;}
+    .breadcrumb strong{color:rgba(255,255,255,0.9);font-size:0.85rem;}
+    /* publisher strip */
+    .publisher-strip{background:var(--off-white);text-align:center;padding:2.5rem 2rem;}
+    .publisher-strip img{height:70px;mix-blend-mode:multiply;margin-bottom:0.6rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.88rem;}
+    /* footer */
+    footer{position:relative;z-index:20;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+    /* responsive */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+      .char-hero-inner{display:flex;flex-direction:column;align-items:center;padding:2rem 1.25rem 1.5rem;gap:1.25rem;}
+      .char-img-wrap{order:1;grid-column:unset;grid-row:unset;width:100%;display:flex;justify-content:center;}
+      .char-img-wrap img{width:min(320px,85vw);}
+      .char-img-wrap{padding:1rem;}
+      .char-card{order:2;grid-column:unset;grid-row:unset;width:100%;max-width:480px;text-align:center;}
+      .traits-row{justify-content:center;}
+      .card-fact-row{flex-direction:column;text-align:center;gap:0.15rem;}
+      .card-fact-row .fv{text-align:center;}
+      .char-hero-btns{justify-content:center;}
+      .gallery-grid{grid-template-columns:repeat(2,1fr);gap:0.85rem;}
+      .gallery-item img.sprite,.gallery-item img.scene{height:160px;}
+      .facts-grid{grid-template-columns:repeat(2,1fr);}
+      .moments-list{padding:0 0.25rem;}
+      .mini-char-grid{gap:0.75rem;}
+      .mini-char-card{width:120px;}
+      section{padding:3rem 1.25rem;}
+      .section-title{font-size:clamp(1.5rem,5vw,2.2rem);}
+      .char-bio p{font-size:1.05rem;}
+      .truck-hero-img{width:min(320px,85vw)!important;}
+    }
+    @media(max-width:480px){
+      .gallery-grid{grid-template-columns:repeat(2,1fr);}
+      .facts-grid{grid-template-columns:repeat(2,1fr);}
+      .mini-char-card{width:100px;}
+      .mini-char-card img{height:80px;}
+      .char-img-wrap img{width:min(280px,82vw);}
+      .role-badge{font-size:0.72rem;}
+    }
+  </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
+</head>
+<body>
+<canvas id="snowCanvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../characters.html">Characters</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="../world.html">Twin Falls World</a></li>
+    <li><a href="../colouring.html">Colouring Pages</a></li>
+    <li><a href="../games.html">Games</a></li>
+    <li><a href="../shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="../characters.html">Characters</a><span>›</span><strong>Shamus the Shovel</strong></div>
+<section class="char-hero" style="background:#F5ECD7;">
+  <div class="char-hero-inner">
+    <div class="char-img-wrap"><img src="../img/shamus_hero.png" alt="Shamus the Shovel"/></div>
+    <div class="char-card">
+      <img class="char-logo" src="../img/logo_shamus.png" alt="Shamus the Shovel logo"/>
+      <span class="role-badge">Supporting Cast · The Deliveryman</span>
+      <h1>Shamus the Shovel</h1>
+      <div class="traits-row"><span class="trait-chip">Deeply laid back</span><span class="trait-chip">Will not dig</span><span class="trait-chip">Coffee first, always</span><span class="trait-chip">Expert deliveryman</span></div>
+      <div class="card-facts">
+        <div class="card-fact-row"><span class="fk">Vehicles</span><span class="fv">Purple Flatbed · HIAB Crane · Excavator</span></div>
+        <div class="card-fact-row"><span class="fk">Delivers to</span><span class="fv">Everywhere — including the farm</span></div>
+        <div class="card-fact-row"><span class="fk">Known for</span><span class="fv">Getting stuck on the farm road</span></div>
+        <div class="card-fact-row"><span class="fk">Irony rating</span><span class="fv">A shovel who won't dig</span></div>
+      </div>
+      <div class="char-hero-btns">
+        <a href="../characters.html" class="btn btn-purple">← All Characters</a>
+        <a href="../shop.html" class="btn btn-yellow">🛒 Get the Book</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="char-bio"><div class="char-bio-inner"><p>Shamus is the most relaxed member of the Tools world — which is saying something. He's a shovel who point-blank refuses to dig. Instead he uses his excavator for any task that might involve actual shovelling. It's deeply ironic. He absolutely doesn't care.</p><p>What he does care about is coffee, his newspaper, and getting deliveries done without too much rushing. His purple flatbed and HIAB crane can transport any machine in Twin Falls. He also delivers to the farm — and gets stuck on the entrance road more often than he'd like to admit.</p></div></section>
+
+<section class="char-moments"><h2 class="section-title">Moments in Twin Falls</h2><div class="moments-list"><div class="moment-item">⛏️ Is a shovel. Has never dug anything by hand. Uses an excavator instead. Does not see the issue.</div><div class="moment-item">☕ Always has a coffee on the go. Sometimes reading the paper when he probably shouldn't be.</div><div class="moment-item">🚛 Transports bulldozers, excavators, and all heavy machinery across Twin Falls on his purple flatbed.</div><div class="moment-item">🌾 Delivers hay bales to Twin Falls Farm. Gets stuck on the entrance road approximately every other visit.</div></div></section>
+<section class="char-gallery"><h2 class="section-title">Shamus in Action</h2><p class="section-sub">More artwork from across Twin Falls</p><div class="gallery-grid"><div class="gallery-item"><img class="sprite" src="../img/shamus_newspaper.png" alt="Shamus and his newspaper — the natural state" loading="lazy"/><div class="gallery-caption">Shamus and his newspaper — the natural state</div></div><div class="gallery-item"><img class="scene" src="../img/shamus_desert.png" alt="Driving through the desert with the diggers" loading="lazy"/><div class="gallery-caption">Driving through the desert with the diggers</div></div><div class="gallery-item"><img class="sprite" src="../img/shamus_ruler.png" alt="When the measurements don't add up" loading="lazy"/><div class="gallery-caption">When the measurements don't add up</div></div><div class="gallery-item"><img class="sprite" src="../img/shamus_polaroid.png" alt="Shamus with a polaroid — even he's impressed" loading="lazy"/><div class="gallery-caption">Shamus with a polaroid — even he's impressed</div></div><div class="gallery-item"><img class="sprite" src="../img/shamus_hook.png" alt="Shamus with hook and chain — ready for anything" loading="lazy"/><div class="gallery-caption">Shamus with hook and chain — ready for anything</div></div></div></section>
+<section class="char-meet">
+  <h2 class="section-title">More of the crew</h2>
+  <p class="section-sub">Twin Falls has a lot of characters. Here are a few more worth knowing.</p>
+  <div class="mini-char-grid"><a href="charlie.html" class="mini-char-card"><img src="../img/charlie.png" alt="Charlie Chainsaw"/><span>Charlie Chainsaw</span></a><a href="sheldon.html" class="mini-char-card"><img src="../img/sheldon.png" alt="Sheldon"/><span>Sheldon</span></a><a href="wayne.html" class="mini-char-card"><img src="../img/wayne.png" alt="Wayne Wrench"/><span>Wayne Wrench</span></a></div>
+  <div class="section-btn-wrap"><a href="../characters.html" class="btn btn-purple">Meet them all</a><a href="../shop.html" class="btn btn-yellow">🛒 Get the Book</a></div>
+</section>
+<section class="publisher-strip"><img src="../img/triceratops_logo.png" alt="Triceratops Publishing"/><p>Triceratops Publishing — Children's books with a kind heart ✝️</p></section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="../characters.html">Characters</a>
+      <a href="../books.html">Books</a>
+      <a href="../trucks.html">Trucks &amp; Diggers</a>
+      <a href="../world.html">Twin Falls World</a>
+      <a href="../colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — Lulu</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — Lulu</a>
+      <a href="../shop.html">Paz Plush Toy</a>
+      <a href="../shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+<script>
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function makeFlake(){ return { x:Math.random()*W, y:Math.random()*H-H, r:Math.random()*3+1.5, speed:Math.random()*1.2+0.4, drift:Math.random()*0.6-0.3, opacity:Math.random()*0.4+0.2 }; }
+for(let i=0;i<100;i++) flakes.push(makeFlake());
+function snow(){ ctx.clearRect(0,0,W,H); flakes.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${f.opacity})`; ctx.fill(); f.y+=f.speed; f.x+=f.drift; if(f.y>H+10) Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3}); }); requestAnimationFrame(snow); }
+snow();
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+</script>
+</body>
+</html>

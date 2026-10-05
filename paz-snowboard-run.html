@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Paz's Snowboard Run — The Tools</title>
+<meta name="description" content="A free snowboard dodging game — help Paz race down the mountain, dodge Monty, and collect paint splashes!"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+  :root {
+    --sky: #C9E8F5; --purple: #5B21B6; --purple-dark: #3D1A6E;
+    --purple-light: #7C3AED; --yellow: #FFD600; --yellow-dark: #F5C400;
+    --white: #FFFFFF; --off-white: #F0F8FF; --text: #1E1E2E; --text-light: #4A4A6A;
+    --green: #22A559;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;min-height:100vh;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+  .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+  .nav-logo span{color:#fff;}
+  .nav-links{display:flex;gap:0.15rem;list-style:none;}
+  .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+  .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+  .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+  .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+  .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+  .btn-yellow{background:var(--yellow);color:var(--text);}
+  .btn-purple{background:var(--purple);color:#fff;}
+
+  .game-hero{padding:100px 1.5rem 1rem;text-align:center;}
+  .game-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--purple-dark);margin-bottom:0.5rem;}
+  .game-hero p{color:var(--text-light);max-width:480px;margin:0 auto;font-size:1.05rem;}
+
+  .scoreboard{display:flex;justify-content:center;gap:1rem;margin:1.25rem auto 1rem;flex-wrap:wrap;}
+  .score-pill{background:#fff;border-radius:30px;padding:0.5rem 1.25rem;font-family:'Fredoka One',cursive;font-size:0.95rem;color:var(--purple-dark);box-shadow:0 4px 14px rgba(91,33,182,0.15);border:none;cursor:pointer;}
+  .score-pill span{color:var(--green);}
+
+  .game-wrap{max-width:420px;margin:0 auto 2rem;padding:0 1rem;}
+  .game-stage{position:relative;width:100%;aspect-ratio:3/4;border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.25);background:#C9E8F5;}
+  .bg-scroll{position:absolute;left:0;width:100%;height:200%;background-image:url('img/world_snowbg.png');background-size:100% 50%;background-repeat:repeat-y;top:0;}
+
+  .lane-guides{position:absolute;inset:0;display:flex;pointer-events:none;}
+  .lane-guides div{flex:1;border-left:2px dashed rgba(255,255,255,0.25);}
+  .lane-guides div:first-child{border-left:none;}
+
+  .paz-sprite{position:absolute;bottom:12%;width:20%;z-index:10;transition:left 0.18s ease-out;filter:drop-shadow(0 6px 8px rgba(0,0,0,0.3));}
+  .paz-sprite img{width:100%;display:block;}
+
+  .obstacle{position:absolute;width:16%;z-index:8;}
+  .obstacle img{width:100%;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.25));}
+  .obstacle.rock{width:13%;font-size:2.4rem;text-align:center;}
+  .obstacle.tree{width:14%;font-size:2.6rem;text-align:center;}
+
+  .pickup{position:absolute;width:9%;z-index:8;font-size:1.6rem;text-align:center;animation:spin 1.4s linear infinite;}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+  .tap-zones{position:absolute;inset:0;display:flex;z-index:20;}
+  .tap-zones div{flex:1;}
+
+  .stage-overlay{position:absolute;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(61,26,110,0.88);color:#fff;text-align:center;padding:1.5rem;}
+  .stage-overlay.show{display:flex;}
+  .stage-overlay h2{font-family:'Fredoka One',cursive;font-size:1.5rem;margin-bottom:0.5rem;color:var(--yellow);}
+  .stage-overlay p{margin-bottom:1.25rem;font-size:0.95rem;}
+  .controls-hint{text-align:center;color:var(--text-light);font-size:0.85rem;margin-top:0.75rem;}
+
+  footer{background:var(--purple-dark);color:#fff;padding:3rem 1.5rem 1.5rem;}
+  .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;}
+  .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);margin-bottom:0.8rem;font-size:1rem;}
+  .footer-col a{display:block;color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.88rem;margin-bottom:0.5rem;}
+  .footer-col a:hover{color:#fff;}
+  .footer-col p{color:rgba(255,255,255,0.65);font-size:0.85rem;line-height:1.5;}
+  .footer-socials{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.8rem;}
+  .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;}
+  .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+  .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+    .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+    .hamburger{display:flex;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="game-hero">
+  <h1>🏂 Paz's Snowboard Run</h1>
+  <p>Help Paz race down the mountain! Dodge Monty and the rocks, and grab as many paint splashes as you can.</p>
+</section>
+
+<div class="scoreboard">
+  <div class="score-pill">Score: <span id="scoreCount">0</span></div>
+  <div class="score-pill">Best: <span id="bestCount">0</span></div>
+  <button class="score-pill" id="muteBtn" onclick="toggleMute()">🔊 Sound On</button>
+</div>
+
+<div class="game-wrap">
+  <div class="game-stage" id="gameStage">
+    <div class="bg-scroll" id="bgScroll"></div>
+    <div class="lane-guides"><div></div><div></div><div></div></div>
+
+    <div class="paz-sprite" id="pazSprite">
+      <img src="img/paz_snowboard.png" alt="Paz snowboarding">
+    </div>
+
+    <div class="tap-zones">
+      <div onclick="moveLane(-1)"></div>
+      <div onclick="moveLane(0)"></div>
+      <div onclick="moveLane(1)"></div>
+    </div>
+
+    <div class="stage-overlay show" id="startOverlay">
+      <h2>Ready, Paz?</h2>
+      <p>Tap left/right side of the slope (or use ← → arrow keys) to switch lanes. Dodge Monty and the obstacles, collect paint splashes for points!</p>
+      <button class="btn btn-yellow" onclick="startGame()">▶️ Start Run</button>
+    </div>
+
+    <div class="stage-overlay" id="overOverlay">
+      <h2>Whoops! Wipeout!</h2>
+      <p id="overMessage">Paz took a tumble! Give it another go?</p>
+      <button class="btn btn-yellow" onclick="startGame()">🔁 Race Again</button>
+    </div>
+  </div>
+  <p class="controls-hint">Tap the left, middle, or right of the slope — or use your ← → arrow keys.</p>
+</div>
+
+<div style="text-align:center;margin-bottom:2rem;">
+  <a href="colouring.html" class="btn btn-purple">🎨 Free Colouring Pages</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="shop.html">Shop All Books</a>
+      <a href="shop.html">Paz Plush Toy</a>
+      <a href="shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+
+// ---- Sound (same synthesized approach as the other games) ----
+let audioCtx = null;
+let soundOn = true;
+function getCtx(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playTone(freq, duration, type='sine', delay=0, gainStart=0.18){
+  if(!soundOn) return;
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(gainStart, ctx.currentTime + delay);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + duration);
+}
+function soundSwitch(){ playTone(440, 0.06, 'sine'); }
+function soundCollect(){ playTone(659, 0.1, 'sine'); playTone(988, 0.12, 'sine', 0.06); }
+function soundCrash(){ playTone(140, 0.3, 'sawtooth', 0, 0.12); }
+function toggleMute(){
+  soundOn = !soundOn;
+  document.getElementById('muteBtn').textContent = soundOn ? '🔊 Sound On' : '🔇 Sound Off';
+}
+
+// ---- Game state ----
+const LANES = [16.5, 50, 83.5]; // % left position of lane centers
+let currentLane = 1;
+let score = 0;
+let best = parseInt(localStorage.getItem('pazRunBest') || '0', 10);
+document.getElementById('bestCount').textContent = best;
+
+let running = false;
+let spawnTimer = null;
+let loopId = null;
+let bgPos = 0;
+let scrollSpeed = 0.35;
+let spawnInterval = 1400;
+let entities = []; // {el, type, lane, top}
+
+const stage = document.getElementById('gameStage');
+const paz = document.getElementById('pazSprite');
+const bg = document.getElementById('bgScroll');
+
+function setPazLane(lane){
+  currentLane = lane;
+  paz.style.left = `calc(${LANES[lane]}% - 10%)`;
+}
+setPazLane(1);
+
+function moveLane(dir){
+  if(!running) return;
+  if(dir === -1 && currentLane > 0){ setPazLane(currentLane - 1); soundSwitch(); }
+  else if(dir === 1 && currentLane < 2){ setPazLane(currentLane + 1); soundSwitch(); }
+  else if(dir === 0){ /* middle tap does nothing extra */ }
+}
+
+document.addEventListener('keydown', (e)=>{
+  if(!running) return;
+  if(e.key === 'ArrowLeft') moveLane(-1);
+  if(e.key === 'ArrowRight') moveLane(1);
+});
+
+const obstacleTypes = [
+  {type:'monty', render:()=>`<img src="img/monty.png" alt="Monty">`, cls:'obstacle'},
+  {type:'rock', render:()=>`🪨`, cls:'obstacle rock'},
+  {type:'tree', render:()=>`🌲`, cls:'obstacle tree'}
+];
+const pickupEmoji = ['🎨','⭐','🟣'];
+
+function spawnEntity(){
+  const isPickup = Math.random() < 0.4;
+  const lane = Math.floor(Math.random()*3);
+  const el = document.createElement('div');
+
+  if(isPickup){
+    el.className = 'pickup';
+    el.textContent = pickupEmoji[Math.floor(Math.random()*pickupEmoji.length)];
+    el.dataset.type = 'pickup';
+  } else {
+    const ob = obstacleTypes[Math.floor(Math.random()*obstacleTypes.length)];
+    el.className = ob.cls;
+    el.innerHTML = ob.render();
+    el.dataset.type = ob.type;
+  }
+
+  el.style.left = `calc(${LANES[lane]}% - ${isPickup ? '4.5%' : '8%'})`;
+  el.style.top = '-15%';
+  stage.appendChild(el);
+  entities.push({el, lane, top:-15, type: el.dataset.type});
+}
+
+function gameLoop(){
+  bgPos += scrollSpeed;
+  bg.style.transform = `translateY(${-bgPos % 100}%)`;
+
+  const pazRect = { lane: currentLane, top: 78, bottom: 94 };
+
+  entities.forEach(ent => {
+    ent.top += scrollSpeed * 1.15;
+    ent.el.style.top = ent.top + '%';
+
+    // collision check
+    if(ent.lane === pazRect.lane && ent.top > pazRect.top - 8 && ent.top < pazRect.bottom){
+      if(ent.type === 'pickup'){
+        score += 5;
+        document.getElementById('scoreCount').textContent = score;
+        soundCollect();
+        ent.el.remove();
+        ent.top = 999; // mark for removal
+      } else {
+        endGame();
+      }
+    }
+  });
+
+  entities = entities.filter(ent => {
+    if(ent.top > 105 || ent.top === 999){
+      if(ent.el.parentNode) ent.el.remove();
+      return false;
+    }
+    return true;
+  });
+
+  if(running){
+    loopId = requestAnimationFrame(gameLoop);
+  }
+}
+
+let scoreTimer = null;
+function startGame(){
+  document.getElementById('startOverlay').classList.remove('show');
+  document.getElementById('overOverlay').classList.remove('show');
+  entities.forEach(ent => ent.el.remove());
+  entities = [];
+  score = 0;
+  scrollSpeed = 0.35;
+  spawnInterval = 1400;
+  document.getElementById('scoreCount').textContent = 0;
+  setPazLane(1);
+  running = true;
+
+  if(spawnTimer) clearInterval(spawnTimer);
+  spawnTimer = setInterval(()=>{
+    spawnEntity();
+    // gradually speed up
+    scrollSpeed = Math.min(scrollSpeed + 0.01, 1.1);
+  }, spawnInterval);
+
+  if(scoreTimer) clearInterval(scoreTimer);
+  scoreTimer = setInterval(()=>{
+    if(running){
+      score += 1;
+      document.getElementById('scoreCount').textContent = score;
+    }
+  }, 300);
+
+  if(loopId) cancelAnimationFrame(loopId);
+  loopId = requestAnimationFrame(gameLoop);
+}
+
+function endGame(){
+  if(!running) return;
+  running = false;
+  soundCrash();
+  clearInterval(spawnTimer);
+  clearInterval(scoreTimer);
+  cancelAnimationFrame(loopId);
+
+  if(score > best){
+    best = score;
+    localStorage.setItem('pazRunBest', best);
+    document.getElementById('bestCount').textContent = best;
+    document.getElementById('overMessage').textContent = `New best score: ${score}! Paz took a tumble, but what a run!`;
+  } else {
+    document.getElementById('overMessage').textContent = `Paz took a tumble! Final score: ${score}. Give it another go?`;
+  }
+  document.getElementById('overOverlay').classList.add('show');
+}
+</script>
+
+</body>
+</html>

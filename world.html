@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World of Twin Falls — The Tools</title>
+  <meta name="description" content="Explore Twin Falls — the mountain town where The Tools live, from Redstone Quarry to the Farm, the Docks and the Desert Speedway."/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--sky:#C9E8F5;--sky-dark:#A8D8EE;--purple:#5B21B6;--purple-dark:#3D1A6E;--purple-light:#7C3AED;--yellow:#FFD600;--yellow-dark:#F5C400;--white:#FFFFFF;--off-white:#F0F8FF;--text:#1E1E2E;--text-light:#4A4A6A;--card-shadow:0 6px 24px rgba(91,33,182,0.12);}
+    *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+    section{position:relative;z-index:20;padding:4rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.6rem);text-align:center;margin-bottom:0.5rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+    .section-btn-wrap{text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;}
+    .breadcrumb{background:var(--purple-dark);padding:1rem 2rem;padding-top:calc(68px + 0.75rem);position:relative;z-index:20;}
+    .breadcrumb a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;font-weight:700;}
+    .breadcrumb a:hover{color:var(--yellow);}
+    .breadcrumb span{color:rgba(255,255,255,0.3);margin:0 0.5rem;font-size:0.85rem;}
+    .breadcrumb strong{color:rgba(255,255,255,0.9);font-size:0.85rem;}
+    footer{position:relative;z-index:20;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+    @media(max-width:768px){.nav-links{display:none;}.nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}.nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}.hamburger{display:flex;}}
+    .world-hero{padding-top:68px;position:relative;overflow:hidden;min-height:400px;display:flex;align-items:flex-end;z-index:20;}
+    .world-hero-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+    .world-hero-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:3rem 2rem 2.5rem;z-index:2;text-align:center;}
+    .world-hero-overlay h1{font-family:'Fredoka One',cursive;font-size:clamp(2.2rem,5vw,3.8rem);color:var(--yellow);text-shadow:0 2px 16px rgba(0,0,0,0.5);margin-bottom:0.5rem;}
+    .world-hero-overlay p{color:rgba(255,255,255,0.8);font-size:1.1rem;max-width:540px;margin:0 auto 1.5rem;}
+    .world-locations{background:var(--off-white);}
+    .world-locations .section-title{color:var(--purple-dark);}
+    .world-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto 3rem;}
+    .world-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:var(--card-shadow);text-decoration:none;color:var(--text);transition:transform 0.2s,box-shadow 0.2s;border-top:4px solid var(--purple);}
+    .world-card:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(91,33,182,0.18);}
+    .world-card img{width:100%;height:180px;object-fit:cover;}
+    .world-card-name{font-family:'Fredoka One',cursive;font-size:1.1rem;padding:0.7rem 0.9rem 0.3rem;color:var(--purple-dark);}
+    .world-card-desc{font-size:0.82rem;color:#888;padding:0 0.9rem 1rem;line-height:1.5;}
+    .world-coming{background:var(--sky);}
+    .world-coming .section-title{color:var(--purple-dark);}
+    .world-coming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto 2.5rem;}
+    .world-card-coming{background:var(--white);border-radius:18px;padding:1.5rem 1.25rem;box-shadow:var(--card-shadow);position:relative;border-top:4px solid var(--purple-light);text-align:center;}
+    .coming-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--purple-light);color:#fff;font-family:'Fredoka One',cursive;font-size:0.72rem;padding:0.2rem 0.8rem;border-radius:20px;white-space:nowrap;}
+    .coming-emj{font-size:2.2rem;display:block;margin:0.5rem 0 0.75rem;}
+    .publisher-strip{background:var(--off-white);text-align:center;padding:2.5rem 2rem;position:relative;z-index:20;}
+    .publisher-strip img{height:70px;mix-blend-mode:multiply;margin-bottom:0.6rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.88rem;}
+    .fuels-spotlight{background:linear-gradient(135deg,#0F2647 0%,#1a3a5c 100%);padding:3.5rem 2rem;text-align:center;}
+    .fuels-spotlight .section-title{color:#fff;}
+    .fuels-spotlight .section-sub{color:rgba(255,255,255,0.65);}
+    .fuels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:900px;margin:0 auto;}
+    .fuels-item{background:#fff;border-radius:16px;padding:1.5rem 1rem;box-shadow:0 8px 24px rgba(0,0,0,0.25);}
+    .fuels-item img{width:100%;height:170px;object-fit:contain;margin-bottom:0.75rem;}
+    .fuels-item p{font-size:0.85rem;color:var(--text-light);}
+    @media(max-width:768px){.world-grid{grid-template-columns:1fr 1fr;}.world-coming-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:480px){.world-grid{grid-template-columns:1fr;}.world-coming-grid{grid-template-columns:1fr;}}
+  </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
+</head>
+<body>
+<canvas id="snowCanvas"></canvas>
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html" class="active">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+<section class="world-hero">
+  <img class="world-hero-img" src="img/twin_falls_lake/main.png" alt="Twin Falls"/>
+  <div class="world-hero-overlay">
+    <h1>🌍 The World of Twin Falls</h1>
+    <p>From the waterfalls to the desert, the quarry to the beach — explore every corner of Twin Falls</p>
+    <a href="books.html" class="btn btn-yellow">📚 Read the Books</a>
+  </div>
+</section>
+<section class="world-locations">
+  <h2 class="section-title">Explore Twin Falls</h2>
+  <p class="section-sub">Eight locations to discover — click to explore each one</p>
+  <div class="world-grid">
+    <a href="world/twin-falls-lake.html" class="world-card">
+      <img src="img/twin_falls_lake/main.png" alt="Twin Falls Lake"/>
+      <div class="world-card-name">Twin Falls Lake 🌊</div>
+      <div class="world-card-desc">The heart of Twin Falls — where the waterfalls meet the town</div>
+    </a>
+    <a href="world/lorenzos-bistro.html" class="world-card">
+      <img src="img/location_bistro_day.png" alt="Lorenzo's Bistro"/>
+      <div class="world-card-name">Lorenzo's Bistro ☕</div>
+      <div class="world-card-desc">The finest coffee in Twin Falls — and do NOT touch the flowers</div>
+    </a>
+    <a href="world/the-quarry.html" class="world-card">
+      <img src="img/location_quarry_sheldon.png" alt="Redstone Quarry"/>
+      <div class="world-card-name">Redstone Quarry ⛏️</div>
+      <div class="world-card-desc">High in the mountains — where the rock gets broken and loaded</div>
+    </a>
+    <a href="world/diesels-garage.html" class="world-card">
+      <img src="img/location_garage_scene.png" alt="Diesel's Garage"/>
+      <div class="world-card-name">Diesel's Garage 🔧</div>
+      <div class="world-card-desc">The only garage in Twin Falls — she'll be right</div>
+    </a>
+    <a href="world/the-desert.html" class="world-card">
+      <img src="img/desert/roxie_paz_buggy.png" alt="The Desert"/>
+      <div class="world-card-name">The Desert 🏜️</div>
+      <div class="world-card-desc">Wide open roads, big skies, and Wayne driving too fast</div>
+    </a>
+    <a href="world/desert-racetrack.html" class="world-card">
+      <img src="img/racetrack1.png" alt="Desert Racetrack"/>
+      <div class="world-card-name">Desert Racetrack 🏎️</div>
+      <div class="world-card-desc">Desert Speedway — where Wayne comes to unwind</div>
+    </a>
+    <a href="world/the-beach.html" class="world-card">
+      <img src="img/beach1.png" alt="The Beach"/>
+      <div class="world-card-name">The Beach 🏖️</div>
+      <div class="world-card-desc">Sun, sand, waves — and the occasional jellyfish incident</div>
+    </a>
+    <a href="world/the-docks.html" class="world-card">
+      <img src="img/docks/quarry_train.png" alt="The Docks"/>
+      <div class="world-card-name">The Docks ⚓</div>
+      <div class="world-card-desc">End of the line — ships, cranes and the sea</div>
+    </a>
+    <a href="world/sheldons-stoneyard.html" class="world-card">
+      <img src="img/stoneyard/stoneyard_1.png" alt="Sheldon's Stoneyard"/>
+      <div class="world-card-name">Sheldon's Stoneyard 🧱</div>
+      <div class="world-card-desc">Bricks, cement and Sheldon's pride</div>
+    </a>
+    <a href="world/charlies-timber-yard.html" class="world-card">
+      <img src="img/timber_yard/main.png" alt="Charlie's Timber Yard"/>
+      <div class="world-card-name">Charlie's Timber Yard 🪵</div>
+      <div class="world-card-desc">Big trucks and bigger logs</div>
+    </a>
+    <a href="world/twin-falls-farm.html" class="world-card">
+      <img src="img/farm/farmhouse.png" alt="Twin Falls Farm"/>
+      <div class="world-card-name">Twin Falls Farm 🌾</div>
+      <div class="world-card-desc">Pete's patch — animals, hay bales and a very muddy entrance road</div>
+    </a></div>
+  <div class="section-btn-wrap">
+    <a href="characters.html" class="btn btn-purple">Meet the Crew</a>
+    <a href="shop.html" class="btn btn-yellow">🛒 Get the Book</a>
+  </div>
+</section>
+<section class="world-coming">
+  <h2 class="section-title">More to Explore</h2>
+  <p class="section-sub">More locations coming soon as Twin Falls grows</p>
+  <div class="world-coming-grid">
+    <div class="world-card-coming">
+      <span class="coming-badge">Coming Soon</span>
+      <span class="coming-emj">🚒</span>
+      <div class="world-card-name">The Fire Station</div>
+      <div class="world-card-desc">Floyd's base — always ready, never quiet</div>
+    </div></div>
+</section>
+<section class="fuels-spotlight">
+  <h2 class="section-title">👀 Look Out For Triceratops Fuels</h2>
+  <p class="section-sub">Keep your eyes open around Twin Falls — this brand shows up in the most unexpected places</p>
+  <div class="fuels-grid">
+    <div class="fuels-item">
+      <img src="img/triceratops_fuels/pump.png" alt="Triceratops Fuels petrol pump"/>
+      <p>The fuel pump — Premium Gasoline, Twin Falls style</p>
+    </div>
+    <div class="fuels-item">
+      <img src="img/triceratops_fuels/tower.png" alt="Triceratops Railway Fuel Tower"/>
+      <p>The railway fuel tower, keeping the trains topped up</p>
+    </div>
+    <div class="fuels-item">
+      <img src="img/triceratops_fuels/tanker.png" alt="Triceratops Fuel Tanker"/>
+      <p>The fuel tanker, out on delivery</p>
+    </div>
+    <div class="fuels-item">
+      <img src="img/triceratops_fuels/carriages.png" alt="Triceratops Fuel Carriages"/>
+      <p>Fuel carriages, right on the railway line</p>
+    </div>
+  </div>
+</section>
+<section class="publisher-strip">
+  <img src="img/triceratops_logo.png" alt="Triceratops Publishing"/>
+  <p>Triceratops Publishing — Children's books with a kind heart ✝️</p>
+</section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col"><h4>The Tools</h4><p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col"><h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — £10.99</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — £16.99</a>
+      <a href="shop.html">Paz Plush Toy — £10.00</a>
+      <a href="shop.html">Book &amp; Toy Bundle — £18.99</a>
+    </div>
+    <div class="footer-col"><h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Triceratops Publishing · The Tools Children's Series · thetools.online</div>
+</footer>
+<script>
+const canvas=document.getElementById('snowCanvas');const ctx=canvas.getContext('2d');let W,H,flakes=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+function makeFlake(){return{x:Math.random()*W,y:Math.random()*H-H,r:Math.random()*3+1.5,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3,opacity:Math.random()*0.4+0.2};}
+for(let i=0;i<100;i++)flakes.push(makeFlake());
+function snow(){ctx.clearRect(0,0,W,H);flakes.forEach(f=>{ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${f.opacity})`;ctx.fill();f.y+=f.speed;f.x+=f.drift;if(f.y>H+10)Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3});});requestAnimationFrame(snow);}
+snow();
+function toggleNav(){document.getElementById('navLinks').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('nav'))document.getElementById('navLinks').classList.remove('open');});
+</script>
+</body>
+</html>

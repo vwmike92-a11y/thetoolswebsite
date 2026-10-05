@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Twin Falls Memory Game — The Tools</title>
+<meta name="description" content="A free memory card game — flip the cards and find every matching pair of Twin Falls Tools!"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+  :root {
+    --sky: #C9E8F5; --purple: #5B21B6; --purple-dark: #3D1A6E;
+    --purple-light: #7C3AED; --yellow: #FFD600; --yellow-dark: #F5C400;
+    --white: #FFFFFF; --off-white: #F0F8FF; --text: #1E1E2E; --text-light: #4A4A6A;
+    --green: #22A559;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;min-height:100vh;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+  .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+  .nav-logo span{color:#fff;}
+  .nav-links{display:flex;gap:0.15rem;list-style:none;}
+  .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+  .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+  .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+  .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+  .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+  .btn-yellow{background:var(--yellow);color:var(--text);}
+  .btn-purple{background:var(--purple);color:#fff;}
+
+  .game-hero{padding:100px 1.5rem 1.5rem;text-align:center;}
+  .game-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--purple-dark);margin-bottom:0.5rem;}
+  .game-hero p{color:var(--text-light);max-width:480px;margin:0 auto;font-size:1.05rem;}
+
+  .scoreboard{display:flex;justify-content:center;gap:1rem;margin:1.5rem auto 0.5rem;flex-wrap:wrap;}
+  .score-pill{background:#fff;border-radius:30px;padding:0.5rem 1.25rem;font-family:'Fredoka One',cursive;font-size:0.95rem;color:var(--purple-dark);box-shadow:0 4px 14px rgba(91,33,182,0.15);border:none;cursor:pointer;}
+  .score-pill span{color:var(--green);}
+
+  .memory-board{max-width:640px;margin:1.5rem auto 3rem;padding:0 1.25rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0.9rem;}
+
+  .card{aspect-ratio:1/1;perspective:800px;cursor:pointer;}
+  .card-inner{position:relative;width:100%;height:100%;transition:transform 0.5s;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;}
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+  .card.matched .card-inner{transform:rotateY(180deg);}
+  .card-face{position:absolute;width:100%;height:100%;border-radius:16px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.12);-webkit-transform:translateZ(0);transform:translateZ(0);}
+  .card-back{background:linear-gradient(135deg,var(--purple),var(--purple-light));}
+  .card-back::after{content:'🔧';font-size:2rem;}
+  .card-front{background:#fff;transform:rotateY(180deg) translateZ(0);-webkit-transform:rotateY(180deg) translateZ(0);padding:0.5rem;flex-direction:column;gap:0.2rem;}
+  .card-front img{width:78%;height:78%;object-fit:contain;-webkit-transform:translateZ(0);transform:translateZ(0);}
+  .card.matched .card-front{background:#EFFAF3;border:3px solid var(--green);}
+  .card.wrong .card-inner{animation:shake 0.4s;}
+
+  @keyframes shake{
+    0%,100%{transform:rotateY(180deg) translateX(0);}
+    25%{transform:rotateY(180deg) translateX(-6px);}
+    75%{transform:rotateY(180deg) translateX(6px);}
+  }
+
+  .win-banner{display:none;max-width:480px;margin:0 auto 3rem;text-align:center;background:#fff;border-radius:20px;padding:2rem 1.5rem;box-shadow:0 8px 30px rgba(91,33,182,0.18);}
+  .win-banner.show{display:block;}
+  .win-banner h2{font-family:'Fredoka One',cursive;color:var(--purple-dark);margin-bottom:0.5rem;}
+  .win-banner p{color:var(--text-light);margin-bottom:1.25rem;}
+  .win-banner .btn{margin:0.3rem;}
+
+  footer{background:var(--purple-dark);color:#fff;padding:3rem 1.5rem 1.5rem;}
+  .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;}
+  .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);margin-bottom:0.8rem;font-size:1rem;}
+  .footer-col a{display:block;color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.88rem;margin-bottom:0.5rem;}
+  .footer-col a:hover{color:#fff;}
+  .footer-col p{color:rgba(255,255,255,0.65);font-size:0.85rem;line-height:1.5;}
+  .footer-socials{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.8rem;}
+  .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;}
+  .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+  .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+    .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+    .hamburger{display:flex;}
+    .memory-board{grid-template-columns:repeat(4,1fr);gap:0.6rem;}
+  }
+  @media(max-width:420px){
+    .memory-board{gap:0.5rem;padding:0 0.75rem;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="game-hero">
+  <h1>🧠 Twin Falls Memory Game</h1>
+  <p>Flip the cards and find every matching pair of Tools — how few tries can you do it in?</p>
+</section>
+
+<div class="scoreboard">
+  <div class="score-pill">Pairs Found: <span id="scoreCount">0</span> / 7</div>
+  <div class="score-pill">Tries: <span id="triesCount">0</span></div>
+  <button class="score-pill" id="muteBtn" onclick="toggleMute()">🔊 Sound On</button>
+</div>
+
+<div class="memory-board" id="memoryBoard"></div>
+
+<div class="win-banner" id="winBanner">
+  <h2>🎉 You found them all!</h2>
+  <p id="winMessage">Great memory — every Tool found their match!</p>
+  <button class="btn btn-yellow" onclick="resetGame()">🔁 Play Again</button>
+  <a href="colouring.html" class="btn btn-purple">🎨 Free Colouring Pages</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="shop.html">Shop All Books</a>
+      <a href="shop.html">Paz Plush Toy</a>
+      <a href="shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+
+// ---- Reuse the same 7 character tile images already on the site ----
+const characters = [
+  {id:'hector', img:'img/game_tiles/hector.png', name:'Hector'},
+  {id:'wayne', img:'img/game_tiles/wayne.png', name:'Wayne'},
+  {id:'diesel', img:'img/game_tiles/diesel.png', name:'Diesel'},
+  {id:'charlie', img:'img/game_tiles/charlie.png', name:'Charlie'},
+  {id:'frankie', img:'img/game_tiles/frankie.png', name:'Frankie'},
+  {id:'roxie', img:'img/game_tiles/roxie.png', name:'Roxie'},
+  {id:'lorenzo', img:'img/game_tiles/lorenzo.png', name:'Lorenzo'}
+];
+
+let flippedCards = [];
+let matchedCount = 0;
+let tries = 0;
+let lockBoard = false;
+let soundOn = true;
+
+// ---- Synthesized sounds, matching match-game.html's approach ----
+let audioCtx = null;
+function getCtx(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playTone(freq, duration, type='sine', delay=0, gainStart=0.18){
+  if(!soundOn) return;
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(gainStart, ctx.currentTime + delay);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + duration);
+}
+function soundFlip(){ playTone(440, 0.08, 'sine'); }
+function soundMatch(){ playTone(523, 0.12, 'sine'); playTone(784, 0.16, 'sine', 0.1); }
+function soundWrong(){ playTone(180, 0.22, 'sawtooth', 0, 0.1); }
+function soundWin(){
+  [523,659,784,1046].forEach((f,i)=>playTone(f, 0.18, 'sine', i*0.12));
+}
+function toggleMute(){
+  soundOn = !soundOn;
+  document.getElementById('muteBtn').textContent = soundOn ? '🔊 Sound On' : '🔇 Sound Off';
+}
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function preloadImages(callback){
+  let loaded = 0;
+  const total = characters.length;
+  characters.forEach(c => {
+    const img = new Image();
+    img.onload = img.onerror = () => {
+      loaded++;
+      if(loaded === total) callback();
+    };
+    img.src = c.img;
+  });
+}
+
+function buildBoard(){
+  const board = document.getElementById('memoryBoard');
+  board.innerHTML = '';
+  // Two of each character = 14 cards
+  const deck = shuffle([...characters, ...characters]);
+
+  deck.forEach((c, index) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = c.id;
+    card.dataset.index = index;
+    card.innerHTML = `
+      <div class="card-inner">
+        <div class="card-face card-back"></div>
+        <div class="card-face card-front">
+          <img src="${c.img}" alt="${c.name}">
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => flipCard(card));
+    board.appendChild(card);
+  });
+}
+
+function flipCard(card){
+  if(lockBoard) return;
+  if(card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  if(flippedCards.length === 2) return;
+
+  card.classList.add('flipped');
+  soundFlip();
+  flippedCards.push(card);
+
+  if(flippedCards.length === 2){
+    tries++;
+    document.getElementById('triesCount').textContent = tries;
+    checkMatch();
+  }
+}
+
+function checkMatch(){
+  const [first, second] = flippedCards;
+  if(first.dataset.id === second.dataset.id){
+    setTimeout(()=>{
+      first.classList.add('matched');
+      second.classList.add('matched');
+      soundMatch();
+      matchedCount++;
+      document.getElementById('scoreCount').textContent = matchedCount;
+      flippedCards = [];
+      if(matchedCount === characters.length){
+        setTimeout(showWin, 500);
+      }
+    }, 400);
+  } else {
+    lockBoard = true;
+    first.classList.add('wrong');
+    second.classList.add('wrong');
+    soundWrong();
+    setTimeout(()=>{
+      first.classList.remove('flipped','wrong');
+      second.classList.remove('flipped','wrong');
+      flippedCards = [];
+      lockBoard = false;
+    }, 900);
+  }
+}
+
+function showWin(){
+  soundWin();
+  const banner = document.getElementById('winBanner');
+  const msg = document.getElementById('winMessage');
+  let praise = 'Great memory — every Tool found their match!';
+  if(tries <= 9) praise = "Incredible! You've got a mind like a steel trap — perfect memory!";
+  else if(tries <= 13) praise = 'Brilliant work! You barely missed a beat.';
+  msg.textContent = praise;
+  banner.classList.add('show');
+}
+
+function resetGame(){
+  matchedCount = 0;
+  tries = 0;
+  flippedCards = [];
+  lockBoard = false;
+  document.getElementById('scoreCount').textContent = 0;
+  document.getElementById('triesCount').textContent = 0;
+  document.getElementById('winBanner').classList.remove('show');
+  buildBoard();
+}
+
+preloadImages(buildBoard);
+</script>
+
+</body>
+</html>

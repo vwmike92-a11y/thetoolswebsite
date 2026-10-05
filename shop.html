@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — The Tools</title>
+  <meta name="description" content="Shop The Tools — 6 children's books, Paz plush toy and book bundles. Paperback £10.99, Hardback £16.99, free UK postage on toys and bundles."/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --sky:#C9E8F5;--sky-dark:#A8D8EE;--purple:#5B21B6;--purple-dark:#3D1A6E;
+      --purple-light:#7C3AED;--yellow:#FFD600;--yellow-dark:#F5C400;
+      --white:#FFFFFF;--off-white:#F0F8FF;--text:#1E1E2E;--text-light:#4A4A6A;
+      --card-shadow:0 6px 24px rgba(91,33,182,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+    /* BUTTONS */
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;text-align:center;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+    .btn-full{width:100%;display:block;}
+
+    /* SECTIONS */
+    section{position:relative;z-index:20;padding:4.5rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);text-align:center;margin-bottom:0.5rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+
+    /* HERO */
+    .shop-hero{
+      padding-top:68px;
+      background:linear-gradient(180deg,#2A1050 0%,#3D1A6E 100%);
+      text-align:center;padding-bottom:4rem;position:relative;z-index:20;
+    }
+    .shop-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,4rem);color:var(--yellow);padding-top:3rem;margin-bottom:0.6rem;}
+    .shop-hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,0.7);max-width:520px;margin:0 auto;line-height:1.7;}
+
+    /* BOOKS SECTION */
+    .shop-books{background:var(--off-white);}
+    .shop-books .section-title{color:var(--purple-dark);}
+    .books-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:860px;margin:0 auto;}
+    .shop-card{
+      background:var(--white);border-radius:20px;
+      box-shadow:var(--card-shadow);overflow:hidden;
+      display:flex;flex-direction:column;
+      transition:transform 0.2s;
+    }
+    .shop-card:hover{transform:translateY(-5px);}
+    .shop-card-img{width:100%;height:200px;object-fit:cover;background:var(--purple-dark);}
+    .shop-card-img.contain{object-fit:contain;padding:20px;background:var(--off-white);}
+    .shop-card-body{padding:1.5rem;flex:1;display:flex;flex-direction:column;}
+    .shop-card-badge{
+      display:inline-block;background:var(--yellow);color:var(--text);
+      font-family:'Fredoka One',cursive;font-size:0.75rem;
+      padding:0.2rem 0.75rem;border-radius:20px;margin-bottom:0.75rem;
+      align-self:flex-start;
+    }
+    .shop-card-badge.purple{background:var(--purple);color:#fff;}
+    .shop-card h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--purple-dark);margin-bottom:0.5rem;}
+    .shop-card p{font-size:0.88rem;color:var(--text-light);line-height:1.6;flex:1;margin-bottom:1.25rem;}
+    .shop-card-price{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--purple-dark);margin-bottom:1rem;}
+    .format-tabs{display:flex;gap:0.4rem;margin-bottom:0.75rem;}
+    .format-tab{flex:1;background:var(--off-white);border:2px solid #E0E0EA;border-radius:20px;padding:0.4rem 0.5rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.78rem;color:var(--text-light);cursor:pointer;transition:all 0.15s;}
+    .format-tab:hover{border-color:var(--purple-light);}
+    .format-tab.active{background:var(--purple);border-color:var(--purple);color:#fff;}
+    .shop-card-price span{font-size:0.85rem;font-family:'Nunito',sans-serif;color:var(--text-light);font-weight:600;}
+    .postage-note{font-size:0.78rem;color:var(--text-light);margin-bottom:1rem;}
+
+    /* MERCH SECTION */
+    .shop-merch{background:var(--sky);}
+    .shop-merch .section-title{color:var(--purple-dark);}
+    .merch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:860px;margin:0 auto;}
+
+    /* PAZ PLUSH IMAGE */
+    .paz-plush-img{
+      width:100%;height:200px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#FFF8E7 0%,#DDEEF8 100%);
+      font-size:5rem;
+    }
+
+    /* BUNDLE HIGHLIGHT */
+    .bundle-card{border:3px solid var(--yellow);}
+    .bundle-card .shop-card-badge{background:var(--purple);color:#fff;}
+
+    /* PAYPAL FORM */
+    .paypal-wrap{margin-top:auto;}
+    .paypal-wrap form{margin:0;}
+
+    /* FREE SECTION */
+    .shop-free{background:var(--purple);text-align:center;}
+    .shop-free .section-title{color:var(--yellow);}
+    .shop-free .section-sub{color:rgba(255,255,255,0.7);}
+
+    /* COMING SOON */
+    .shop-coming{background:var(--white);}
+    .shop-coming .section-title{color:var(--purple-dark);}
+    .coming-grid{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;max-width:800px;margin:0 auto;}
+    .coming-chip{
+      background:var(--off-white);border:2px solid var(--purple-light);
+      border-radius:30px;padding:0.6rem 1.25rem;
+      font-weight:700;font-size:0.88rem;color:var(--purple-dark);
+    }
+    .coming-chip span{color:var(--text-light);font-weight:400;}
+
+    /* PUBLISHER */
+    .publisher-strip{background:var(--off-white);text-align:center;padding:3rem 2rem;position:relative;z-index:20;}
+    .publisher-strip img{height:80px;mix-blend-mode:multiply;margin-bottom:0.75rem;}
+    .publisher-strip h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--purple-dark);margin-bottom:0.3rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.9rem;max-width:480px;margin:0 auto;}
+
+    /* FOOTER */
+    footer{position:relative;z-index:20;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+    }
+
+    @media(max-width:768px){
+      .book-main-inner{flex-direction:column;align-items:center;gap:2rem;}
+      .book-cover-wrap img{width:min(220px,75vw);}
+      .book-info{text-align:center;}
+      .book-prices{justify-content:center;}
+      .book-buttons{justify-content:center;flex-direction:column;align-items:stretch;}
+      .books-grid,.merch-grid{grid-template-columns:1fr;}
+      .inside-grid{grid-template-columns:1fr;}
+      .coming-books{flex-direction:column;align-items:center;}
+      .coming-book-card{width:min(280px,85vw);}
+      .coming-grid{gap:0.75rem;}
+    }
+  </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop active">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="shop-hero">
+  <h1>🛒 The Shop</h1>
+  <p>Books, toys and bundles — perfect gifts for little ones aged 3 to 7 and the grown-ups who read to them</p>
+</section>
+
+<!-- BOOKS -->
+<section class="shop-books">
+  <h2 class="section-title">The Books</h2>
+  <p class="section-sub">Five books out now — more coming soon!</p>
+  <div class="books-grid" style="max-width:1100px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+
+    <!-- WINTER RESCUE -->
+    <div class="shop-card" data-book="wr">
+      <a href="books.html#winter-rescue"><img class="shop-card-img contain" src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge">📖 Book 1</span>
+        <h3><a href="books.html#winter-rescue" style="color:inherit;text-decoration:none;">The Tools Winter Rescue</a></h3>
+        <p>Diesel Drill gets the snow prep completely wrong. Trucks are breaking down all over Twin Falls. Then Paz leads a moose straight through the front of Lorenzo's bistro.</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
+        <div class="format-tabs">
+          <button class="format-tab active" onclick="setFormat('wr','paperback',this)">Paperback</button>
+          <button class="format-tab" onclick="setFormat('wr','hardback',this)">Hardback</button>
+        </div>
+        <div class="shop-card-price" id="wr-price">£10.99 <span>+ postage</span></div>
+        <a id="wr-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
+      </div>
+    </div>
+
+    <!-- MONSTER TRUCK -->
+    <div class="shop-card" data-book="mt">
+      <a href="books.html#monster-truck"><img class="shop-card-img contain" src="img/book_thumbs/monster_truck.png" alt="The Tools and the Monster Truck"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge" style="background:#B22234;color:#fff;">📖 Book 2</span>
+        <h3><a href="books.html#monster-truck" style="color:inherit;text-decoration:none;">The Tools and the Monster Truck</a></h3>
+        <p>The Tools found a rusty old truck in the desert. They have a plan — turn it into a monster truck for the 4th July Parade! Diesel is the main mechanic. What could possibly go wrong?</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
+        <div class="format-tabs">
+          <button class="format-tab active" onclick="setFormat('mt','paperback',this)">Paperback</button>
+          <button class="format-tab" onclick="setFormat('mt','ebook',this)">eBook</button>
+        </div>
+        <div class="shop-card-price" id="mt-price">£10.99 <span>+ postage</span></div>
+        <a id="mt-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-monster-truck/paperback/product-je29447.html" target="_blank" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
+      </div>
+    </div>
+
+    <!-- RAILWAY -->
+    <div class="shop-card" data-book="rw">
+      <a href="books.html#railway"><img class="shop-card-img contain" src="img/book_thumbs/railway.png" alt="The Tools and the Railway"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge">📖 Book 3</span>
+        <h3><a href="books.html#railway" style="color:inherit;text-decoration:none;">The Tools and the Railway</a></h3>
+        <p>Patrick's train is loaded and ready — but a family of beavers has taken a liking to the wooden railway bridge. Can the crew pull together and fix it before disaster strikes?</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
+        <div class="format-tabs">
+          <button class="format-tab active" onclick="setFormat('rw','paperback',this)">Paperback</button>
+          <button class="format-tab" onclick="setFormat('rw','hardback',this)">Hardback</button>
+        </div>
+        <div class="shop-card-price" id="rw-price">£10.99 <span>+ postage</span></div>
+        <a id="rw-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-railway-bridge/paperback/product-p642jkz.html" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
+      </div>
+    </div>
+
+    <!-- FARM -->
+    <div class="shop-card" data-book="fm">
+      <a href="books.html#farm"><img class="shop-card-img contain" src="img/book_thumbs/farm.png" alt="The Tools and the Farm"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge" style="background:#4C8C4A;color:#fff;">📖 Book 4</span>
+        <h3><a href="books.html#farm" style="color:inherit;text-decoration:none;">The Tools and the Farm</a></h3>
+        <p>Pete could use a hand out at Twin Falls Farm. Between a runaway Ram, a very muddy mishap, and a tractor that needs fixing, it's a busy day down on the farm.</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
+        <div class="format-tabs">
+          <button class="format-tab active" onclick="setFormat('fm','paperback',this)">Paperback</button>
+          <button class="format-tab" onclick="setFormat('fm','hardback',this)">Hardback</button>
+        </div>
+        <div class="shop-card-price" id="fm-price">£10.99 <span>+ postage</span></div>
+        <a id="fm-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-farm/paperback/product-w4gjqe2.html" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
+      </div>
+    </div>
+
+    <!-- CHRISTMAS -->
+    <div class="shop-card" data-book="xm">
+      <a href="books.html#christmas"><img class="shop-card-img contain" src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge" style="background:#B22234;color:#fff;">🎄 Book 5</span>
+        <h3><a href="books.html#christmas" style="color:inherit;text-decoration:none;">The Tools Light Up Christmas</a></h3>
+        <p>The crew are building a nativity for Christmas Eve — but Diesel forgot to fix the lights. A runaway donkey, a tangled Paz and a power cut later, can they save Christmas in Twin Falls?</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎄 Out 9 October — in time for Christmas!</p>
+        <div class="shop-card-price">£10.99 <span>+ postage</span></div>
+        <a href="mailto:hello@thetools.online?subject=Christmas%20Book%20-%20Notify%20Me" class="btn btn-yellow btn-full">📧 Notify Me on Release Day</a>
+      </div>
+    </div>
+
+    <!-- CHARACTER BOOK -->
+    <div class="shop-card" data-book="cb">
+      <a href="books.html#character-book"><img class="shop-card-img contain" src="img/book_thumbs/character_book.png" alt="The Tools Character Book Volume One"/></a>
+      <div class="shop-card-body">
+        <span class="shop-card-badge" style="background:#5B21B6;color:#fff;">✨ New!</span>
+        <h3><a href="books.html#character-book" style="color:inherit;text-decoration:none;">The Tools Character Book — Volume One</a></h3>
+        <p>Meet the whole crew! All 21 Twin Falls characters in one collectible book, packed with fun facts and a message about kindness for every single one.</p>
+        <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🚀 Coming very soon — available to order shortly!</p>
+        <div class="shop-card-price">Coming Soon</div>
+        <a href="mailto:hello@thetools.online?subject=Character%20Book%20-%20Notify%20Me" class="btn btn-purple btn-full">📧 Notify Me When Available</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const bookFormats = {
+  wr: {
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html'},
+    hardback:{price:'£16.99',suffix:'+ postage',label:'Buy Hardback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html'}
+  },
+  mt: {
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-monster-truck/paperback/product-je29447.html'},
+    ebook:{price:'£4.99',suffix:'instant download',label:'Buy eBook — £4.99 📱',cls:'btn-purple',link:'https://payhip.com/b/tpxZH'}
+  },
+  rw: {
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-railway-bridge/paperback/product-p642jkz.html'},
+    hardback:{price:'£16.99',suffix:'+ postage',label:'📧 Enquire to Order',cls:'btn-purple',link:'mailto:hello@thetools.online?subject=Railway%20Book%20Enquiry%20-%20Hardback'}
+  },
+  fm: {
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-farm/paperback/product-w4gjqe2.html'},
+    hardback:{price:'£16.99',suffix:'+ postage',label:'📧 Enquire to Order',cls:'btn-purple',link:'mailto:hello@thetools.online?subject=Farm%20Book%20Enquiry%20-%20Hardback'}
+  }
+};
+
+function setFormat(book, format, btnEl){
+  const data = bookFormats[book][format];
+  document.getElementById(book+'-price').innerHTML = data.price + ' <span>' + data.suffix + '</span>';
+  const link = document.getElementById(book+'-btn');
+  link.href = data.link;
+  link.textContent = data.label;
+  link.className = 'btn btn-full ' + data.cls;
+
+  const tabs = btnEl.parentElement.querySelectorAll('.format-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  btnEl.classList.add('active');
+}
+</script>
+
+
+<!-- MERCH -->
+<section class="shop-merch">
+  <h2 class="section-title">Toys &amp; Bundles</h2>
+  <p class="section-sub">The mischievous one himself — now in plush form</p>
+  <div class="merch-grid">
+
+    <!-- PAZ PLUSH -->
+    <div class="shop-card">
+      <div class="paz-plush-img">🧸</div>
+      <div class="shop-card-body">
+        <span class="shop-card-badge purple">🧸 Plush Toy</span>
+        <h3>Paz the Paintbrush — Plush Toy</h3>
+        <p>The mischievous one himself — soft, cuddly, and guaranteed to cause zero trouble. Probably. Free UK postage included.</p>
+        <div class="shop-card-price">£10.00 <span>free UK postage</span></div>
+        <p class="postage-note">🇺🇸 US &amp; international orders — <a href="mailto:triceratopspublishing@gmail.com?subject=Paz Plush Toy International Order" style="color:var(--purple);font-weight:700;">enquire here</a></p>
+        <div class="paypal-wrap">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_xclick"/>
+            <input type="hidden" name="business" value="triceratopspublishing@gmail.com"/>
+            <input type="hidden" name="item_name" value="Paz the Paintbrush Plush Toy"/>
+            <input type="hidden" name="amount" value="10.00"/>
+            <input type="hidden" name="currency_code" value="GBP"/>
+            <input type="hidden" name="shipping" value="0"/>
+            <input type="hidden" name="return" value="https://thetools.online/shop.html"/>
+            <button type="submit" class="btn btn-purple btn-full">Buy Paz — £10.00 🧸</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUNDLE -->
+    <div class="shop-card bundle-card">
+      <div class="paz-plush-img">🎁</div>
+      <div class="shop-card-body">
+        <span class="shop-card-badge purple">🎁 Best Value</span>
+        <h3>Book &amp; Toy Bundle</h3>
+        <p>The perfect gift — The Tools Winter Rescue paperback plus the Paz plush toy together. Free UK postage included.</p>
+        <div class="shop-card-price">£18.99 <span>free UK postage</span></div>
+        <p class="postage-note">🇺🇸 US &amp; international orders — <a href="mailto:triceratopspublishing@gmail.com?subject=Bundle International Order" style="color:var(--purple);font-weight:700;">enquire here</a></p>
+        <div class="paypal-wrap">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_xclick"/>
+            <input type="hidden" name="business" value="triceratopspublishing@gmail.com"/>
+            <input type="hidden" name="item_name" value="The Tools Winter Rescue Book and Paz Plush Bundle"/>
+            <input type="hidden" name="amount" value="18.99"/>
+            <input type="hidden" name="currency_code" value="GBP"/>
+            <input type="hidden" name="shipping" value="0"/>
+            <input type="hidden" name="return" value="https://thetools.online/shop.html"/>
+            <button type="submit" class="btn btn-purple btn-full">Buy Bundle — £18.99 🎁</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FREE COLOURING -->
+<section class="shop-free">
+  <h2 class="section-title">Free Colouring Pages 🎨</h2>
+  <p class="section-sub">Eight free pages to download and colour — because the best things in Twin Falls are free</p>
+  <a href="colouring.html" class="btn btn-yellow">Download Free Pages 🖍️</a>
+</section>
+
+<!-- COMING SOON -->
+<section class="shop-coming">
+  <h2 class="section-title">Coming Soon</h2>
+  <p class="section-sub">More Tools merchandise on the way — watch this space</p>
+  <div class="coming-grid">
+    <div class="coming-chip">Amazon UK <span>— coming soon</span></div>
+    <div class="coming-chip">Amazon US <span>— coming soon</span></div>
+    <div class="coming-chip">More plush toys <span>— whole crew</span></div>
+    <div class="coming-chip">Stickers <span>— character set</span></div>
+    <div class="coming-chip">Colouring Book <span>— full edition</span></div>
+    <div class="coming-chip">Character Cards <span>— collect them all</span></div>
+  </div>
+</section>
+
+<!-- PUBLISHER -->
+<section class="publisher-strip">
+  <img src="img/triceratops_logo.png" alt="Triceratops Publishing"/>
+  <h3>Triceratops Publishing</h3>
+  <p>Children's books with a kind heart ✝️ — an independent imprint with Christian roots, crafted with laughter, creativity and genuine kindness.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — £10.99</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — £16.99</a>
+      <a href="shop.html">Paz Plush Toy — £10.00</a>
+      <a href="shop.html">Book &amp; Toy Bundle — £18.99</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function makeFlake(){ return { x:Math.random()*W, y:Math.random()*H-H, r:Math.random()*3+1.5, speed:Math.random()*1.2+0.4, drift:Math.random()*0.6-0.3, opacity:Math.random()*0.4+0.2 }; }
+for(let i=0;i<100;i++) flakes.push(makeFlake());
+function snow(){ ctx.clearRect(0,0,W,H); flakes.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${f.opacity})`; ctx.fill(); f.y+=f.speed; f.x+=f.drift; if(f.y>H+10) Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3}); }); requestAnimationFrame(snow); }
+snow();
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+</script>
+</body>
+</html>

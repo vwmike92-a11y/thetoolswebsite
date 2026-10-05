@@ -6,6 +6,8 @@
   <title>Meet the Crew — The Tools</title>
   <meta name="description" content="Meet all the characters from The Tools — Hector, Paz, Roxie, Wayne, Diesel and the whole crew from Twin Falls."/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
     :root {
       --sky: #C9E8F5; --sky-dark: #A8D8EE; --purple: #5B21B6; --purple-dark: #3D1A6E;
@@ -15,7 +17,7 @@
     }
     *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
     body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
-    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
 
     /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
@@ -37,19 +39,50 @@
 
     /* HERO */
     .hero{
-      padding-top:68px;
-      background:linear-gradient(180deg,#A8D8EE 0%,#C9E8F5 60%,#DDEEF8 100%);
-      text-align:center;padding-bottom:0;overflow:hidden;position:relative;
+      padding:68px 0 0;
+      overflow:hidden;position:relative;
     }
-    .hero-inner{padding:3.5rem 2rem 0;max-width:1000px;margin:0 auto;}
-    .hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,3.8rem);color:var(--purple-dark);margin-bottom:0.6rem;}
-    .hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:var(--text-light);max-width:560px;margin:0 auto 2rem;line-height:1.7;}
-    .hero-cast-strip{
-      width:min(860px,96vw);
-      border-radius:24px 24px 0 0;
-      box-shadow:0 -8px 40px rgba(61,26,110,0.15);
-      display:block;margin:0 auto;
+    .hero-banner{
+      width:100%;
+      height:auto;
+      display:block;
     }
+    .hero-overlay{
+      position:absolute;
+      top:68px;left:0;right:0;
+      display:flex;align-items:flex-start;justify-content:center;
+      padding:0 1.5rem;
+      z-index:15;
+    }
+    .hero-logo-block{text-align:center;margin-top:-10px;}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+    .hero-side-block{position:absolute;top:4.5rem;right:1.5rem;display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;z-index:15;}
+    .hero-tagline{
+      font-family:'Fredoka One',cursive;
+      font-size:clamp(0.65rem,1.5vw,0.75rem);
+      color:var(--purple-dark);margin:0;
+      background:rgba(255,255,255,0.9);
+      border-radius:8px;
+      padding:0.3rem 0.6rem;
+      max-width:170px;
+      text-align:right;
+      line-height:1.3;
+    }
+    .hero-buttons{display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;}
+    .hero-buttons .btn{font-size:0.85rem;padding:0.55rem 1rem;white-space:nowrap;}
+    .scroll-cue{
+      position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);
+      z-index:15;display:flex;flex-direction:column;align-items:center;gap:0.3rem;
+      text-decoration:none;
+      background:rgba(61,26,110,0.82);
+      padding:0.5rem 1.1rem 0.6rem;border-radius:30px;
+      backdrop-filter:blur(2px);
+    }
+    .scroll-cue span{
+      font-family:'Fredoka One',cursive;font-size:0.8rem;color:#fff;letter-spacing:0.5px;
+    }
+    .scroll-cue i{color:var(--yellow);font-size:0.95rem;animation:bob 1.6s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
 
     /* SECTION SHARED */
     section{position:relative;z-index:2;padding:4.5rem 2rem;}
@@ -75,17 +108,16 @@
       gap:1.4rem;max-width:1000px;margin:0 auto;
     }
     .core-card{
-      background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
-      border-radius:20px;overflow:hidden;text-decoration:none;color:#fff;
+      background:#fff;border-radius:20px;overflow:hidden;text-decoration:none;color:var(--text);
       display:flex;flex-direction:column;align-items:center;
-      transition:transform 0.2s,background 0.2s,box-shadow 0.2s;
-      position:relative;
+      box-shadow:0 6px 24px rgba(0,0,0,0.18);border-top:4px solid var(--yellow);
+      transition:transform 0.2s,box-shadow 0.2s;position:relative;
     }
-    .core-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.13);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+    .core-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(0,0,0,0.25);}
     .core-card-img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;padding:10px;mix-blend-mode:multiply;}
-    .core-card-name{font-family:'Fredoka One',cursive;font-size:1rem;padding:0.6rem 0.5rem 0.2rem;text-align:center;color:var(--yellow);}
-    .core-card-role{font-size:0.75rem;color:rgba(255,255,255,0.55);padding:0 0.5rem 0.4rem;text-align:center;}
-    .core-card-phrase{font-size:0.72rem;color:rgba(255,255,255,0.4);padding:0 0.5rem 0.8rem;text-align:center;font-style:italic;}
+    .core-card-name{font-family:'Fredoka One',cursive;font-size:1rem;padding:0.6rem 0.5rem 0.2rem;text-align:center;color:var(--purple-dark);}
+    .core-card-role{font-size:0.75rem;color:var(--text-light);padding:0 0.5rem 0.4rem;text-align:center;}
+    .core-card-phrase{font-size:0.72rem;color:#aaa;padding:0 0.5rem 0.8rem;text-align:center;font-style:italic;}
 
     /* SUPPORTING + BUCKETS */
     .supporting{background:var(--off-white);}
@@ -133,15 +165,35 @@
     .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
 
     /* RESPONSIVE */
-    @media(max-width:768px){
+    @media(max-width:768px),(max-height:500px) and (orientation:landscape){
       .nav-links{display:none;}
       .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
       .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
       .hamburger{display:flex;}
-      .char-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
-      .core-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+      .core-grid{grid-template-columns:repeat(2,1fr);gap:1rem;}
+      .char-grid{grid-template-columns:repeat(2,1fr);gap:1rem;}
+      .hero-cast-strip{width:calc(100vw - 1rem);border-radius:16px 16px 0 0;}
+      .hero-banner{height:auto;}
+      .hero-overlay{position:static;padding:0;background:var(--purple-dark);display:flex;flex-direction:column;align-items:center;padding:1rem 1rem 0.5rem;}
+      .hero-logo-block{margin-top:0;}
+      .hero-logo-block img{width:26vw!important;max-width:110px!important;filter:none!important;}
+      .scroll-cue{display:none;}
+      .hero-side-block{position:static;background:var(--purple-dark);padding:0 1rem 1.25rem;align-items:center;width:100%;}
+      .hero-buttons{flex-direction:row;justify-content:center;}
+      .hero-buttons .btn{font-size:0.75rem;padding:0.45rem 0.85rem;}
+      .hero-tagline{background:none;color:#fff;max-width:90%;margin:0 auto 0.5rem;text-align:center;font-size:0.8rem;padding:0;}
+      .hero-inner{padding-left:0.5rem;padding-right:0.5rem;}
     }
   </style>
+  <!-- MailerLite Universal -->
+  <script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2395182');
+  </script>
+  <!-- End MailerLite Universal -->
 </head>
 <body>
 
@@ -156,6 +208,7 @@
     <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
     <li><a href="world.html">Twin Falls World</a></li>
     <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
     <li><a href="shop.html" class="nav-shop">Shop</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleNav()">
@@ -164,20 +217,29 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <h1>Meet the Crew 🔨</h1>
-    <p>Twin Falls is full of characters. Some are helpful. Some are chaotic. One is currently being chased by a moose. Meet them all.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;">
+<section class="hero hero-main">
+  <img class="hero-banner" src="img/hero_characters.png" alt="The Tools crew in the mountains"/>
+  <div class="hero-overlay">
+    <div class="hero-logo-block">
+      <h1 class="sr-only">Meet the Crew — The Tools Character Guide</h1>
+      <img src="img/logo_characters.png" alt="Characters" style="max-width:220px;width:45vw;display:block;margin:0 auto;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.4));"/>
+    </div>
+  </div>
+  <div class="hero-side-block">
+    <p class="hero-tagline">Twin Falls is full of characters. Some are helpful. Some are chaotic. Meet them all.</p>
+    <div class="hero-buttons">
       <a href="shop.html" class="btn btn-yellow">🛒 Get the Book</a>
       <a href="colouring.html" class="btn btn-purple">Free Colouring Pages 🎨</a>
     </div>
-    <img class="hero-cast-strip" src="img/cast_scene.png" alt="The Tools crew"/>
   </div>
+  <a href="#core-five" class="scroll-cue">
+    <span>Meet the crew</span>
+    <i class="fas fa-chevron-down"></i>
+  </a>
 </section>
 
 <!-- THE CORE FIVE -->
-<section class="core-five">
+<section class="core-five" id="core-five">
   <h2 class="section-title">The Core Five</h2>
   <p class="section-sub">Hector's main crew — the ones at the centre of every adventure, every building job, and every incident.</p>
 
@@ -270,6 +332,58 @@
       <span class="char-card-phrase">Has never been busier</span>
     </a>
 
+    <a href="characters/patrick.html" class="char-card">
+      <img src="img/patrick.png" alt="Patrick the Pickaxe"/>
+      <span class="char-card-name">Patrick the Pickaxe</span>
+      <span class="char-card-role">The Quarry Train 🥪</span>
+      <span class="char-card-phrase">Always running late</span>
+    </a>
+
+    <a href="characters/sam.html" class="char-card">
+      <img src="img/sam.png" alt="Sam the Spanner"/>
+      <span class="char-card-name">Sam the Spanner</span>
+      <span class="char-card-role">The Garage 🔧</span>
+      <span class="char-card-phrase">Nobody ever listens to Sam</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- TWIN FALLS FARM -->
+<section class="supporting">
+  <h2 class="section-title">Twin Falls Farm</h2>
+  <p class="section-sub">Out on the farm, the pace is a little slower — except when there's a race on.</p>
+
+  <div class="char-grid">
+
+    <a href="characters/pete.html" class="char-card">
+      <img src="img/pete.png" alt="Pete the Pitchfork"/>
+      <span class="char-card-name">Pete the Pitchfork</span>
+      <span class="char-card-role">The Farmer 🌾</span>
+      <span class="char-card-phrase">"Yep... saw that coming."</span>
+    </a>
+
+    <a href="characters/harold.html" class="char-card">
+      <img src="img/harold.png" alt="Harold the Horse"/>
+      <span class="char-card-name">Harold the Horse</span>
+      <span class="char-card-role">The Shire Horse 🐴</span>
+      <span class="char-card-phrase">Big appetite, bigger heart</span>
+    </a>
+
+    <a href="characters/ricky.html" class="char-card">
+      <img src="img/ricky.png" alt="Ricky the Rake"/>
+      <span class="char-card-name">Ricky the Rake</span>
+      <span class="char-card-role">The Racer 🏁</span>
+      <span class="char-card-phrase">Secretly built for speed</span>
+    </a>
+
+    <a href="characters/frankie.html" class="char-card">
+      <img src="img/frankie.png" alt="Frankie the Flathead"/>
+      <span class="char-card-name">Frankie the Flathead</span>
+      <span class="char-card-role">Deliberate Chaos 🔩</span>
+      <span class="char-card-phrase">Banned from 3 building sites</span>
+    </a>
+
   </div>
 </section>
 
@@ -304,12 +418,21 @@
   </div>
 </section>
 
-<!-- UNICORN TEASER -->
-<section class="unicorn-teaser">
-  <span class="unicorn-emoji">🦄</span>
-  <h2>There's one more character...</h2>
-  <p>Something has been lurking in the background of every book. Nobody has mentioned it. Nobody has acknowledged it. Children across Twin Falls keep finding it. Floyd has filed multiple safety reports about it. They have not been read.</p>
-  <a href="books.html" class="btn btn-yellow">Coming in a future book 👀</a>
+<!-- TWIN FALLS WILDLIFE -->
+<section class="buckets">
+  <h2 class="section-title">Twin Falls Wildlife</h2>
+  <p class="section-sub">Not a tool at all — but a firm favourite in Twin Falls all the same.</p>
+
+  <div class="char-grid" style="max-width:300px;margin:0 auto;">
+
+    <a href="characters/monty.html" class="char-card" style="border-top-color:#0369A1;">
+      <img src="img/monty.png" alt="Monty the Moose"/>
+      <span class="char-card-name">Monty the Moose</span>
+      <span class="char-card-role">The Friendliest Moose 🫎</span>
+      <span class="char-card-phrase">Best friends with Paz</span>
+    </a>
+
+  </div>
 </section>
 
 <!-- PUBLISHER -->
@@ -326,9 +449,10 @@
       <h4>The Tools</h4>
       <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
       <div class="footer-socials">
-        <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok</a>
-        <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram</a>
-        <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
       </div>
     </div>
     <div class="footer-col">
@@ -341,17 +465,17 @@
     </div>
     <div class="footer-col">
       <h4>Buy the Book</h4>
-      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-95j84zm.html" target="_blank">Paperback — Lulu</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — Lulu</a>
       <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — Lulu</a>
       <a href="shop.html">Paz Plush Toy</a>
       <a href="shop.html">Book &amp; Toy Bundle</a>
     </div>
     <div class="footer-col">
       <h4>Follow the Crew</h4>
-      <a href="https://linktr.ee/thetools1997" target="_blank">All links — Linktree</a>
-      <a href="https://www.tiktok.com/@thetools1997" target="_blank">TikTok @thetools1997</a>
-      <a href="https://www.instagram.com/thetools1997" target="_blank">Instagram @thetools1997</a>
-      <a href="https://www.facebook.com/TheToolsChildrensSeries" target="_blank">Facebook</a>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
     </div>
   </div>
   <div class="footer-bottom">

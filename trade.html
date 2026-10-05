@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trade &amp; Wholesale — The Tools</title>
+  <meta name="description" content="Trade and wholesale information for The Tools children's picture books — titles, ISBNs, wholesale pricing, volume discounts and how to order."/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --sky:#C9E8F5;--sky-dark:#A8D8EE;--purple:#5B21B6;--purple-dark:#3D1A6E;
+      --purple-light:#7C3AED;--yellow:#FFD600;--yellow-dark:#F5C400;
+      --white:#FFFFFF;--off-white:#F0F8FF;--text:#1E1E2E;--text-light:#4A4A6A;
+      --card-shadow:0 6px 24px rgba(91,33,182,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);overflow-x:hidden;}
+    #snowCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--purple-dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;box-shadow:0 3px 20px rgba(0,0,0,0.35);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--yellow);text-decoration:none;letter-spacing:1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:0.15rem;list-style:none;}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:700;font-size:0.82rem;padding:0.4rem 0.65rem;border-radius:20px;transition:background 0.2s,color 0.2s;white-space:nowrap;}
+    .nav-links a:hover,.nav-links a.active{background:var(--yellow);color:var(--text);}
+    .nav-shop{background:var(--purple-light)!important;color:#fff!important;}
+    .nav-shop:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#fff;border-radius:2px;}
+
+    /* BUTTONS */
+    .btn{display:inline-block;font-family:'Fredoka One',cursive;font-size:1.05rem;padding:0.8rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;border:none;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-purple{background:var(--purple);color:#fff;}
+    .btn-white{background:#fff;color:var(--purple-dark);}
+
+    /* SECTIONS */
+    section{position:relative;z-index:20;padding:4.5rem 2rem;}
+    .section-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);text-align:center;margin-bottom:0.5rem;}
+    .section-sub{text-align:center;font-size:1rem;color:var(--text-light);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;}
+
+    /* HERO */
+    .books-hero{
+      padding-top:68px;
+      background:linear-gradient(180deg,#2A1050 0%,#3D1A6E 100%);
+      text-align:center;padding-bottom:4rem;
+      position:relative;z-index:20;
+    }
+    .books-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,4rem);color:var(--yellow);padding-top:3rem;margin-bottom:0.6rem;}
+    .books-hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,0.7);max-width:540px;margin:0 auto 2rem;line-height:1.7;}
+
+    /* BOOK 1 — MAIN */
+    .book-main{background:var(--purple-dark);scroll-margin-top:85px;}
+    .book-main-inner{
+      max-width:980px;margin:0 auto;
+      display:flex;align-items:center;gap:4rem;
+      flex-wrap:wrap;justify-content:center;
+    }
+    .book-cover-wrap{position:relative;flex-shrink:0;}
+    .book-cover-wrap img{
+      width:min(280px,72vw);
+      border-radius:16px;
+      box-shadow:16px 16px 48px rgba(0,0,0,0.55);
+      display:block;
+    }
+    .book-badge{
+      position:absolute;top:-12px;right:-12px;
+      background:var(--yellow);color:var(--text);
+      font-family:'Fredoka One',cursive;font-size:0.85rem;
+      padding:0.4rem 0.9rem;border-radius:20px;
+      transform:rotate(8deg);box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    .book-info{max-width:460px;}
+    .book-number{font-size:0.78rem;text-transform:uppercase;letter-spacing:2px;color:var(--yellow);font-weight:800;margin-bottom:0.5rem;}
+    .book-info h2{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#fff;margin-bottom:1rem;line-height:1.2;}
+    .book-info p{color:rgba(255,255,255,0.75);line-height:1.8;margin-bottom:1rem;font-size:0.95rem;}
+    .book-verse{
+      background:rgba(255,255,255,0.08);
+      border-left:4px solid var(--yellow);
+      border-radius:0 12px 12px 0;
+      padding:1rem 1.25rem;
+      color:rgba(255,255,255,0.8);
+      font-style:italic;
+      margin-bottom:1.75rem;
+      font-size:0.9rem;
+      line-height:1.6;
+    }
+    .book-prices{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center;}
+    .price-tag{
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:12px;padding:0.5rem 1rem;
+      text-align:center;
+    }
+    .price-tag .price-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.55);display:block;margin-bottom:0.2rem;}
+    .price-tag .price-amount{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--yellow);}
+    .book-buttons{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .big-moments{padding:2rem 1.5rem 2.5rem;text-align:center;}
+    .big-moments h3{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--purple-dark);margin-bottom:1.25rem;}
+    .big-moments-grid{display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto;}
+    .big-moment-item{width:220px;}
+    .big-moment-item img{width:100%;height:150px;object-fit:cover;border-radius:14px;box-shadow:0 6px 20px rgba(61,26,110,0.15);}
+    .big-moment-item p{font-size:0.85rem;color:var(--text-light);margin-top:0.6rem;line-height:1.4;}
+
+    /* WHAT'S INSIDE */
+    .whats-inside{background:var(--off-white);}
+    .whats-inside .section-title{color:var(--purple-dark);}
+    .inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:900px;margin:0 auto;}
+    .inside-card{background:#fff;border-radius:18px;padding:1.75rem 1.25rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid var(--purple);}
+    .inside-emoji{font-size:2.2rem;display:block;margin-bottom:0.75rem;}
+    .inside-card h3{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--purple-dark);margin-bottom:0.4rem;}
+    .inside-card p{font-size:0.88rem;color:var(--text-light);line-height:1.6;}
+
+    /* COMING SOON */
+    .coming-soon{background:var(--sky);text-align:center;}
+    .coming-soon .section-title{color:var(--purple-dark);}
+    .coming-soon .section-sub{margin-bottom:2rem;}
+    .coming-silhouettes{margin:3rem auto 2rem;max-width:600px;}
+    .coming-silhouette-intro{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--purple-dark);margin-bottom:1.5rem;}
+    .silhouette-row{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;}
+    .reveal-card{background:var(--purple-dark);border-radius:18px;padding:1.5rem 1.5rem 1.25rem;width:200px;box-shadow:0 8px 24px rgba(61,26,110,0.25);cursor:pointer;transition:transform 0.2s;}
+    .reveal-card:hover{transform:translateY(-4px);}
+    .reveal-img-stack{position:relative;width:100%;height:170px;margin-bottom:1rem;}
+    .reveal-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;transition:opacity 0.6s ease;}
+    .reveal-silhouette{opacity:1;}
+    .reveal-actual{opacity:0;}
+    .reveal-card.revealed .reveal-silhouette{opacity:0;}
+    .reveal-card.revealed .reveal-actual{opacity:1;}
+    .reveal-card span{color:#fff;font-size:0.8rem;font-weight:700;display:block;line-height:1.4;}
+    .reveal-tap{color:var(--yellow) !important;font-size:0.75rem !important;margin-bottom:0.4rem;}
+    .coming-books{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto 2.5rem;}
+    .coming-book-card{
+      background:#fff;border-radius:18px;padding:2rem 1.5rem;
+      box-shadow:var(--card-shadow);width:220px;text-align:center;
+      border-top:4px solid var(--purple-light);
+      position:relative;
+    }
+    .coming-badge{
+      position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+      background:var(--purple-light);color:#fff;
+      font-family:'Fredoka One',cursive;font-size:0.75rem;
+      padding:0.25rem 0.85rem;border-radius:20px;white-space:nowrap;
+    }
+    .coming-emoji{font-size:2.5rem;display:block;margin-bottom:1rem;}
+    .coming-book-card h3{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--purple-dark);margin-bottom:0.5rem;line-height:1.3;}
+    .coming-book-card p{font-size:0.82rem;color:var(--text-light);line-height:1.55;}
+
+    /* PUBLISHER */
+    .publisher-strip{background:var(--off-white);text-align:center;padding:3rem 2rem;position:relative;z-index:20;}
+    .publisher-strip img{height:80px;mix-blend-mode:multiply;margin-bottom:0.75rem;}
+    .publisher-strip h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--purple-dark);margin-bottom:0.3rem;}
+    .publisher-strip p{color:var(--text-light);font-size:0.9rem;max-width:480px;margin:0 auto;}
+
+    /* FOOTER */
+    footer{position:relative;z-index:20;background:var(--purple-dark);color:rgba(255,255,255,0.6);padding:3rem 2rem 2rem;}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-bottom:2rem;}
+    .footer-col h4{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1rem;margin-bottom:0.85rem;}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;margin-bottom:0.45rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--yellow);}
+    .footer-col p{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.5);}
+    .footer-socials{display:flex;gap:0.6rem;margin-top:0.85rem;flex-wrap:wrap;}
+    .footer-socials a{background:rgba(255,255,255,0.1);color:#fff!important;border-radius:8px;padding:0.35rem 0.7rem;font-size:0.8rem;font-weight:700;margin-bottom:0!important;transition:background 0.2s!important;}
+    .footer-socials a:hover{background:var(--yellow)!important;color:var(--text)!important;}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:rgba(255,255,255,0.3);}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--purple-dark);padding:1rem 1.5rem 2rem;gap:0.4rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+      .nav-links.open a{padding:0.5rem 0.75rem;border-radius:8px;}
+      .hamburger{display:flex;}
+      .book-main-inner{flex-direction:column;align-items:center;gap:2rem;}
+      .book-cover-wrap img{width:min(220px,70vw);}
+      .book-info{text-align:center;}
+      .book-prices{justify-content:center;}
+      .book-buttons{justify-content:center;flex-direction:column;align-items:stretch;}
+    }
+    @media(max-width:480px){
+      section{padding:2.5rem 1rem;}
+      .section-title{font-size:clamp(1.4rem,6vw,2rem);}
+    }
+
+    /* TRADE PAGE */
+    .trade-wrap{max-width:1000px;margin:0 auto;padding:3rem 1.5rem;}
+    .trade-section{background:#fff;border-radius:24px;box-shadow:var(--card-shadow);padding:2rem;margin-bottom:2rem;}
+    .trade-section h2{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.7rem;margin-bottom:0.5rem;}
+    .trade-section > p.lead{color:var(--text-light);margin-bottom:1.5rem;line-height:1.7;}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
+    .step{background:var(--off-white);border-radius:18px;padding:1.25rem;text-align:center;}
+    .step-num{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--purple);color:#fff;font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:0.6rem;}
+    .step h3{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.1rem;margin-bottom:0.4rem;}
+    .step p{font-size:0.9rem;color:var(--text-light);line-height:1.55;}
+    .title-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.25rem;}
+    .title-card{text-align:center;}
+    .title-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;box-shadow:0 4px 14px rgba(61,26,110,0.18);}
+    .title-card h3{font-size:0.92rem;font-weight:800;color:var(--purple-dark);margin:0.6rem 0 0.2rem;line-height:1.3;}
+    .title-card .isbn{font-size:0.75rem;color:var(--text-light);}
+    .title-card .tag{display:inline-block;margin-top:0.35rem;font-size:0.72rem;font-weight:800;padding:0.15rem 0.6rem;border-radius:20px;background:var(--yellow);color:var(--text);}
+    .price-table{width:100%;border-collapse:collapse;margin:0.5rem 0 1rem;font-size:0.95rem;}
+    .price-table th{background:var(--purple-dark);color:#fff;padding:0.7rem;text-align:left;font-weight:800;}
+    .price-table th:first-child{border-radius:12px 0 0 0;} .price-table th:last-child{border-radius:0 12px 0 0;}
+    .price-table td{padding:0.7rem;border-bottom:1px solid #E6E2F0;}
+    .price-table tr:nth-child(even) td{background:var(--off-white);}
+    .price-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;}
+    .table-scroll{overflow-x:auto;}
+    .perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+    .perk{display:flex;gap:0.75rem;align-items:flex-start;}
+    .perk span{font-size:1.6rem;line-height:1;}
+    .perk p{font-size:0.92rem;color:var(--text-light);line-height:1.55;}
+    .perk strong{color:var(--purple-dark);}
+    .contact-box{background:var(--purple-dark);color:#fff;border-radius:24px;padding:2.25rem;text-align:center;}
+    .contact-box h2{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1.8rem;margin-bottom:0.6rem;}
+    .contact-box p{color:rgba(255,255,255,0.85);max-width:600px;margin:0 auto 1.25rem;line-height:1.7;}
+    @media(max-width:768px),(max-height:500px) and (orientation:landscape){
+      .trade-section{padding:1.4rem;} .trade-section h2{font-size:1.4rem;}
+      .price-table{font-size:0.85rem;} .price-table th,.price-table td{padding:0.55rem;}
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">THE <span>TOOLS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="trucks.html">Trucks &amp; Diggers</a></li>
+    <li><a href="world.html">Twin Falls World</a></li>
+    <li><a href="colouring.html">Colouring Pages</a></li>
+    <li><a href="games.html">Games</a></li>
+    <li><a href="shop.html" class="nav-shop">Shop</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="books-hero">
+  <h1>🤝 Trade &amp; Wholesale</h1>
+  <p>Everything your store needs to stock The Tools — titles, pricing and how to order, all in one place.</p>
+  <a href="mailto:mike@thetools.online?subject=Trade%20order%20%E2%80%94%20The%20Tools" class="btn btn-yellow">📧 Place an Order</a>
+</section>
+
+<div class="trade-wrap">
+
+  <!-- HOW TO ORDER -->
+  <section class="trade-section">
+    <h2>How to order</h2>
+    <p class="lead">Ordering takes a single email. There's no account to set up and no forms to fill in.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Choose your books</h3><p>Pick your titles and quantities. Mix and match across the whole series — the minimum is just <strong>10 books in total</strong>.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Email your order</h3><p>Send your list to <strong>mike@thetools.online</strong> and I'll confirm the total, including shipping.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Pay the invoice</h3><p>You'll receive an invoice you can pay securely by card.</p></div>
+      <div class="step"><div class="step-num">4</div><h3>Books arrive</h3><p>Books are printed and shipped direct to your store — usually within about two weeks.</p></div>
+    </div>
+  </section>
+
+  <!-- TITLES -->
+  <section class="trade-section">
+    <h2>Our titles</h2>
+    <p class="lead">Large 11&nbsp;×&nbsp;8.5&Prime; landscape picture books, full-colour artwork on every page, printed on heavy 80lb stock. Ages 2–12. Every book unlocks free colouring and activity pages with a secret word inside.</p>
+    <div class="title-grid">
+      <div class="title-card">
+        <img src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/>
+        <h3>The Tools Light Up Christmas</h3>
+        <div class="isbn">ISBN 978-1-9192077-3-5</div><span class="tag">New — out 9 Oct</span>
+      </div>
+      <div class="title-card">
+        <img src="img/book_thumbs/winter_rescue.png" alt="The Tools Winter Rescue"/>
+        <h3>The Tools Winter Rescue</h3>
+        <div class="isbn">ISBN 978-1-9192077-8-0</div>
+      </div>
+      <div class="title-card">
+        <img src="img/book_thumbs/monster_truck.png" alt="The Tools and the Monster Truck"/>
+        <h3>The Tools and the Monster Truck</h3>
+        <div class="isbn">ISBN 978-1-9192077-2-8</div>
+      </div>
+      <div class="title-card">
+        <img src="img/book_thumbs/railway.png" alt="The Tools and the Railway Bridge"/>
+        <h3>The Tools and the Railway Bridge</h3>
+        <div class="isbn">ISBN 978-1-9192077-4-2</div>
+      </div>
+      <div class="title-card">
+        <img src="img/book_thumbs/farm.png" alt="The Tools and the Farm"/>
+        <h3>The Tools and the Farm</h3>
+        <div class="isbn">ISBN 978-1-9192077-7-3</div>
+      </div>
+      <div class="title-card">
+        <img src="img/book_thumbs/character_book.png" alt="The Tools Character Book — Volume One"/>
+        <h3>The Tools Character Book — Volume One</h3>
+        <div class="isbn">ISBN 978-1-9192077-9-7</div>
+      </div>
+    </div>
+    <p class="price-note" style="margin-top:1.25rem;">🦖 <strong>Coming soon:</strong> The Tools and the Dinosaurs, and our solar system adventure — both mid-October.</p>
+  </section>
+
+  <!-- PRICING -->
+  <section class="trade-section">
+    <h2>US wholesale pricing</h2>
+    <p class="lead">Order size is counted across all titles combined, so a mixed order still qualifies for volume pricing. Reorders get the same volume pricing.</p>
+    <div class="table-scroll">
+    <table class="price-table">
+      <tr><th>Books per order</th><th>Story books</th><th>Character Book</th></tr>
+      <tr><td>10 – 24</td><td><strong>$10.00</strong> each</td><td><strong>$8.00</strong> each</td></tr>
+      <tr><td>25 – 49</td><td><strong>$9.50</strong> each</td><td><strong>$7.60</strong> each</td></tr>
+      <tr><td>50 – 99</td><td><strong>$9.00</strong> each</td><td><strong>$7.20</strong> each</td></tr>
+      <tr><td>100+</td><td><strong>$8.50</strong> each</td><td><strong>$6.80</strong> each</td></tr>
+    </table>
+    </div>
+    <p class="price-note"><strong>Suggested retail price:</strong> story books $19.99 · Character Book $15.99.<br/>
+    <strong>Shipping:</strong> charged at cost. US orders are printed and shipped within the United States.<br/>
+    <strong>UK, Europe &amp; elsewhere:</strong> please get in touch for trade pricing in your currency.</p>
+  </section>
+
+  <!-- PERKS -->
+  <section class="trade-section">
+    <h2>Free for every stockist</h2>
+    <div class="perks">
+      <div class="perk"><span>🎨</span><p><strong>A new activity pack every month</strong> — printable colouring and activity sheets for your kids' events, free of charge, all year round.</p></div>
+      <div class="perk"><span>🔑</span><p><strong>Secret word in every book</strong> — unlocks free colouring pages online, so families keep coming back.</p></div>
+      <div class="perk"><span>📄</span><p><strong>PDF review copies</strong> — happy to send PDFs of any title so you can take a proper look before ordering.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-box">
+    <h2>Questions or special requests?</h2>
+    <p>Every store is different, and I'm always happy to talk things through — whether that's a smaller first order, a mixed selection for a particular season, bulk pricing for larger orders, or anything else you'd like to discuss.</p>
+    <a href="mailto:mike@thetools.online?subject=Trade%20order%20%E2%80%94%20The%20Tools" class="btn btn-yellow">📧 mike@thetools.online</a>
+    <p style="margin-top:1.25rem;margin-bottom:0;font-size:0.9rem;">Mike Bannerman · Triceratops Publishing Ltd</p>
+  </section>
+
+</div>
+
+<!-- PUBLISHER -->
+<section class="publisher-strip">
+  <img src="img/triceratops_logo.png" alt="Triceratops Publishing"/>
+  <h3>Triceratops Publishing</h3>
+  <p>Children's books with a kind heart ✝️ — an independent imprint with Christian roots, crafted with laughter, creativity and genuine kindness.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>The Tools</h4>
+      <p>Children's picture book series — a crew of mischievous tools who always fix what they break, with kindness.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">📚 Lulu</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="characters.html">Characters</a>
+      <a href="books.html">Books</a>
+      <a href="trucks.html">Trucks &amp; Diggers</a>
+      <a href="world.html">Twin Falls World</a>
+      <a href="colouring.html">Free Colouring Pages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Buy the Book</h4>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — £10.99</a>
+      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — £16.99</a>
+      <a href="shop.html">Paz Plush Toy</a>
+      <a href="shop.html">Book &amp; Toy Bundle</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow the Crew</h4>
+      <a href="https://linktr.ee/thetools1997" target="_blank">🔗 All links — Linktree</a>
+      <a href="https://www.tiktok.com/@thetools1997" target="_blank"><i class="fab fa-tiktok"></i> TikTok @thetools1997</a>
+      <a href="https://www.instagram.com/thetools1997" target="_blank"><i class="fab fa-instagram"></i> Instagram @thetools1997</a>
+      <a href="https://www.facebook.com/profile.php?id=61577232822453" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Triceratops Publishing · The Tools Children's Series · thetools.online
+  </div>
+</footer>
+
+<script>
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, flakes = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function makeFlake(){ return { x:Math.random()*W, y:Math.random()*H-H, r:Math.random()*3+1.5, speed:Math.random()*1.2+0.4, drift:Math.random()*0.6-0.3, opacity:Math.random()*0.4+0.2 }; }
+for(let i=0;i<100;i++) flakes.push(makeFlake());
+function snow(){ ctx.clearRect(0,0,W,H); flakes.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${f.opacity})`; ctx.fill(); f.y+=f.speed; f.x+=f.drift; if(f.y>H+10) Object.assign(f,{x:Math.random()*W,y:-10,speed:Math.random()*1.2+0.4,drift:Math.random()*0.6-0.3}); }); requestAnimationFrame(snow); }
+snow();
+function toggleNav(){ document.getElementById('navLinks').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('nav')) document.getElementById('navLinks').classList.remove('open'); });
+</script>
+</body>
+</html>
