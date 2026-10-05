@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shop — The Tools</title>
-  <meta name="description" content="Shop The Tools — 6 children's books, Paz plush toy and book bundles. Paperback £10.99, Hardback £16.99, free UK postage on toys and bundles."/>
+  <meta name="description" content="Shop The Tools — 6 children's books, Paz plush toy and book bundles. Paperback £10.99, free UK postage on toys and bundles."/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -210,10 +210,6 @@
         <h3><a href="books.html#winter-rescue" style="color:inherit;text-decoration:none;">The Tools Winter Rescue</a></h3>
         <p>Diesel Drill gets the snow prep completely wrong. Trucks are breaking down all over Twin Falls. Then Paz leads a moose straight through the front of Lorenzo's bistro.</p>
         <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
-        <div class="format-tabs">
-          <button class="format-tab active" onclick="setFormat('wr','paperback',this)">Paperback</button>
-          <button class="format-tab" onclick="setFormat('wr','hardback',this)">Hardback</button>
-        </div>
         <div class="shop-card-price" id="wr-price">£10.99 <span>+ postage</span></div>
         <a id="wr-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
       </div>
@@ -244,10 +240,6 @@
         <h3><a href="books.html#railway" style="color:inherit;text-decoration:none;">The Tools and the Railway</a></h3>
         <p>Patrick's train is loaded and ready — but a family of beavers has taken a liking to the wooden railway bridge. Can the crew pull together and fix it before disaster strikes?</p>
         <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
-        <div class="format-tabs">
-          <button class="format-tab active" onclick="setFormat('rw','paperback',this)">Paperback</button>
-          <button class="format-tab" onclick="setFormat('rw','hardback',this)">Hardback</button>
-        </div>
         <div class="shop-card-price" id="rw-price">£10.99 <span>+ postage</span></div>
         <a id="rw-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-railway-bridge/paperback/product-p642jkz.html" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
       </div>
@@ -261,10 +253,6 @@
         <h3><a href="books.html#farm" style="color:inherit;text-decoration:none;">The Tools and the Farm</a></h3>
         <p>Pete could use a hand out at Twin Falls Farm. Between a runaway Ram, a very muddy mishap, and a tractor that needs fixing, it's a busy day down on the farm.</p>
         <p style="font-size:0.8rem;color:var(--purple);font-weight:700;margin-top:-0.5rem;margin-bottom:1rem;">🎨 Includes a free activity pack — find the secret word inside!</p>
-        <div class="format-tabs">
-          <button class="format-tab active" onclick="setFormat('fm','paperback',this)">Paperback</button>
-          <button class="format-tab" onclick="setFormat('fm','hardback',this)">Hardback</button>
-        </div>
         <div class="shop-card-price" id="fm-price">£10.99 <span>+ postage</span></div>
         <a id="fm-btn" href="https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-farm/paperback/product-w4gjqe2.html" class="btn btn-yellow btn-full">Buy Paperback on Lulu</a>
       </div>
@@ -302,20 +290,17 @@
 <script>
 const bookFormats = {
   wr: {
-    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html'},
-    hardback:{price:'£16.99',suffix:'+ postage',label:'Buy Hardback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html'}
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html'}
   },
   mt: {
     paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-monster-truck/paperback/product-je29447.html'},
     ebook:{price:'£4.99',suffix:'instant download',label:'Buy eBook — £4.99 📱',cls:'btn-purple',link:'https://payhip.com/b/tpxZH'}
   },
   rw: {
-    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-railway-bridge/paperback/product-p642jkz.html'},
-    hardback:{price:'£16.99',suffix:'+ postage',label:'📧 Enquire to Order',cls:'btn-purple',link:'mailto:hello@thetools.online?subject=Railway%20Book%20Enquiry%20-%20Hardback'}
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-railway-bridge/paperback/product-p642jkz.html'}
   },
   fm: {
-    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-farm/paperback/product-w4gjqe2.html'},
-    hardback:{price:'£16.99',suffix:'+ postage',label:'📧 Enquire to Order',cls:'btn-purple',link:'mailto:hello@thetools.online?subject=Farm%20Book%20Enquiry%20-%20Hardback'}
+    paperback:{price:'£10.99',suffix:'+ postage',label:'Buy Paperback on Lulu',cls:'btn-yellow',link:'https://www.lulu.com/shop/michael-bannerman/the-tools-and-the-farm/paperback/product-w4gjqe2.html'}
   }
 };
 
@@ -443,7 +428,6 @@ function setFormat(book, format, btnEl){
     <div class="footer-col">
       <h4>Buy the Book</h4>
       <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/paperback/product-dy4kp6d.html" target="_blank">Paperback — £10.99</a>
-      <a href="https://www.lulu.com/shop/michael-bannerman/the-tools-winter-rescue/hardcover/product-gj982zm.html" target="_blank">Hardback — £16.99</a>
       <a href="shop.html">Paz Plush Toy — £10.00</a>
       <a href="shop.html">Book &amp; Toy Bundle — £18.99</a>
     </div>
