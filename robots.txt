@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /moose.html
+Disallow: /trade-preview.html
+Disallow: /pdfs/preview/
 Sitemap: https://www.thetools.online/sitemap.xml
