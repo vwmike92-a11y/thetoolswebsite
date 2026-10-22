@@ -224,7 +224,8 @@
     .title-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;box-shadow:0 4px 14px rgba(61,26,110,0.18);}
     .title-card h3{font-size:0.92rem;font-weight:800;color:var(--purple-dark);margin:0.6rem 0 0.2rem;line-height:1.3;}
     .title-card .isbn{font-size:0.75rem;color:var(--text-light);}
-    .title-card .tag{display:inline-block;margin-top:0.35rem;font-size:0.72rem;font-weight:800;padding:0.15rem 0.6rem;border-radius:20px;background:var(--yellow);color:var(--text);}
+    .title-card{position:relative;}
+    .title-card .tag{position:absolute;top:8px;right:8px;margin:0;font-size:0.75rem;font-weight:800;padding:0.2rem 0.65rem;border-radius:20px;background:var(--yellow);color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,0.25);z-index:2;}
     .price-table{width:100%;border-collapse:collapse;margin:0.5rem 0 1rem;font-size:0.95rem;}
     .price-table th{background:var(--purple-dark);color:#fff;padding:0.7rem;text-align:left;font-weight:800;}
     .price-table th:first-child{border-radius:12px 0 0 0;} .price-table th:last-child{border-radius:0 12px 0 0;}
@@ -300,7 +301,7 @@
       <button class="title-card" type="button" data-book="christmas" aria-label="Look inside The Tools Light Up Christmas">
         <img src="img/book_thumbs/christmas.png" alt="The Tools Light Up Christmas"/>
         <h3>The Tools Light Up Christmas</h3>
-        <div class="isbn">ISBN 978-1-9192077-3-5</div>
+        <div class="isbn">ISBN 978-1-9192077-3-5</div><span class="tag">New</span>
         <span class="look">👀 Look inside</span>
       </button>
       <button class="title-card" type="button" data-book="winter-rescue" aria-label="Look inside The Tools Winter Rescue">
@@ -334,7 +335,7 @@
         <span class="look">👀 Look inside</span>
       </button>
       <div class="title-card" style="cursor:default;">
-        <img src="img/book_thumbs/dinosaur_dig.png" alt="The Tools Dinosaur Dig — coming soon"/>
+        <img src="img/book_thumbs/dinosaur_dig.png" alt="The Tools Dinosaur Dig"/>
         <h3>The Tools Dinosaur Dig</h3>
         <div class="isbn">ISBN 978-1-9192077-5-9</div><span class="tag">New</span>
       </div>
