@@ -290,7 +290,9 @@
 </nav>
 <section class="books-hero" style="padding-bottom:3rem;">
   <h1>🎉 Thank you!</h1>
-  <p>Your order request has reached us. I'll reply by email with a quotation including shipping, usually within one working day.</p>
+  <p>Your order request has reached us. We'll reply by email with a quotation including shipping, usually within one working day.</p>
+  <p id="refLine" style="display:none;font-size:1.15rem;">Your order reference: <strong id="refVal"></strong><br/><span style="font-size:0.95rem;">Please quote this if you contact us about your order.</span></p>
+  <script>(function(){var r=new URLSearchParams(location.search).get('ref');if(r&&/^TT-\d{6}-\d{4}$/.test(r)){document.getElementById('refVal').textContent=r;document.getElementById('refLine').style.display='block';}})();</script>
   <a href="trade.html" class="btn btn-yellow">Back to the trade page</a>
 </section>
 
