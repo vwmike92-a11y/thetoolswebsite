@@ -255,6 +255,9 @@
     .of-table th:first-child{border-radius:12px 0 0 0;} .of-table th:last-child{border-radius:0 12px 0 0;}
     .of-table td{padding:0.55rem 0.65rem;border-bottom:1px solid #E6E2F0;vertical-align:middle;}
     .of-table tr:nth-child(even) td{background:var(--off-white);}
+    .of-title{display:flex;align-items:center;gap:0.8rem;}
+    .of-title img{width:64px;height:auto;border-radius:8px;box-shadow:0 2px 6px rgba(61,26,110,0.18);flex-shrink:0;}
+    .of-nudge{margin-top:0.4rem;font-size:0.9rem;font-weight:700;color:#2E7D32;}
     .of-table .isbn{font-size:0.78rem;color:var(--text-light);}
     .of-table input[type=number]{width:5.5rem;padding:0.45rem;border:2px solid #D9CFE6;border-radius:10px;font:inherit;font-weight:800;text-align:center;}
     .of-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem 1.2rem;}
@@ -265,7 +268,7 @@
     .of-sum strong{color:var(--purple-dark);}
     .of-submit{display:block;margin:1.5rem auto 0;font-size:1.15rem;padding:0.9rem 2.4rem;border:none;cursor:pointer;}
     .of-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;margin-top:0.8rem;}
-    @media(max-width:700px){ .of-grid{grid-template-columns:1fr;} .of-table .isbn{display:none;} .of-table{font-size:0.88rem;} }
+    @media(max-width:700px){ .of-title img{width:48px;} .of-grid{grid-template-columns:1fr;} .of-table .isbn{display:none;} .of-table{font-size:0.88rem;} }
   </style>
 </head>
 <body>
@@ -328,14 +331,14 @@
     <div class="table-scroll">
     <table class="of-table">
       <tr><th>Title</th><th style="text-align:right;">Quantity</th></tr>
-        <tr><td><strong>The Tools Light Up Christmas</strong><div class="isbn">ISBN 978-1-9192077-3-5</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Light Up Christmas (qty)" data-kind="story" aria-label="Quantity of The Tools Light Up Christmas" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Winter Rescue</strong><div class="isbn">ISBN 978-1-9192077-8-0</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Winter Rescue (qty)" data-kind="story" aria-label="Quantity of The Tools Winter Rescue" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Monster Truck</strong><div class="isbn">ISBN 978-1-9192077-2-8</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Monster Truck (qty)" data-kind="story" aria-label="Quantity of The Tools and the Monster Truck" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Farm</strong><div class="isbn">ISBN 978-1-9192077-7-3</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="The Farm (qty)" data-kind="story" aria-label="Quantity of The Tools and the Farm" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Railway Bridge</strong><div class="isbn">ISBN 978-1-9192077-4-2</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Railway Bridge (qty)" data-kind="story" aria-label="Quantity of The Tools and the Railway Bridge" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Dinosaur Dig</strong><div class="isbn">ISBN 978-1-9192077-5-9</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Dinosaur Dig (qty)" data-kind="story" aria-label="Quantity of The Tools Dinosaur Dig" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Space Adventure</strong><div class="isbn">ISBN 978-1-0655185-0-1</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Space Adventure (qty)" data-kind="story" aria-label="Quantity of The Tools Space Adventure" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Character Book — Volume One</strong><div class="isbn">ISBN 978-1-9192077-9-7</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Character Book (qty)" data-kind="cb" aria-label="Quantity of The Tools Character Book — Volume One" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/christmas.png" alt="" loading="lazy"/><div><strong>The Tools Light Up Christmas</strong><div class="isbn">ISBN 978-1-9192077-3-5</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Light Up Christmas (qty)" data-kind="story" aria-label="Quantity of The Tools Light Up Christmas" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/winter_rescue.png" alt="" loading="lazy"/><div><strong>The Tools Winter Rescue</strong><div class="isbn">ISBN 978-1-9192077-8-0</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Winter Rescue (qty)" data-kind="story" aria-label="Quantity of The Tools Winter Rescue" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/monster_truck.png" alt="" loading="lazy"/><div><strong>The Tools and the Monster Truck</strong><div class="isbn">ISBN 978-1-9192077-2-8</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Monster Truck (qty)" data-kind="story" aria-label="Quantity of The Tools and the Monster Truck" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/farm.png" alt="" loading="lazy"/><div><strong>The Tools and the Farm</strong><div class="isbn">ISBN 978-1-9192077-7-3</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="The Farm (qty)" data-kind="story" aria-label="Quantity of The Tools and the Farm" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/railway.png" alt="" loading="lazy"/><div><strong>The Tools and the Railway Bridge</strong><div class="isbn">ISBN 978-1-9192077-4-2</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Railway Bridge (qty)" data-kind="story" aria-label="Quantity of The Tools and the Railway Bridge" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/dinosaur_dig.png" alt="" loading="lazy"/><div><strong>The Tools Dinosaur Dig</strong><div class="isbn">ISBN 978-1-9192077-5-9</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Dinosaur Dig (qty)" data-kind="story" aria-label="Quantity of The Tools Dinosaur Dig" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/space_adventure.png" alt="" loading="lazy"/><div><strong>The Tools Space Adventure</strong><div class="isbn">ISBN 978-1-0655185-0-1</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Space Adventure (qty)" data-kind="story" aria-label="Quantity of The Tools Space Adventure" placeholder="0"/></td></tr>
+        <tr><td><div class="of-title"><img src="img/book_thumbs/character_book.png" alt="" loading="lazy"/><div><strong>The Tools Character Book — Volume One</strong><div class="isbn">ISBN 978-1-9192077-9-7</div></div></div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Character Book (qty)" data-kind="cb" aria-label="Quantity of The Tools Character Book — Volume One" placeholder="0"/></td></tr>
     </table>
     </div>
     <div class="of-sum" id="ofSum">Total books: <strong>0</strong></div>
@@ -369,6 +372,8 @@
     let s=0,c=0; inputs.forEach(i=>{const v=Math.max(0,parseInt(i.value||0,10)||0); if(i.dataset.kind==='cb') c+=v; else s+=v;});
     const n=s+c, [ps,pc]=tier(n), est=(s*ps+c*pc);
     document.getElementById('ofSum').innerHTML=n? 'Total books: <strong>'+n+'</strong> · Estimated book cost: <strong>$'+est.toFixed(2)+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping, at $'+ps.toFixed(2)+' per story book)</span>' : 'Total books: <strong>0</strong>';
+    const next=n<25?[25,8.75]:n<100?[100,8.50]:n<250?[250,8.00]:null;
+    if(n && next && next[0]-n<=10){ document.getElementById('ofSum').innerHTML+='<div class="of-nudge">Add '+(next[0]-n)+' more book'+(next[0]-n===1?'':'s')+' to drop to $'+next[1].toFixed(2)+' per book.</div>'; }
     document.getElementById('estTotal').value=n? n+' books, est. $'+est.toFixed(2)+' before shipping':'';
   }
   inputs.forEach(i=>i.addEventListener('input',upd));
