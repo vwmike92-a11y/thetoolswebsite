@@ -319,7 +319,7 @@
     <input type="hidden" name="_template" value="table"/>
     <input type="hidden" name="_next" value="https://www.thetools.online/order-thanks.html"/>
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
-    <input type="hidden" name="Estimated books total" id="estTotal" value=""/>
+    <input type="hidden" name="_autoresponse" value="Thank you for your order request for The Tools books. I'll reply shortly with a quotation including shipping. Mike Bannerman, Triceratops Publishing Ltd"/>
 
   <!-- ORDER -->
   <section class="trade-section">
@@ -328,14 +328,14 @@
     <div class="table-scroll">
     <table class="of-table">
       <tr><th>Title</th><th style="text-align:right;">Quantity</th></tr>
-        <tr><td><strong>The Tools Light Up Christmas</strong><div class="isbn">ISBN 978-1-9192077-3-5</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools Light Up Christmas" data-kind="story" aria-label="Quantity of The Tools Light Up Christmas" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Winter Rescue</strong><div class="isbn">ISBN 978-1-9192077-8-0</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools Winter Rescue" data-kind="story" aria-label="Quantity of The Tools Winter Rescue" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Monster Truck</strong><div class="isbn">ISBN 978-1-9192077-2-8</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools and the Monster Truck" data-kind="story" aria-label="Quantity of The Tools and the Monster Truck" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Farm</strong><div class="isbn">ISBN 978-1-9192077-7-3</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools and the Farm" data-kind="story" aria-label="Quantity of The Tools and the Farm" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools and the Railway Bridge</strong><div class="isbn">ISBN 978-1-9192077-4-2</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools and the Railway Bridge" data-kind="story" aria-label="Quantity of The Tools and the Railway Bridge" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Dinosaur Dig</strong><div class="isbn">ISBN 978-1-9192077-5-9</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools Dinosaur Dig" data-kind="story" aria-label="Quantity of The Tools Dinosaur Dig" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Space Adventure</strong><div class="isbn">ISBN 978-1-0655185-0-1</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools Space Adventure" data-kind="story" aria-label="Quantity of The Tools Space Adventure" placeholder="0"/></td></tr>
-        <tr><td><strong>The Tools Character Book — Volume One</strong><div class="isbn">ISBN 978-1-9192077-9-7</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Qty — The Tools Character Book — Volume One" data-kind="cb" aria-label="Quantity of The Tools Character Book — Volume One" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools Light Up Christmas</strong><div class="isbn">ISBN 978-1-9192077-3-5</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Light Up Christmas (qty)" data-kind="story" aria-label="Quantity of The Tools Light Up Christmas" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools Winter Rescue</strong><div class="isbn">ISBN 978-1-9192077-8-0</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Winter Rescue (qty)" data-kind="story" aria-label="Quantity of The Tools Winter Rescue" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools and the Monster Truck</strong><div class="isbn">ISBN 978-1-9192077-2-8</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Monster Truck (qty)" data-kind="story" aria-label="Quantity of The Tools and the Monster Truck" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools and the Farm</strong><div class="isbn">ISBN 978-1-9192077-7-3</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="The Farm (qty)" data-kind="story" aria-label="Quantity of The Tools and the Farm" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools and the Railway Bridge</strong><div class="isbn">ISBN 978-1-9192077-4-2</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Railway Bridge (qty)" data-kind="story" aria-label="Quantity of The Tools and the Railway Bridge" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools Dinosaur Dig</strong><div class="isbn">ISBN 978-1-9192077-5-9</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Dinosaur Dig (qty)" data-kind="story" aria-label="Quantity of The Tools Dinosaur Dig" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools Space Adventure</strong><div class="isbn">ISBN 978-1-0655185-0-1</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Space Adventure (qty)" data-kind="story" aria-label="Quantity of The Tools Space Adventure" placeholder="0"/></td></tr>
+        <tr><td><strong>The Tools Character Book — Volume One</strong><div class="isbn">ISBN 978-1-9192077-9-7</div></td><td style="text-align:right;"><input type="number" min="0" step="1" inputmode="numeric" name="Character Book (qty)" data-kind="cb" aria-label="Quantity of The Tools Character Book — Volume One" placeholder="0"/></td></tr>
     </table>
     </div>
     <div class="of-sum" id="ofSum">Total books: <strong>0</strong></div>
@@ -353,6 +353,7 @@
       <div class="of-full"><label for="f_bill">Billing address (if different)</label><textarea id="f_bill" name="Billing address" rows="2"></textarea></div>
       <div class="of-full"><label for="f_notes">Notes or special requests</label><textarea id="f_notes" name="Notes" rows="3" placeholder="e.g. delivery dates, store name for your free colouring page"></textarea></div>
     </div>
+    <input type="hidden" name="Order total (estimate)" id="estTotal" value=""/>
     <button type="submit" class="btn btn-yellow of-submit">📨 Send my order</button>
     <p class="of-note" style="text-align:center;">This sends your order request to us. Nothing is charged now: I'll reply with a quotation including shipping, then an invoice you can pay by card, bank transfer or PayPal. Orders placed by 7 November arrive in good time for Thanksgiving and Christmas.</p>
   </section>
