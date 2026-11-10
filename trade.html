@@ -241,6 +241,36 @@
     .perk span{font-size:1.6rem;line-height:1;}
     .perk p{font-size:0.92rem;color:var(--text-light);line-height:1.55;}
     .perk strong{color:var(--purple-dark);}
+    /* MORE THAN JUST BOOKS / PACKAGES */
+    #packages{scroll-margin-top:85px;}
+    .mtb-hero{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:0.5rem;}
+    .mtb-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.25rem 0 1.75rem;}
+    .mtb-point{background:var(--off-white);border-radius:16px;padding:1.1rem 1.1rem 1rem;}
+    .mtb-point .ic{font-size:1.7rem;display:block;margin-bottom:0.4rem;}
+    .mtb-point h3{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.05rem;margin-bottom:0.3rem;}
+    .mtb-point p{font-size:0.9rem;color:var(--text-light);line-height:1.55;}
+    .mtb-ads{background:linear-gradient(135deg,#3D1A6E,#5B21B6);color:#fff;border-radius:20px;padding:1.5rem 1.6rem;margin-bottom:2rem;display:flex;gap:1.1rem;align-items:flex-start;}
+    .mtb-ads .ic{font-size:2.4rem;line-height:1;}
+    .mtb-ads h3{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1.35rem;margin-bottom:0.4rem;}
+    .mtb-ads p{color:rgba(255,255,255,0.9);line-height:1.65;font-size:0.97rem;margin-bottom:0.5rem;}
+    .mtb-ads p:last-child{margin-bottom:0;}
+    .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;align-items:stretch;}
+    .pkg-card{position:relative;border:3px solid var(--purple);border-radius:22px;padding:1.6rem 1.3rem 1.4rem;display:flex;flex-direction:column;background:#fff;}
+    .pkg-card.featured{border-color:var(--yellow-dark);box-shadow:0 10px 30px rgba(245,196,0,0.35);}
+    .pkg-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--yellow);color:var(--text);font-family:'Fredoka One',cursive;font-size:0.82rem;padding:0.3rem 0.95rem;border-radius:20px;white-space:nowrap;}
+    .pkg-num{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;font-weight:800;color:var(--purple);text-align:center;}
+    .pkg-card h3{font-family:'Fredoka One',cursive;color:var(--purple-dark);font-size:1.5rem;text-align:center;margin:0.15rem 0 0.4rem;}
+    .pkg-books{text-align:center;font-weight:800;color:var(--text);font-size:0.95rem;}
+    .pkg-price{text-align:center;font-family:'Fredoka One',cursive;font-size:2.1rem;color:var(--purple);margin:0.6rem 0 0.1rem;}
+    .pkg-per{text-align:center;font-size:0.85rem;color:var(--text-light);margin-bottom:1rem;}
+    .pkg-list{list-style:none;border-top:2px dashed #E6E2F0;padding-top:0.9rem;flex:1;}
+    .pkg-list li{display:flex;gap:0.5rem;font-size:0.9rem;line-height:1.45;color:var(--text);margin-bottom:0.55rem;}
+    .pkg-list li::before{content:'✓';color:#16A34A;font-weight:900;}
+    .pkg-list li.big{font-weight:800;color:var(--purple-dark);}
+    .pkg-card .btn{margin-top:1rem;text-align:center;}
+    .pkg-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;margin-top:1.25rem;text-align:center;}
+    @media(max-width:860px){.pkg-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;gap:1.75rem;}}
+    @media(max-width:768px),(max-height:500px) and (orientation:landscape){.mtb-ads{flex-direction:column;padding:1.25rem;}}
     .contact-box{background:var(--purple-dark);color:#fff;border-radius:24px;padding:2.25rem;text-align:center;}
     .contact-box h2{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1.8rem;margin-bottom:0.6rem;}
     .contact-box p{color:rgba(255,255,255,0.85);max-width:600px;margin:0 auto 1.25rem;line-height:1.7;}
@@ -352,6 +382,72 @@
     <p class="price-note" style="margin-top:1.25rem;">🚀 <strong>New:</strong> The Tools Space Adventure, a trip round the whole solar system, with Roxie sharing fun facts about each planet along the way.</p>
   </section>
 
+  <!-- MORE THAN JUST BOOKS -->
+  <section class="trade-section" id="packages">
+    <h2 class="mtb-hero">More than just books</h2>
+    <p class="lead">When you stock The Tools, you don't just get eight great picture books. Every store also gets free marketing, made by us and designed to bring families through your door.</p>
+
+    <div class="mtb-points">
+      <div class="mtb-point"><span class="ic">📚</span><h3>The books</h3><p>Eight large-format picture books for ages 2–12, about a crew of tool characters who cause chaos and always fix it together. A <strong>50%+ margin</strong> on every copy, with no minimum order.</p></div>
+      <div class="mtb-point"><span class="ic">🎨</span><h3>Free activity packs, every month</h3><p>New tool-themed colouring and activity sheets every month, free all year round. Hand them out at the counter or use them for kids' events.</p></div>
+      <div class="mtb-point"><span class="ic">🚚</span><h3>Artwork made for your store</h3><p>Your store's name on one of the crew's trucks: a colouring page for kids, and a full-colour version for your social media.</p></div>
+    </div>
+
+    <div class="mtb-ads">
+      <span class="ic">📣</span>
+      <div>
+        <h3>Free Facebook &amp; Instagram ads for your store</h3>
+        <p>With every package, we run local ads to families with young children around your store, specifically designed to draw people to your store. The ads show parents and grandparents exactly where they can buy The Tools: your store.</p>
+        <p>So the books don't just sell on your shelf at a 50%+ margin. They bring new customers through your doors, and families who come in for a book often leave with more.</p>
+      </div>
+    </div>
+
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <div class="pkg-num">Package 1</div>
+        <h3>Starter</h3>
+        <div class="pkg-books">5 of each title · 40 books</div>
+        <div class="pkg-price">$340</div>
+        <div class="pkg-per">$8.50 a book · 53% margin</div>
+        <ul class="pkg-list">
+          <li class="big">2 weeks of free local ads for your store</li>
+          <li>Free monthly activity packs</li>
+          <li>Free artwork with your store's name</li>
+        </ul>
+        <a class="btn btn-purple" href="order.html">Order the Starter</a>
+      </div>
+      <div class="pkg-card featured">
+        <span class="pkg-badge">⭐ Most popular</span>
+        <div class="pkg-num">Package 2</div>
+        <h3>Full Collection</h3>
+        <div class="pkg-books">10 of each title · 80 books</div>
+        <div class="pkg-price">$680</div>
+        <div class="pkg-per">$8.50 a book · 53% margin</div>
+        <ul class="pkg-list">
+          <li class="big">4 weeks of free local ads for your store</li>
+          <li>Free monthly activity packs</li>
+          <li>Free artwork with your store's name</li>
+        </ul>
+        <a class="btn btn-yellow" href="order.html">Order the Full Collection</a>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-num">Package 3</div>
+        <h3>Premium</h3>
+        <div class="pkg-books">25 of each title · 200 books</div>
+        <div class="pkg-price">$1,600</div>
+        <div class="pkg-per">$8.00 a book · 56% margin</div>
+        <ul class="pkg-list">
+          <li class="big">A full season (8 weeks) of free local ads for your store</li>
+          <li>Free monthly activity packs</li>
+          <li>Free artwork with your store's name, plus a short video</li>
+          <li>Your store featured on The Tools' own social pages</li>
+        </ul>
+        <a class="btn btn-purple" href="order.html">Order Premium</a>
+      </div>
+    </div>
+    <p class="pkg-note">Prices are per store, based on a suggested retail price of $17.99. Owner groups and chains can order a package for every store. Prefer to start smaller? There's <strong>no minimum order</strong>: see the pricing below, and every store still gets the monthly activity packs and its own artwork. Every book also has a secret word that unlocks free colouring pages online, so families keep coming back.</p>
+  </section>
+
   <!-- PRICING -->
   <section class="trade-section">
     <h2>US wholesale pricing</h2>
@@ -382,17 +478,6 @@
     <strong>Suggested retail price:</strong> $17.99 per story book, $15.99 for the Character Book. Retail pricing is at the discretion of each store. The "Lowest retail at 25% margin" column shows the lowest price a store can sell at and still keep a 25% margin, before shipping.<br/>
     <strong>Shipping:</strong> quoted at cost with your order. US orders are printed and shipped within the United States.<br/>
     <strong>UK, Europe &amp; elsewhere:</strong> we print and ship worldwide. Please get in touch for pricing in your currency and shipping costs.</p>
-  </section>
-
-  <!-- PERKS -->
-  <section class="trade-section">
-    <h2>Free for every stockist</h2>
-    <div class="perks">
-      <div class="perk"><span>🚚</span><p><strong>Your store, in the book's world</strong>: a printable colouring page with your store's name on one of the characters' trucks, free with your first order. One printable version for kids to colour, and one digital full-colour version for your social media.</p></div>
-      <div class="perk"><span>🎨</span><p><strong>A new activity pack every month</strong> — printable colouring and activity sheets for your kids' events, free of charge, all year round.</p></div>
-      <div class="perk"><span>🔑</span><p><strong>Secret word in every book</strong> — unlocks free colouring pages online, so families keep coming back.</p></div>
-      <div class="perk"><span>📄</span><p><strong>PDF review copies</strong> — happy to send PDFs of any title so you can take a proper look before ordering.</p></div>
-    </div>
   </section>
 
   <!-- CONTACT -->
