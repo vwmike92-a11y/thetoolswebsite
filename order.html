@@ -270,7 +270,12 @@
     .of-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;margin-top:0.8rem;}
     @media(max-width:700px){ .of-title img{width:48px;} .of-grid{grid-template-columns:1fr;} .of-table .isbn{display:none;} .of-table{font-size:0.88rem;} }
       .books-hero .btn{margin:0.3rem;}
-  </style>
+      .pkg-banner{scroll-margin-top:90px;border:4px solid var(--purple);border-radius:22px;padding:1.3rem 1.5rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#FFE94D,#FFD600);box-shadow:0 8px 22px rgba(61,26,110,0.18);}
+    .pkg-banner h2{font-family:'Fredoka One',cursive;color:#3D1A6E;font-size:1.5rem;margin:0 0 0.35rem;}
+    .pkg-banner p{margin:0;color:#2B1250;font-weight:600;line-height:1.6;}
+    .pkg-banner.changed{background:#FAF7FF;box-shadow:none;border-style:dashed;}
+    .pkg-banner button{background:none;border:none;padding:0;color:var(--purple);font-weight:800;text-decoration:underline;cursor:pointer;font-size:1rem;font-family:inherit;}
+</style>
 </head>
 <body>
 
@@ -327,8 +332,11 @@
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
     <input type="hidden" name="_autoresponse" value="Thank you for your order request for The Tools books. We'll reply shortly with a quotation including shipping. Triceratops Publishing Ltd"/>
 
+  <input type="hidden" name="Package" id="pkgField" value="None (own choice of books)"/>
+  <div class="pkg-banner" id="pkgBanner" hidden></div>
+
   <!-- ORDER -->
-  <section class="trade-section">
+  <section class="trade-section" id="yourOrder">
     <h2>Your order</h2>
     <p class="lead">Mix and match any titles. You can read every book in full on our <a href="trade-preview.html">trade preview page</a> (access code TWINFALLS).</p>
     <div class="table-scroll">
@@ -362,7 +370,7 @@
     <input type="hidden" name="Order reference" id="orderRef" value=""/>
     <input type="hidden" name="Order total (estimate)" id="estTotal" value=""/>
     <button type="submit" class="btn btn-yellow of-submit">📨 Send my order</button>
-    <p class="of-note" style="text-align:center;">This sends your order request to us. Nothing is charged now: we'll reply with a quotation including shipping, then an invoice you can pay by card, bank transfer or PayPal. Orders placed by 7 November arrive in good time for Thanksgiving and Christmas.</p>
+    <p class="of-note" style="text-align:center;">This sends your order request to us. Nothing is charged now: we'll reply with a quotation including shipping, then an invoice you can pay by card, bank transfer or PayPal. Books are printed and shipped direct to your store, usually within about two weeks.</p>
   </section>
   </form>
 
@@ -372,15 +380,43 @@
 (function(){
   const inputs=[...document.querySelectorAll('.of-table input[type=number]')];
   const tier=n=>n>=250?[8.00,6.50]:n>=100?[8.50,6.90]:n>=25?[8.75,7.10]:[9.00,7.30];
+  const PK={starter:{n:1,name:'Starter',qty:5,price:340,ads:'2 weeks of free local ads for your store'},
+            full:{n:2,name:'Full Collection',qty:10,price:680,ads:'4 weeks of free local ads for your store'},
+            premium:{n:3,name:'Premium',qty:25,price:1600,ads:'a full season (8 weeks) of free local ads for your store'}};
+  const pk=PK[(new URLSearchParams(location.search).get('package')||'').toLowerCase()]||null;
+  const banner=document.getElementById('pkgBanner'), pkgField=document.getElementById('pkgField');
+  const isPkg=()=>pk && inputs.every(i=>(parseInt(i.value||0,10)||0)===pk.qty);
+  function fillPkg(){ inputs.forEach(i=>i.value=pk.qty); upd(); }
+  function showBanner(){
+    if(!pk) return;
+    banner.hidden=false;
+    if(isPkg()){
+      banner.classList.remove('changed');
+      banner.innerHTML='<h2>Package '+pk.n+': '+pk.name+'</h2><p>'+pk.qty+' of each title · '+(pk.qty*inputs.length)+' books · <strong>$'+pk.price.toLocaleString('en-US')+'</strong> before shipping. Includes '+pk.ads+', free monthly activity packs and free artwork with your store\'s name. The quantities below are filled in for you: just add your details and press Send.</p>';
+    } else {
+      banner.classList.add('changed');
+      banner.innerHTML='<p>You\'ve changed the quantities, so this is no longer the '+pk.name+' package and our normal volume pricing applies. <button type="button" id="pkgRestore">Put the '+pk.name+' package back</button></p>';
+      document.getElementById('pkgRestore').addEventListener('click',fillPkg);
+    }
+  }
   function upd(){
     let s=0,c=0; inputs.forEach(i=>{const v=Math.max(0,parseInt(i.value||0,10)||0); if(i.dataset.kind==='cb') c+=v; else s+=v;});
     const n=s+c, [ps,pc]=tier(n), est=(s*ps+c*pc);
+    if(isPkg()){
+      document.getElementById('ofSum').innerHTML='Total books: <strong>'+n+'</strong> · '+pk.name+' package price: <strong>$'+pk.price.toLocaleString('en-US')+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping)</span>';
+      document.getElementById('estTotal').value=pk.name+' package: '+n+' books, $'+pk.price.toFixed(2)+' before shipping';
+      pkgField.value='Package '+pk.n+': '+pk.name+' ('+pk.qty+' of each title, $'+pk.price+', '+pk.ads+')';
+      showBanner(); return;
+    }
+    pkgField.value='None (own choice of books)';
     document.getElementById('ofSum').innerHTML=n? 'Total books: <strong>'+n+'</strong> · Estimated book cost: <strong>$'+est.toFixed(2)+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping, at $'+ps.toFixed(2)+' per story book)</span>' : 'Total books: <strong>0</strong>';
     const next=n<25?[25,8.75]:n<100?[100,8.50]:n<250?[250,8.00]:null;
     if(n && next && next[0]-n<=10){ document.getElementById('ofSum').innerHTML+='<div class="of-nudge">Add '+(next[0]-n)+' more book'+(next[0]-n===1?'':'s')+' to drop to $'+next[1].toFixed(2)+' per book.</div>'; }
     document.getElementById('estTotal').value=n? n+' books, est. $'+est.toFixed(2)+' before shipping':'';
+    showBanner();
   }
   inputs.forEach(i=>i.addEventListener('input',upd));
+  if(pk){ fillPkg(); setTimeout(()=>banner.scrollIntoView({behavior:'smooth',block:'start'}),300); }
   document.getElementById('orderForm').addEventListener('submit',e=>{
     const n=inputs.reduce((a,i)=>a+(parseInt(i.value||0,10)||0),0);
     if(!n){e.preventDefault(); alert('Please enter a quantity for at least one title.'); inputs[0].focus(); return;}
@@ -388,7 +424,7 @@
     const ref='TT-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.floor(1000+Math.random()*9000);
     const f=e.target;
     document.getElementById('orderRef').value=ref;
-    f.querySelector('[name="_subject"]').value='New wholesale order '+ref+' — The Tools';
+    f.querySelector('[name="_subject"]').value='New wholesale order '+ref+(isPkg()?' — '+pk.name+' package':'')+' — The Tools';
     f.querySelector('[name="_next"]').value='https://www.thetools.online/order-thanks.html?ref='+ref;
     const ar=f.querySelector('[name="_autoresponse"]');
     ar.value='Thank you for your order request for The Tools books. Your order reference is '+ref+'. We\'ll reply shortly with a quotation including shipping. Triceratops Publishing Ltd';
