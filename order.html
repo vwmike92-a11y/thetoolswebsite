@@ -273,6 +273,13 @@
       .pkg-banner{scroll-margin-top:90px;border:4px solid var(--purple);border-radius:22px;padding:1.3rem 1.5rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#FFE94D,#FFD600);box-shadow:0 8px 22px rgba(61,26,110,0.18);}
     .pkg-banner h2{font-family:'Fredoka One',cursive;color:#3D1A6E;font-size:1.5rem;margin:0 0 0.35rem;}
     .pkg-banner p{margin:0;color:#2B1250;font-weight:600;line-height:1.6;}
+    .pkg-banner.pk-starter{background:linear-gradient(135deg,#D9F0FF,#A9DCFF);border-color:#1E6FB8;}
+    .pkg-banner.pk-starter h2{color:#12406E;}
+    .pkg-banner.pk-starter p{color:#12304F;}
+    .pkg-banner.pk-premium{background:linear-gradient(135deg,#3D1A6E,#5B21B6);border-color:#FFD600;}
+    .pkg-banner.pk-premium h2{color:#FFD600;}
+    .pkg-banner.pk-premium p{color:#fff;}
+    .pkg-banner.pk-premium p strong{color:#FFD600;}
     .pkg-banner.changed{background:#FAF7FF;box-shadow:none;border-style:dashed;}
     .pkg-banner button{background:none;border:none;padding:0;color:var(--purple);font-weight:800;text-decoration:underline;cursor:pointer;font-size:1rem;font-family:inherit;}
 </style>
@@ -407,10 +414,10 @@
     pkgField.value=cur? 'Package '+cur.n+': '+cur.name+' ('+n+' books, '+money(est)+', '+cur.ads+')' : 'None (own choice of books)';
     // banner
     if(cur){
-      banner.hidden=false; banner.classList.remove('changed');
+      banner.hidden=false; banner.className='pkg-banner pk-'+cur.key;
       banner.innerHTML='<h2>Package '+cur.n+': '+cur.name+'</h2><p>'+n+' books · <strong>'+money(est)+'</strong> before shipping. Includes '+cur.ads+', free monthly activity packs and free artwork with your store\'s name. Mix the titles any way you like: the package stays as long as your total is '+cur.min+' books or more.'+(nextPk?' Add '+books(nextPk.min-n)+' to move up to the '+nextPk.name+' package.':'')+'</p>';
     } else if(pk){
-      banner.hidden=false; banner.classList.add('changed');
+      banner.hidden=false; banner.className='pkg-banner changed';
       banner.innerHTML='<p>'+(n? 'You\'re '+books(pk.min-n).replace(' more','')+' away from the '+pk.name+' package. Add '+books(pk.min-n)+', in any mix of titles, to get $'+pk.rate.toFixed(2)+' a book and '+pk.ads+'.' : 'Choose your books below. '+pk.min+' books or more, in any mix of titles, makes the '+pk.name+' package.')+' <button type="button" id="pkgRestore">Fill in '+pk.qty+' of each title</button></p>';
       document.getElementById('pkgRestore').addEventListener('click',fillPkg);
     } else { banner.hidden=true; }
