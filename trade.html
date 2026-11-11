@@ -268,10 +268,12 @@
     .pkg-list li::before{content:'✓';color:#16A34A;font-weight:900;}
     .pkg-list li.big{font-weight:800;color:var(--purple-dark);}
     .pkg-card .btn{margin-top:1rem;text-align:center;}
-    .own-order{border:3px dashed var(--purple);border-radius:22px;padding:1.3rem 1.5rem;margin-bottom:1.5rem;display:flex;gap:1.25rem;align-items:center;justify-content:space-between;background:#FAF7FF;}
-    .own-order h3{font-family:'Fredoka One',cursive;color:var(--purple);font-size:1.3rem;margin-bottom:0.3rem;}
-    .own-order p{line-height:1.6;font-size:0.97rem;margin:0;}
-    .own-order .btn{white-space:nowrap;flex-shrink:0;}
+    .own-order{border:4px solid var(--purple);border-radius:22px;padding:1.5rem 1.7rem;margin-bottom:1.5rem;display:flex;gap:1.25rem;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#FFE94D,#FFD600);box-shadow:0 8px 22px rgba(61,26,110,0.18);}
+    .own-order .ic{font-size:2.6rem;line-height:1;flex-shrink:0;}
+    .own-order .txt{flex:1;}
+    .own-order h3{font-family:'Fredoka One',cursive;color:#3D1A6E;font-size:1.65rem;margin-bottom:0.35rem;}
+    .own-order p{line-height:1.6;font-size:1.02rem;margin:0;color:#2B1250;font-weight:600;}
+    .own-order .btn{white-space:nowrap;flex-shrink:0;font-size:1.1rem;padding:0.9rem 1.7rem;}
     .pkg-or{text-align:center;font-family:'Fredoka One',cursive;color:var(--purple);font-size:1.15rem;margin:0 0 1.25rem;}
     @media(max-width:768px),(max-height:500px) and (orientation:landscape){.own-order{flex-direction:column;align-items:flex-start;}}
     .pkg-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;margin-top:1.25rem;text-align:center;}
@@ -343,7 +345,8 @@
     </div>
 
     <div class="own-order">
-      <div>
+      <span class="ic">🛒</span>
+      <div class="txt">
         <h3>Order any books, any quantity</h3>
         <p>You don't have to choose a package. Pick the titles and numbers you want, from a single copy, at <strong>$9.00 a book</strong> or less. Every order still comes with the free monthly activity packs and your store's artwork.</p>
       </div>
