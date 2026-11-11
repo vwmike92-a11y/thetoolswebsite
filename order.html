@@ -380,40 +380,40 @@
 (function(){
   const inputs=[...document.querySelectorAll('.of-table input[type=number]')];
   const tier=n=>n>=250?[8.00,6.50]:n>=100?[8.50,6.90]:n>=25?[8.75,7.10]:[9.00,7.30];
-  const PK={starter:{n:1,name:'Starter',qty:5,price:340,ads:'2 weeks of free local ads for your store'},
-            full:{n:2,name:'Full Collection',qty:10,price:680,ads:'4 weeks of free local ads for your store'},
-            premium:{n:3,name:'Premium',qty:25,price:1600,ads:'a full season (8 weeks) of free local ads for your store'}};
-  const pk=PK[(new URLSearchParams(location.search).get('package')||'').toLowerCase()]||null;
+  const PKS=[{key:'starter',n:1,name:'Starter',min:40,qty:5,rate:8.50,ads:'2 weeks of free local ads for your store'},
+             {key:'full',n:2,name:'Full Collection',min:80,qty:10,rate:8.50,ads:'4 weeks of free local ads for your store'},
+             {key:'premium',n:3,name:'Premium',min:200,qty:25,rate:8.00,ads:'a full season (8 weeks) of free local ads for your store'}];
+  const linkKey=(new URLSearchParams(location.search).get('package')||'').toLowerCase();
+  const pk=PKS.find(x=>x.key===linkKey)||null;           // package chosen on the trade page, if any
   const banner=document.getElementById('pkgBanner'), pkgField=document.getElementById('pkgField');
-  const isPkg=()=>pk && inputs.every(i=>(parseInt(i.value||0,10)||0)===pk.qty);
+  const money=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
+  const books=k=>k+' more book'+(k===1?'':'s');
+  let cur=null;                                           // package the order currently qualifies for
   function fillPkg(){ inputs.forEach(i=>i.value=pk.qty); upd(); }
-  function showBanner(){
-    if(!pk) return;
-    banner.hidden=false;
-    if(isPkg()){
-      banner.classList.remove('changed');
-      banner.innerHTML='<h2>Package '+pk.n+': '+pk.name+'</h2><p>'+pk.qty+' of each title · '+(pk.qty*inputs.length)+' books · <strong>$'+pk.price.toLocaleString('en-US')+'</strong> before shipping. Includes '+pk.ads+', free monthly activity packs and free artwork with your store\'s name. The quantities below are filled in for you: just add your details and press Send.</p>';
-    } else {
-      banner.classList.add('changed');
-      banner.innerHTML='<p>You\'ve changed the quantities, so this is no longer the '+pk.name+' package and our normal volume pricing applies. <button type="button" id="pkgRestore">Put the '+pk.name+' package back</button></p>';
-      document.getElementById('pkgRestore').addEventListener('click',fillPkg);
-    }
-  }
   function upd(){
     let s=0,c=0; inputs.forEach(i=>{const v=Math.max(0,parseInt(i.value||0,10)||0); if(i.dataset.kind==='cb') c+=v; else s+=v;});
-    const n=s+c, [ps,pc]=tier(n), est=(s*ps+c*pc);
-    if(isPkg()){
-      document.getElementById('ofSum').innerHTML='Total books: <strong>'+n+'</strong> · '+pk.name+' package price: <strong>$'+pk.price.toLocaleString('en-US')+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping)</span>';
-      document.getElementById('estTotal').value=pk.name+' package: '+n+' books, $'+pk.price.toFixed(2)+' before shipping';
-      pkgField.value='Package '+pk.n+': '+pk.name+' ('+pk.qty+' of each title, $'+pk.price+', '+pk.ads+')';
-      showBanner(); return;
+    const n=s+c, [ps,pc]=tier(n), normal=(s*ps+c*pc);
+    cur=[...PKS].reverse().find(x=>n>=x.min)||null;
+    const nextPk=PKS.find(x=>n<x.min)||null;
+    const est=cur? Math.min(normal,n*cur.rate) : normal;
+    const sum=document.getElementById('ofSum');
+    if(!n){ sum.innerHTML='Total books: <strong>0</strong>'; }
+    else if(cur){ sum.innerHTML='Total books: <strong>'+n+'</strong> · '+cur.name+' package price: <strong>'+money(est)+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping)</span>'; }
+    else { sum.innerHTML='Total books: <strong>'+n+'</strong> · Estimated book cost: <strong>'+money(est)+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping, at $'+ps.toFixed(2)+' per story book)</span>'; }
+    if(n && nextPk){
+      sum.innerHTML+='<div class="of-nudge">Add '+books(nextPk.min-n)+', in any mix of titles, to reach the '+nextPk.name+' package: $'+nextPk.rate.toFixed(2)+' a book and '+nextPk.ads+'.</div>';
     }
-    pkgField.value='None (own choice of books)';
-    document.getElementById('ofSum').innerHTML=n? 'Total books: <strong>'+n+'</strong> · Estimated book cost: <strong>$'+est.toFixed(2)+'</strong> <span style="font-weight:600;color:var(--text-light)">(before shipping, at $'+ps.toFixed(2)+' per story book)</span>' : 'Total books: <strong>0</strong>';
-    const next=n<25?[25,8.75]:n<100?[100,8.50]:n<250?[250,8.00]:null;
-    if(n && next && next[0]-n<=10){ document.getElementById('ofSum').innerHTML+='<div class="of-nudge">Add '+(next[0]-n)+' more book'+(next[0]-n===1?'':'s')+' to drop to $'+next[1].toFixed(2)+' per book.</div>'; }
-    document.getElementById('estTotal').value=n? n+' books, est. $'+est.toFixed(2)+' before shipping':'';
-    showBanner();
+    document.getElementById('estTotal').value=n? (cur?cur.name+' package: ':'')+n+' books, '+(cur?'':'est. ')+money(est)+' before shipping':'';
+    pkgField.value=cur? 'Package '+cur.n+': '+cur.name+' ('+n+' books, '+money(est)+', '+cur.ads+')' : 'None (own choice of books)';
+    // banner
+    if(cur){
+      banner.hidden=false; banner.classList.remove('changed');
+      banner.innerHTML='<h2>Package '+cur.n+': '+cur.name+'</h2><p>'+n+' books · <strong>'+money(est)+'</strong> before shipping. Includes '+cur.ads+', free monthly activity packs and free artwork with your store\'s name. Mix the titles any way you like: the package stays as long as your total is '+cur.min+' books or more.'+(nextPk?' Add '+books(nextPk.min-n)+' to move up to the '+nextPk.name+' package.':'')+'</p>';
+    } else if(pk){
+      banner.hidden=false; banner.classList.add('changed');
+      banner.innerHTML='<p>'+(n? 'You\'re '+books(pk.min-n).replace(' more','')+' away from the '+pk.name+' package. Add '+books(pk.min-n)+', in any mix of titles, to get $'+pk.rate.toFixed(2)+' a book and '+pk.ads+'.' : 'Choose your books below. '+pk.min+' books or more, in any mix of titles, makes the '+pk.name+' package.')+' <button type="button" id="pkgRestore">Fill in '+pk.qty+' of each title</button></p>';
+      document.getElementById('pkgRestore').addEventListener('click',fillPkg);
+    } else { banner.hidden=true; }
   }
   inputs.forEach(i=>i.addEventListener('input',upd));
   if(pk){ fillPkg(); setTimeout(()=>banner.scrollIntoView({behavior:'smooth',block:'start'}),300); }
@@ -424,7 +424,7 @@
     const ref='TT-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.floor(1000+Math.random()*9000);
     const f=e.target;
     document.getElementById('orderRef').value=ref;
-    f.querySelector('[name="_subject"]').value='New wholesale order '+ref+(isPkg()?' — '+pk.name+' package':'')+' — The Tools';
+    f.querySelector('[name="_subject"]').value='New wholesale order '+ref+(cur?' — '+cur.name+' package':'')+' — The Tools';
     f.querySelector('[name="_next"]').value='https://www.thetools.online/order-thanks.html?ref='+ref;
     const ar=f.querySelector('[name="_autoresponse"]');
     ar.value='Thank you for your order request for The Tools books. Your order reference is '+ref+'. We\'ll reply shortly with a quotation including shipping. Triceratops Publishing Ltd';
