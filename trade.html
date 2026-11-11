@@ -268,6 +268,12 @@
     .pkg-list li::before{content:'✓';color:#16A34A;font-weight:900;}
     .pkg-list li.big{font-weight:800;color:var(--purple-dark);}
     .pkg-card .btn{margin-top:1rem;text-align:center;}
+    .own-order{border:3px dashed var(--purple);border-radius:22px;padding:1.3rem 1.5rem;margin-bottom:1.5rem;display:flex;gap:1.25rem;align-items:center;justify-content:space-between;background:#FAF7FF;}
+    .own-order h3{font-family:'Fredoka One',cursive;color:var(--purple);font-size:1.3rem;margin-bottom:0.3rem;}
+    .own-order p{line-height:1.6;font-size:0.97rem;margin:0;}
+    .own-order .btn{white-space:nowrap;flex-shrink:0;}
+    .pkg-or{text-align:center;font-family:'Fredoka One',cursive;color:var(--purple);font-size:1.15rem;margin:0 0 1.25rem;}
+    @media(max-width:768px),(max-height:500px) and (orientation:landscape){.own-order{flex-direction:column;align-items:flex-start;}}
     .pkg-note{font-size:0.88rem;color:var(--text-light);line-height:1.6;margin-top:1.25rem;text-align:center;}
     @media(max-width:860px){.pkg-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;gap:1.75rem;}}
     @media(max-width:768px),(max-height:500px) and (orientation:landscape){.mtb-ads{flex-direction:column;padding:1.25rem;}}
@@ -308,6 +314,7 @@
   <h1>🤝 Trade &amp; Wholesale</h1>
   <p>Earn a <strong style="color:#FFD600;">50%+ margin</strong> on every book, and let us bring the customers: free local ads for your store, free monthly activity packs and free artwork with your store's name.</p>
   <a href="order.html" class="btn btn-yellow">📝 Order Online</a>
+  <a href="#packages" class="btn btn-white">🎁 Browse Package Deals</a>
   <a href="trade-preview.html" class="btn btn-white">📖 Read the Books</a>
   <button type="button" class="btn btn-purple mail-trigger" data-slot="heroHelp" data-lead="To order, email us" data-subject="Trade order — The Tools">📧 Order by Email</button>
   <div class="mail-help mail-help-centre" id="heroHelp" hidden></div>
@@ -329,11 +336,20 @@
     <div class="mtb-ads">
       <span class="ic">📣</span>
       <div>
-        <h3>Free Facebook &amp; Instagram ads for your store</h3>
-        <p>With every package, we run local ads to families with young children around your store, specifically designed to draw people to your store. The ads show parents and grandparents exactly where they can buy The Tools: your store.</p>
+        <h3>Free local social media ads for your store</h3>
+        <p>With every package, we run local ads on Facebook and Instagram to families with young children around your store, specifically designed to draw people to your store. The ads show parents and grandparents exactly where they can buy The Tools: your store.</p>
         <p>So the books don't just sell on your shelf at a 50%+ margin. They bring new customers through your doors, and families who come in for a book often leave with more.</p>
       </div>
     </div>
+
+    <div class="own-order">
+      <div>
+        <h3>Order any books, any quantity</h3>
+        <p>You don't have to choose a package. Pick the titles and numbers you want, from a single copy, at <strong>$9.00 a book</strong> or less. Every order still comes with the free monthly activity packs and your store's artwork.</p>
+      </div>
+      <a class="btn btn-purple" href="order.html">Order your books</a>
+    </div>
+    <p class="pkg-or">Or choose a package and get free local ads too</p>
 
     <div class="pkg-grid">
       <div class="pkg-card">
@@ -449,7 +465,7 @@
   </section>
 
   <!-- PRICING -->
-  <section class="trade-section">
+  <section class="trade-section" id="pricing">
     <h2>US wholesale pricing</h2>
     <p class="lead">Order size is counted across all titles combined, so a mixed order still qualifies for volume pricing. Reorders get the same volume pricing.</p>
     <h3 class="char-head" style="margin-top:0.8rem;">Story books</h3>
