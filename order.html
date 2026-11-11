@@ -322,7 +322,7 @@
     <div class="table-scroll">
     <table class="price-table">
       <tr><th>Books per order</th><th>Price per book</th><th>Your margin at $17.99 MSRP</th></tr>
-      <tr><td>1 – 24</td><td><strong>$9.00</strong> each</td><td><strong>50%</strong> ($8.99 profit per book)</td></tr>
+      <tr><td>1 – 24</td><td><strong>$8.95</strong> each</td><td><strong>50%</strong> ($9.04 profit per book)</td></tr>
       <tr><td>25 – 99</td><td><strong>$8.75</strong> each</td><td><strong>51%</strong> ($9.24 profit per book)</td></tr>
       <tr><td>100 – 249</td><td><strong>$8.50</strong> each</td><td><strong>53%</strong> ($9.49 profit per book)</td></tr>
       <tr><td>250+</td><td><strong>$8.00</strong> each</td><td><strong>56%</strong> ($9.99 profit per book)</td></tr>
@@ -386,7 +386,7 @@
 <script>
 (function(){
   const inputs=[...document.querySelectorAll('.of-table input[type=number]')];
-  const tier=n=>n>=250?[8.00,6.50]:n>=100?[8.50,6.90]:n>=25?[8.75,7.10]:[9.00,7.30];
+  const tier=n=>n>=250?[8.00,6.50]:n>=100?[8.50,6.90]:n>=25?[8.75,7.10]:[8.95,7.30];
   const PKS=[{key:'starter',n:1,name:'Starter',min:40,qty:5,rate:8.50,ads:'2 weeks of free local ads for your store'},
              {key:'full',n:2,name:'Full Collection',min:80,qty:10,rate:8.50,ads:'4 weeks of free local ads for your store'},
              {key:'premium',n:3,name:'Premium',min:200,qty:25,rate:8.00,ads:'a full season (8 weeks) of free local ads for your store'}];
